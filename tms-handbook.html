@@ -1,0 +1,1256 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TMS 新人手冊</title>
+<style>
+:root{
+  color-scheme: light;
+  --bg:#f4f9ff; --panel:#ffffff; --text:#1f2d3d; --muted:#5f7186; --line:#d6e6f7;
+  --brand:#1e7be0; --brand-soft:#e3f1ff; --accent:#16b3a6; --mark:#fff176; --mark-cur:#ff8a3d; --note:#fffbe8; --note-line:#ffcd4d;
+}
+header{background:linear-gradient(90deg,#1e7be0,#29a3f0 60%,#3cc6d6) !important;border-bottom:none !important;box-shadow:0 2px 10px rgba(30,123,224,.25)}
+header h1{color:#fff !important}
+header .hint{color:rgba(255,255,255,.85) !important}
+header #count{color:#fff !important;font-weight:700}
+header .search input{background:#fff !important;border-color:#fff !important}
+header .search button{background:rgba(255,255,255,.95) !important;border-color:transparent !important}
+nav{background:#ffffff}
+main h2{background:linear-gradient(90deg,var(--brand-soft),transparent);border-bottom:3px solid var(--brand) !important;padding:6px 10px !important;border-radius:6px 6px 0 0}
+main h3{border-left-color:var(--accent) !important}
+main h4{color:var(--brand) !important}
+th{background:#d8ecff !important;color:#14508f}
+tbody tr:nth-child(even) td{background:#f7fbff}
+tbody tr:hover td{background:#eaf5ff}
+.tbl{box-shadow:0 1px 4px rgba(30,123,224,.08)}
+#top{background:linear-gradient(135deg,#1e7be0,#3cc6d6) !important}
+*{box-sizing:border-box}
+html{scroll-padding-top:84px}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.7 "Microsoft JhengHei","PingFang TC","Noto Sans TC",system-ui,sans-serif}
+header{position:sticky;top:0;z-index:10;background:var(--panel);border-bottom:1px solid var(--line);padding:10px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+header h1{font-size:17px;margin:0;color:var(--brand);white-space:nowrap}
+.search{flex:1;min-width:240px;display:flex;gap:6px;align-items:center;position:relative}
+.search input{flex:1;min-width:0;padding:8px 12px;font-size:15px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--text)}
+.search input:focus{outline:2px solid var(--brand);border-color:transparent}
+.search button{padding:7px 10px;border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:8px;cursor:pointer;font-size:14px}
+.search button:hover{background:var(--brand-soft)}
+#count{font-size:13px;color:var(--muted);min-width:64px;text-align:center}
+#results{position:absolute;top:44px;left:0;right:0;max-height:60vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.15);display:none}
+#results.show{display:block}
+#results a{display:block;padding:8px 12px;border-bottom:1px solid var(--line);color:var(--text);text-decoration:none;font-size:14px}
+#results a:hover,#results a.active{background:var(--brand-soft)}
+#results .sec{font-size:12px;color:var(--brand);display:block}
+#results .more{padding:8px 12px;font-size:13px;color:var(--muted)}
+.wrap{display:flex;max-width:1400px;margin:0 auto}
+nav{width:290px;flex-shrink:0;position:sticky;top:58px;height:calc(100vh - 58px);overflow:auto;padding:14px 8px 40px;border-right:1px solid var(--line)}
+nav a{display:block;color:var(--muted);text-decoration:none;padding:3px 8px;border-radius:6px;font-size:13.5px;line-height:1.45}
+nav a:hover{background:var(--brand-soft);color:var(--text)}
+nav a.on{color:var(--brand);font-weight:700;background:var(--brand-soft)}
+nav a.t2{color:var(--text);font-weight:700;margin-top:10px;font-size:14px}
+nav a.t3{padding-left:18px}
+nav a.t4{padding-left:32px;font-size:12.5px}
+nav a.hit::after{content:"●";color:var(--mark-cur);font-size:9px;margin-left:5px;vertical-align:middle}
+main{flex:1;min-width:0;padding:20px 32px 120px}
+main h2{font-size:22px;color:var(--brand);border-bottom:2px solid var(--brand);padding-bottom:4px;margin:44px 0 14px}
+main h3{font-size:18px;margin:32px 0 10px;padding-left:10px;border-left:4px solid var(--brand)}
+main h4{font-size:16px;margin:22px 0 8px;color:var(--muted)}
+main p{margin:8px 0}
+main ul{margin:6px 0;padding-left:24px}
+main a{color:var(--brand);word-break:break-all}
+p.src{font-size:12.5px;color:var(--muted)}
+p.aside{font-weight:700;margin-top:14px}
+.note{background:var(--note);border-left:4px solid var(--note-line);padding:10px 14px;border-radius:6px;margin:10px 0;font-size:14px}
+.tbl{overflow-x:auto;margin:10px 0 16px;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:14px;background:var(--panel)}
+th,td{border-bottom:1px solid var(--line);border-right:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+th{background:var(--brand-soft);white-space:nowrap}
+tr:last-child td{border-bottom:none}
+th:last-child,td:last-child{border-right:none}
+mark{background:var(--mark);color:inherit;border-radius:2px;padding:0 1px}
+mark.cur{background:var(--mark-cur);color:#fff;outline:2px solid var(--mark-cur)}
+#top{position:fixed;right:18px;bottom:18px;border:none;background:var(--brand);color:#fff;width:42px;height:42px;border-radius:50%;font-size:18px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+#menu{display:none}
+.hint{font-size:12px;color:var(--muted);white-space:nowrap}
+@media (max-width:900px){
+  nav{position:fixed;left:0;top:0;height:100vh;z-index:20;background:var(--panel);transform:translateX(-100%);transition:transform .2s;box-shadow:4px 0 16px rgba(0,0,0,.2);padding-top:20px}
+  nav.open{transform:none}
+  #menu{display:inline-block}
+  main{padding:12px 16px 100px}
+  .hint{display:none}
+}
+@media print{header,nav,#top{display:none}main{padding:0}}
+</style>
+</head>
+<body>
+<header>
+  <button id="menu" class="search" style="flex:0;min-width:0" aria-label="目錄"><span style="padding:6px 10px;border:1px solid var(--line);border-radius:8px">☰</span></button>
+  <h1><a href="index.html" style="color:inherit;text-decoration:none" title="回入口">TMS 參數知識庫：新人手冊</a></h1>
+  <div class="search">
+    <input id="q" type="search" placeholder="搜尋關鍵字（例如：NII、TSB、Linear、悠遊卡）" autocomplete="off">
+    <span id="count"></span>
+    <button id="prev" title="上一個（Shift+Enter）">▲</button>
+    <button id="next" title="下一個（Enter）">▼</button>
+    <div id="results"></div>
+  </div>
+  <span class="hint">Ctrl+K 搜尋 · Enter 下一個 · Esc 清除</span>
+</header>
+<div class="wrap">
+  <nav id="toc">
+<a class="t2" href="#s1" data-id="s1">新人導讀</a>
+<a class="t3" href="#s2" data-id="s2">TMS 是什麼？</a>
+<a class="t3" href="#s3" data-id="s3">有哪幾台 TMS？</a>
+<a class="t3" href="#s4" data-id="s4">建議閱讀順序</a>
+<a class="t3" href="#s5" data-id="s5">常見名詞</a>
+<a class="t2" href="#s6" data-id="s6">第 1 章 環境、網址與參數位置</a>
+<a class="t3" href="#s7" data-id="s7">Android正式環境</a>
+<a class="t3" href="#s8" data-id="s8">傳統正式環境</a>
+<a class="t3" href="#s9" data-id="s9">測試環境</a>
+<a class="t3" href="#s10" data-id="s10">TMS Website外部IP</a>
+<a class="t3" href="#s11" data-id="s11">客戶參數設定位置</a>
+<a class="t3" href="#s12" data-id="s12">aTMS設定說明文件</a>
+<a class="t3" href="#s13" data-id="s13">子目錄_TMS</a>
+<a class="t3" href="#s14" data-id="s14">TMS異常狀況記錄</a>
+<a class="t4" href="#s15" data-id="s15">異常案例</a>
+<a class="t4" href="#s16" data-id="s16">常態性問題</a>
+<a class="t4" href="#s17" data-id="s17">問題歸納</a>
+<a class="t4" href="#s18" data-id="s18">新人易踩的坑（整理者歸納）</a>
+<a class="t2" href="#s19" data-id="s19">第 2 章 TMS 設定指導書（77.11／77.3／91.19）</a>
+<a class="t3" href="#s20" data-id="s20">三份指導書共通流程</a>
+<a class="t3" href="#s21" data-id="s21">77.11 TMS設定指導書（台新 TSB）</a>
+<a class="t4" href="#s22" data-id="s22">1～2. 進入 TMS、Copy 模板</a>
+<a class="t4" href="#s23" data-id="s23">3. 參數頁面設定（第一頁）</a>
+<a class="t4" href="#s24" data-id="s24">4. 參數頁面設定（第二頁）</a>
+<a class="t4" href="#s25" data-id="s25">5. 參數頁面設定（第三頁）</a>
+<a class="t4" href="#s26" data-id="s26">6. Linear 設定</a>
+<a class="t4" href="#s27" data-id="s27">7. 公用規則</a>
+<a class="t4" href="#s28" data-id="s28">8. 悠遊卡設定</a>
+<a class="t4" href="#s29" data-id="s29">9. 拆機設定</a>
+<a class="t4" href="#s30" data-id="s30">10. 撈取報表 QBE</a>
+<a class="t3" href="#s31" data-id="s31">77.3 小間銀行 TMS設定指導書</a>
+<a class="t4" href="#s32" data-id="s32">77.3 設定步驟</a>
+<a class="t4" href="#s33" data-id="s33">上銀（SCSB）設定規則</a>
+<a class="t4" href="#s34" data-id="s34">彰銀（CHB）設定規則</a>
+<a class="t4" href="#s35" data-id="s35">陽信（SYB）設定規則</a>
+<a class="t4" href="#s36" data-id="s36">元大（TCBANK）設定規則</a>
+<a class="t4" href="#s37" data-id="s37">歐付寶（AllPay，目前已無此版）／綠界（GreenWorld）設定規則</a>
+<a class="t4" href="#s38" data-id="s38">捷達威（JDWFCB，目前已無此版）設定規則</a>
+<a class="t4" href="#s39" data-id="s39">自動化匯入設定（iAtoms）</a>
+<a class="t3" href="#s40" data-id="s40">91.19 TMS設定指導書（新光三越 SKM）</a>
+<a class="t4" href="#s41" data-id="s41">1～2. 進入 TMS、Copy 模板</a>
+<a class="t4" href="#s42" data-id="s42">3. 參數頁面設定（第一頁）</a>
+<a class="t4" href="#s43" data-id="s43">4. 參數頁面設定（第二頁）</a>
+<a class="t4" href="#s44" data-id="s44">5. 參數頁面設定（第三頁）</a>
+<a class="t4" href="#s45" data-id="s45">6. 設定 Linear</a>
+<a class="t2" href="#s46" data-id="s46">第 3 章 台新 TSB、新光三越 SKM、AC PAY、IM10</a>
+<a class="t3" href="#s47" data-id="s47">TSB（台新）通用</a>
+<a class="t4" href="#s48" data-id="s48">連線方式（SKM 除外）</a>
+<a class="t4" href="#s49" data-id="s49">A 系列設定</a>
+<a class="t4" href="#s50" data-id="s50">S 系列設定</a>
+<a class="t3" href="#s51" data-id="s51">SKM（新光三越）</a>
+<a class="t4" href="#s52" data-id="s52">SKM 連線方式</a>
+<a class="t4" href="#s53" data-id="s53">SKM A920 設定</a>
+<a class="t4" href="#s54" data-id="s54">SKM S300 設定</a>
+<a class="t4" href="#s55" data-id="s55">SKM S80 設定</a>
+<a class="t3" href="#s56" data-id="s56">AC PAY（交流資服）</a>
+<a class="t4" href="#s57" data-id="s57">AC CTBC 參數設定 &amp; cardbin</a>
+<a class="t4" href="#s58" data-id="s58">AC TSB 參數設定 &amp; cardbin</a>
+<a class="t3" href="#s59" data-id="s59">IM10 版本及收單</a>
+<a class="t4" href="#s60" data-id="s60">版本及收單資訊</a>
+<a class="t2" href="#s61" data-id="s61">第 4 章 其他銀行設定</a>
+<a class="t3" href="#s62" data-id="s62">各銀行快速對照</a>
+<a class="t3" href="#s63" data-id="s63">環匯 GP</a>
+<a class="t4" href="#s64" data-id="s64">GP連線方式設定</a>
+<a class="t3" href="#s65" data-id="s65">凱基 KGIB</a>
+<a class="t4" href="#s66" data-id="s66">凱基KGIB(A系列)設定</a>
+<a class="t4" href="#s67" data-id="s67">凱基KGIB(傳統)設定</a>
+<a class="t3" href="#s68" data-id="s68">台中銀行 TCB</a>
+<a class="t4" href="#s69" data-id="s69">台企TCB設定</a>
+<a class="t3" href="#s70" data-id="s70">台灣企銀 TBB</a>
+<a class="t4" href="#s71" data-id="s71">台企TBB設定</a>
+<a class="t3" href="#s72" data-id="s72">彰化銀行 CHB</a>
+<a class="t4" href="#s73" data-id="s73">彰銀CHB(傳統)設定</a>
+<a class="t3" href="#s74" data-id="s74">新光銀行 SKCB</a>
+<a class="t4" href="#s75" data-id="s75">新光銀行SKCB設定</a>
+<a class="t3" href="#s76" data-id="s76">上海商銀 SCSB</a>
+<a class="t4" href="#s77" data-id="s77">上銀SCSB設定交易電話&amp;連線方式資訊</a>
+<a class="t3" href="#s78" data-id="s78">陽信 SYB</a>
+<a class="t4" href="#s79" data-id="s79">陽信SYB(傳統)設定</a>
+<a class="t3" href="#s80" data-id="s80">元大 TCBANK &amp; YTB</a>
+<a class="t4" href="#s81" data-id="s81">元大 A系列各客製化版本</a>
+<a class="t2" href="#s82" data-id="s82">附錄 整理過程中發現的待確認事項</a>
+  </nav>
+  <main id="content"><div class="note"><strong>公開版說明：</strong>本頁已遮罩密碼、Token Key、內部 IP／網址、撥接電話與商店代號。實際數值請查 Confluence 原頁或洽 TMS 窗口。</div>
+<div class="note">整理來源：Confluence「CyberPower維運知識庫（CyberPowerKM）&gt; TMS參數知識庫」，共 31 頁（含頁面附件中的 TMS 設定指導書）<br>整理日期：2026-10-30<br>數值都照原頁抄錄。<strong>實際設定前，請一律以原頁及工單為準</strong>；每一節都附有原頁連結。</div>
+<h2 id="s1">新人導讀</h2>
+<h3 id="s2">TMS 是什麼？</h3>
+<p>TMS（Terminal Management System）是我們管理刷卡機（EDC）參數的後台。裝機、異動、拆機時，都要先在 TMS 設定該台機器的收單行（Acquirer）、NII、連線方式（撥接、網路、4G、TLS）、Linear 參數和各種功能開關。機器之後再從 TMS 下載參數。</p>
+<h3 id="s3">有哪幾台 TMS？</h3>
+<div class="tbl"><table><thead><tr><th><strong>代稱</strong></th><th><strong>系統</strong></th><th><strong>主要對象</strong></th></tr></thead><tbody><tr><td><strong>77.11</strong></td><td>Cyber TMS（傳統機型）</td><td>台新 TSB</td></tr><tr><td><strong>77.3</strong></td><td>GP TMS（傳統機型）</td><td>環匯 GP，以及其他「小間銀行」：上銀、彰銀、陽信、元大等</td></tr><tr><td><strong>91.19／91.28</strong></td><td>SKM TMS</td><td>新光三越（SKM）。指導書寫的是 91.19，環境表寫的內部 IP 是 【內部 IP】</td></tr><tr><td><strong>aTMS</strong></td><td>Android TMS（網頁 :8080）</td><td>A 系列等 Android 機型（A920、A910、A80、A50 等）</td></tr></tbody></table></div>
+<p>各系統的實際網址、VPN IP 與撥接電話，請看第 1 章。</p>
+<h3 id="s4">建議閱讀順序</h3>
+<p>1. <strong>第 1 章 環境與網址</strong>：先知道要連到哪一台、哪個客戶的參數放在哪裡（〈客戶參數設定位置〉）。</p>
+<p>2. <strong>第 2 章 TMS 設定指導書</strong>：了解標準操作流程，包括 Copy 模板、三頁參數頁面、Linear、公用規則、拆機。</p>
+<p>3. <strong>第 3、4 章 各銀行設定</strong>：依工單上的銀行和機型，查該行的 NII、IP/Port、電話與檢核規則。可以先看第 4 章開頭的〈各銀行快速對照〉。</p>
+<p>4. <strong>第 1 章最後的〈TMS異常狀況記錄〉</strong>：前人踩過的坑，強烈建議讀完。</p>
+<h3 id="s5">常見名詞</h3>
+<div class="tbl"><table><thead><tr><th><strong>名詞</strong></th><th><strong>說明</strong></th></tr></thead><tbody><tr><td>ACQ／Acquirer</td><td>收單行設定，每個收單行有自己的 NII、電話、IP/Port</td></tr><tr><td>ISS／Issuer</td><td>發卡行（卡別）設定，例如是否允許手動輸入卡號、檢查有效期</td></tr><tr><td>NII</td><td>交易電文中用來識別收單主機的代碼</td></tr><tr><td>COMM Mode</td><td>通訊方式：M＝撥接、L＝網路、G＝手機（4G/GPRS）；另有 TLS、TNS 等</td></tr><tr><td>Linear</td><td>機器的延伸參數字串（例如 VERSION、SUBVER），依版本或客製化而定</td></tr><tr><td>DTID／TID</td><td>端末機代號</td></tr><tr><td>TIS</td><td>電子簽單主機</td></tr><tr><td>SVC</td><td>電子票證（悠遊卡、一卡通等）參數</td></tr><tr><td>ECR</td><td>收銀機連線</td></tr></tbody></table></div>
+<h2 id="s6">第 1 章 環境、網址與參數位置</h2>
+<h3 id="s7">Android正式環境</h3>
+<p class="src">來源：Confluence 原頁（內部）</p>
+<p>這頁列出 Android 刷卡機（aTMS）正式環境的後台網址、API URL 與 SFTP／FTP 位址。設定 Android 機連線、或排查參數下載失敗時，先來這裡確認這台機器該連哪台 Server。</p>
+<div class="tbl"><table><thead><tr><th><strong>Server Name</strong></th><th><strong>Website</strong></th><th><strong>API URL</strong></th><th><strong>SFTP / FTP</strong></th><th><strong>備註</strong></th></tr></thead><tbody><tr><td>aTMS for Android</td><td>【內部網址】</td><td>【內部網址】
+TSB實體線VPN：上方 【內部網址】 改為下列IP
+中華/其他　【內部 IP】
+遠傳　【內部 IP】</td><td>TSB_VPN → 中華/其他 【內部網址】
+　　　　　遠傳 【內部網址】
+Internet → 【內部網址】 or 【內部網址】
+URL → 【內部網址】 → 【內部 IP】</td><td>台新TSB、環匯GP、彰銀CHB、新光銀SKCB、台企銀TBB、元大YTB-共用
+Port 443、22</td></tr><tr><td>aTMS for CyberKey</td><td>【內部網址】</td><td>【內部網址】
+TSB實體線VPN：上方 【內部網址】 改為下列IP
+中華/其他　【內部 IP】
+遠傳　【內部 IP】</td><td>TSB_VPN → 中華/其他 【內部網址】
+　　　　　遠傳 【內部網址】
+Internet → 【內部網址】 or 【內部網址】
+URL → 【內部網址】 → 【內部 IP】</td><td>ACpay (台新、中信)、GP (A50/A910S)、凱基KGI、上銀SCSB-共用
+Port 8443、22</td></tr><tr><td>SKM aTMS</td><td>【內部網址】</td><td>【內部網址】</td><td>SKM ftp → 【內部網址】</td><td>SKM專用</td></tr></tbody></table></div>
+<p class="aside">補充說明（整理者註）：</p>
+<ul>
+<li>原頁中 【內部網址】 被加了刪除線，表示 Internet 線路已改用 【內部 IP】。</li>
+<li>aTMS for Android 那一列的 TSB_VPN 中華/其他寫成「s」+「【內部網址】」兩段（格式拆開），實際應是 【內部網址】。</li>
+<li>SKM aTMS 的 API URL 原頁顯示文字是 【內部網址】，但超連結實際指向 【內部網址】 :9009），兩者不一致，使用前請先確認。</li>
+<li>「客戶參數設定位置」頁註明 Acpay、凱基KGI、上銀SCSB 已於「7/29併入aTMS」，但本頁仍把它們列在 aTMS for CyberKey 底下，本頁可能還沒更新。</li>
+</ul>
+<h3 id="s8">傳統正式環境</h3>
+<p class="src">來源：Confluence 原頁（內部）</p>
+<p>這頁列出傳統（非 Android）刷卡機用的 TMS 正式環境，包括後台網址、VPN／Internet IP 與撥接電話。設定傳統機的連線方式（VPN、Internet、撥接）時查這頁。</p>
+<div class="tbl"><table><thead><tr><th><strong>Server Name</strong></th><th><strong>Website</strong></th><th><strong>VPN IP</strong></th><th><strong>Internet IP</strong></th><th><strong>撥接電話</strong></th><th><strong>備註</strong></th></tr></thead><tbody><tr><td>Cyber TMS</td><td>【內部網址】</td><td>【內部 IP】</td><td>【內部 IP】</td>【已遮罩】<td>TSB專用， Port 9000留在77.1</td></tr><tr><td>GP TMS</td><td>【內部網址】</td><td>x</td><td>【內部 IP】</td>【已遮罩】<td>GP及其他收單行共用</td></tr><tr><td>SKM TMS</td><td>【內部網址】</td><td>【內部 IP】
+【內部 IP】 (GPRS)
+【內部 IP】 (SKM Park)</td><td>【內部 IP】</td><td>x</td><td>SKM專用</td></tr></tbody></table></div>
+<p class="aside">補充說明（整理者註）：「x」是原文寫法，代表沒有這一項。</p>
+<h3 id="s9">測試環境</h3>
+<p class="src">來源：Confluence 原頁（內部）</p>
+<p>這頁列出傳統 TMS 的 UAT 環境，以及 Android aTMS 的 SIT 測試環境。設定測試機、或銀行要求「走測試環境」時查這頁。</p>
+<div class="tbl"><table><thead><tr><th><strong>Server Name</strong></th><th><strong>Website</strong></th><th><strong>VPN IP</strong></th><th><strong>Internet IP</strong></th><th><strong>撥接電話/API URL</strong></th><th><strong>備註</strong></th></tr></thead><tbody><tr><td>TMS UAT</td><td>【內部網址】</td><td>【內部 IP】</td><td>【內部 IP】</td>【已遮罩】<td>傳統TMS UAT</td></tr><tr><td>aTMS SIT</td><td>【內部網址】</td><td>x</td><td>【內部網址】</td>【已遮罩】<td>Android SIT 一般</td></tr><tr><td>SKM aTMS SIT</td><td>【內部網址】</td><td>x</td><td>【內部網址】</td>【已遮罩】<td>Android SIT SKM</td></tr></tbody></table></div>
+<p class="aside">補充說明（整理者註）：SKM aTMS SIT 的 Internet IP 用 Port 8099，網域 URL 卻用 Port 8092，兩個 Port 不一樣，原文就是這樣寫，使用前請先確認哪一個正確。</p>
+<h3 id="s10">TMS Website外部IP</h3>
+<p class="src">來源：Confluence 原頁（內部）</p>
+<p>這頁對照各 TMS 網站的外部 IP 與內部 IP。不在公司內網時，可以用外部 IP 連 TMS 後台。</p>
+<div class="tbl"><table><thead><tr><th><strong>Website</strong></th><th><strong>外部IP</strong></th><th><strong>內部IP</strong></th></tr></thead><tbody><tr><td>Cyber TMS</td><td>【內部網址】</td><td>【內部 IP】</td></tr><tr><td>GP TMS</td><td>【內部網址】</td><td>【內部 IP】</td></tr><tr><td>SKM TMS</td><td>【內部網址】</td><td>【內部 IP】</td></tr><tr><td>aTMS</td><td>【內部網址】</td><td>【內部 IP】</td></tr><tr><td>SKM aTMS</td><td>【內部網址】</td><td>【內部 IP】</td></tr><tr><td>aTMS SIT</td><td>【內部網址】</td><td>【內部 IP】</td></tr></tbody></table></div>
+<p class="aside">補充說明（整理者註）：</p>
+<ul>
+<li>本頁的 Cyber TMS 外部 IP 是 【內部 IP】，但「傳統正式環境」頁的 Cyber TMS Internet IP 寫的是 【內部 IP】。兩者用途可能不同（這頁是後台網站，那頁是刷卡機連線），請勿混用。</li>
+<li>SKM TMS 也有同樣狀況：本頁是 .168，傳統頁是 .164。</li>
+<li>aTMS SIT 在本頁是 【內部 IP】，「測試環境」頁的 API 卻是 【內部 IP】。</li>
+</ul>
+<h3 id="s11">客戶參數設定位置</h3>
+<p class="src">來源：Confluence 原頁（內部）</p>
+<p>這頁對照每家客戶（收單行）的 Android 機型要在哪台 aTMS Server 設定參數，以及對應的 EDC／SCP App package name。查設定前，先用這頁確認要去哪台 Server、找哪個 App。</p>
+<p><strong>安卓機型</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>客戶別</strong></th><th><strong>機型</strong></th><th><strong>Server Name</strong></th><th><strong>EDC</strong></th><th><strong>SCP</strong></th></tr></thead><tbody><tr><td>台新TSB</td><td>非A80</td><td>aTMS</td><td>com.cybersoft.a920</td><td>com.cybersoft.a920.scp</td></tr><tr><td>台新TSB</td><td>A80</td><td>CyberKey aTMS</td><td>com.cybersoft.a920</td><td>com.cybersoft.a920.scp</td></tr><tr><td>環匯GP</td><td>非A50 &amp; A910S</td><td>aTMS</td><td>com.cybersoft.a920gp</td><td>com.cybersoft.a920gp.scp</td></tr><tr><td>環匯GP</td><td>A50、A910S</td><td>CyberKey aTMS</td><td>com.cybersoft.a920gp</td><td>com.cybersoft.a920gp.scp</td></tr><tr><td>彰銀CHB</td><td>全</td><td>aTMS</td><td>com.cybersoft.aseries.chb</td><td>x</td></tr><tr><td>新光銀SKCB</td><td>全</td><td>aTMS</td><td>com.cybersoft.aseries.skcb</td><td>x</td></tr><tr><td>台企銀TBB</td><td>全</td><td>aTMS</td><td>com.cybersoft.aseries.tbb</td><td>x</td></tr><tr><td>元大YTB</td><td>全</td><td>aTMS</td><td>com.cybersoft.aseries.ytb</td><td>x</td></tr><tr><td>台中銀TCBB</td><td>全</td><td>aTMS</td><td>com.cybersoft.aseries.nccc</td><td>x</td></tr><tr><td>Acpay</td><td>全</td><td>CyberKey aTMS
+7/29併入aTMS</td><td>com.cybersoft.acpay (台新)
+com.cybersoft.acpay.ctbc (中信)</td><td>x</td></tr><tr><td>凱基KGI</td><td>全</td><td>CyberKey aTMS
+7/29併入aTMS</td><td>com.cybersoft.aseries.kgi</td><td>x</td></tr><tr><td>上銀SCSB</td><td>全</td><td>CyberKey aTMS
+7/29併入aTMS</td><td>com.cybersoft.aseries.scsb</td><td>x</td></tr><tr><td>SKM專用</td><td>全</td><td>SKM aTMS</td><td>com.cybersoft.a920skm</td><td>x</td></tr></tbody></table></div>
+<p class="aside">補充說明（整理者註）：</p>
+<ul>
+<li>原表中台新TSB、環匯GP 這兩家的「客戶別、EDC、SCP」欄是合併儲存格，同一家客戶的兩種機型共用同一組 package name。上表已展開成兩列。</li>
+<li>台中銀TCBB 的 EDC package 是 com.cybersoft.aseries.nccc（不是 tcbb），原文就是這樣寫。</li>
+<li>「7/29併入aTMS」沒有寫年份。</li>
+</ul>
+<h3 id="s12">aTMS設定說明文件</h3>
+<p class="src">來源：Confluence 原頁（內部）</p>
+<p>這頁（Live Doc）是 aTMS 的設定操作說明，但頁面本身沒有文字，只嵌了一個檔案附件。</p>
+<p class="aside">（原頁含圖片／附件，請至原頁查看）</p>
+<h3 id="s13">子目錄_TMS</h3>
+<p class="src">來源：Confluence 原頁（內部）</p>
+<p>這頁只有一個「頁面樹狀結構」巨集，用來列出 TMS 底下的子頁面目錄，本身沒有內容。</p>
+<h3 id="s14">TMS異常狀況記錄</h3>
+<p class="src">來源：Confluence 原頁（內部）</p>
+<p>這頁記錄 TMS 設定作業遇到的異常案例和平常就會碰到的問題，讓團隊參考，避免重複踩坑。新人接 TMS 設定工作前建議先讀一遍。</p>
+<div class="note">附件：（原始記錄檔）為原始記錄檔。（原頁含圖片／附件，請至原頁查看）</div>
+<h4 id="s15">異常案例</h4>
+<div class="tbl"><table><thead><tr><th><strong>日期</strong></th><th><strong>DTID</strong></th><th><strong>說明</strong></th></tr></thead><tbody><tr><td>2025/4/30~5/7</td>【已遮罩】<td>銀行出測試機沒告知是否開教育訓練模式或要設定測試環境值（但為正式機）。一開始與客服確認要開教育訓練模式，後來又通知要改正式機走測試環境。工單出撥接但要求設定 TCP/IP；TID 設定與 IATOMS 建案不同組，易導致事隔多年誤認設定錯誤。</td></tr><tr><td>2025/5/19~5/20</td>【已遮罩】<td><strong>DONKI 自助機</strong>客製化內容多（ECR 設定變動400、ECR 鎖鍵盤、LINEAR VERSION 設定 KIOSK、商戶聯及持卡聯皆前六後四），工單 Memo 未明確寫設定開關且常不正確。7 台設定時間半個工作天。工單未提供掃碼 Token Key，每次都須跟客服確認。</td></tr><tr><td>2025/5/28</td>【已遮罩】<td>工單沒開電簽、其他說明也沒寫，但匯入工單檔案至 IATOMS 卻自動開啟電簽。重新匯入仍開著，最後以人工關閉。</td></tr><tr><td>2025/6/2~6/5</td>【已遮罩】<td>測試機裝機，工單選「無線機型」但刷卡機數量又選「有線1台」，須確認實際機型。客服通知不開教育訓練、設定測試環境連線，但無測試環境 IP 資訊。後改撥接但元大無 SP 撥接資訊。銀行至今未回復最終要設定什麼。</td></tr></tbody></table></div>
+<h4 id="s16">常態性問題</h4>
+<p><strong>掃碼特店設定（影響：每次 3~4 小時）</strong></p>
+<ul>
+<li>台新提供的掃碼檔案<strong>不會提供 DTID</strong>（已向台新反應多年無果）</li>
+<li>須人工用 Excel 公式以 MID 比對案件清單檔 SID &amp; Token Key 要裝給哪一台</li>
+<li>每當有大批新增掃碼或異動掃碼資訊，需花費 3~4 小時設定</li>
+</ul>
+<p><strong>TSB S80 → A80 換裝（影響：1 小時~半個工作天）</strong></p>
+<ul>
+<li>台新出單寫「同舊機功能」，TMS 需人工檢查舊機客製化功能：</li>
+<ul>
+<li>Logofile / 結帳後調閱編號歸1 / 是否自動結帳</li>
+<li>明細列印預授權 / 是否列印取消交易明細</li>
+<li>人工輸入可只印一聯 / VERSION / SETTIME / MASK 等</li>
+</ul>
+<li>並非所有客製化都能自動匯入，需人工設定</li>
+<li>IATOMS 案件每次匯出限 100 筆，超過需分次匯出再整合</li>
+</ul>
+<p><strong>IM10 裝機/異動（影響：每次 1~2 小時）</strong></p>
+<ul>
+<li>IM10 無資產故無 IATOMS 建案，客服 mail 通知 TMS 設定</li>
+<li>需向客服確認要設定在哪個 TMS 環境</li>
+<li>客戶提供的工單問題多：MID 少 0 或有空格、票證資訊填反</li>
+<li>無法自動匯入，需人工調整</li>
+<li>異動時客戶不寫清楚要改什麼，TMS 要整個檢查，有時須整個重設</li>
+</ul>
+<p><strong>每日拆機件處理</strong></p>
+<ul>
+<li>需逐筆檢查紀錄：工程師是否有上「無帳/清機/0結」等字樣</li>
+<li>GP 因 DTID 會重複使用，需比對是否已刪除過再裝給新特店，以免誤刪</li>
+<li>GP 有<strong>三個 TMS 環境</strong>需撈資料比對</li>
+</ul>
+<h4 id="s17">問題歸納</h4>
+<div class="tbl"><table><thead><tr><th><strong>類別</strong></th><th><strong>核心問題</strong></th></tr></thead><tbody><tr><td>工單資訊不完整</td><td>工單未明確寫設定內容、Memo 不正確、缺少 Token Key</td></tr><tr><td>人工作業耗時</td><td>掃碼設定 3~4hr、A80 換裝 1hr~半天、IM10 1~2hr</td></tr><tr><td>系統限制</td><td>IATOMS 每次限 100 筆匯出、IM10 無法自動匯入、掃碼檔無 DTID</td></tr><tr><td>跨部門溝通不順</td><td>銀行/客服指示前後矛盾、測試環境資訊不明、電簽自動開啟原因不明</td></tr><tr><td>GP 特殊風險</td><td>DTID 重複使用需三環境比對，誤刪風險高</td></tr></tbody></table></div>
+<h4 id="s18">新人易踩的坑（整理者歸納）</h4>
+<ul>
+<li><strong>測試機不一定走測試環境</strong>：銀行出的「測試機」可能是正式機，要先問清楚是開教育訓練模式，還是設定測試環境連線。指示改了也要留紀錄。</li>
+<li><strong>工單內容要再確認</strong>：通訊方式（撥接或 TCP/IP）、有線或無線機型、Memo 寫的設定開關都可能互相矛盾或寫錯，有疑問先問客服再動手。</li>
+<li><strong>匯入 IATOMS 後要再檢查一次</strong>：曾發生工單沒開電簽，匯入後卻自動開啟。匯入後要逐項確認，不要直接相信匯入結果。</li>
+<li><strong>TID 與 IATOMS 建案不同組時要留紀錄</strong>：不然多年後查到會誤以為設定錯了。</li>
+<li><strong>掃碼 Token Key 常常沒給</strong>：台新的掃碼檔沒有 DTID，要用 MID 比對 SID 和 Token Key 才知道裝給哪一台。</li>
+<li><strong>S80 → A80「同舊機功能」不會自動帶過去</strong>：要人工逐項比對舊機的客製化（Logofile、自動結帳、MASK 等）。</li>
+<li><strong>IATOMS 一次只能匯出 100 筆</strong>：超過要分批匯出再合併。</li>
+<li><strong>IM10 沒有 IATOMS 案件</strong>：要先跟客服確認設定在哪個 TMS 環境，也要檢查 MID 少 0、有空格，或票證資訊填反。</li>
+<li><strong>GP 拆機要特別小心</strong>：DTID 會重複使用，刪除前要撈三個 TMS 環境比對，避免刪到新特店的設定。</li>
+</ul>
+<h2 id="s19">第 2 章 TMS 設定指導書（77.11／77.3／91.19）</h2>
+<div class="note">說明：以下三頁 Confluence live doc 的頁面本文都只嵌入一個 Word 附件（經采科技股份有限公司《TMS設定指導書(精簡版)》），本節內容是從附件全文與附件內截圖彙整而成。附件裡大量操作畫面為截圖，表格類截圖已盡量轉成文字表格；純操作畫面（按鈕位置、拖拉示意）標註「（原頁含截圖，請至原頁查看）」。</div>
+<h3 id="s20">三份指導書共通流程</h3>
+<p>三份指導書的 TMS 網頁操作骨架相同（步驟編號沿用原文，各份編號略有差異）：</p>
+<p>1. <strong>進入 TMS，尋找較為適合的模板</strong>（以既有同類特店的 D.TID 為模板）。（原頁含截圖，請至原頁查看）</p>
+<p>2. <strong>Copy 模板</strong></p>
+<p>1. 在 Parameter List 點選該模板列的 copy。</p>
+<p>2. 貼上要設定的 DTID 後，點選下方 Copy。</p>
+<p>3. 點選新產生的 DTID。</p>
+<ul>
+<ul>
+<li>之後要再進入時：於 Configuration → Parameter List 的 Search 欄「輸入 D.TID，按 Query 查詢」，再點該列 edit 進入設定頁面（第一頁）。列上另有 linear、copy、QA、del 按鈕。</li>
+</ul></ul>
+<p>3. <strong>參數頁面設定（第一頁）</strong></p>
+<p>1. 選版本（Program Name）。</p>
+<p>2. 點選 V 讓 DTID 顯示（Attached to D.TID）。</p>
+<p>3. 貼表頭（Merchant Name）。※SKM（91.19）不貼表頭。</p>
+<p>4. 貼地址。</p>
+<p>5. 由左方清單選取需要的 ACQ，拉至右方。</p>
+<p>6. 右方為已拉的 ACQ。</p>
+<p>7. 點選 Save。</p>
+<p>8. 點選 Save 後會出現一個按鈕（Go to Download Terminal Config），點選進入「設定版本內頁」（Edit Terminal）。</p>
+<p>9. 在 Edit Terminal 點 edit application task 的 Edit。</p>
+<p>10. 選版本（Application），選至右方；視需要設定 Parameter File、Bank Logo、Merchant Logo 等欄位。</p>
+<p>11. 點選 Save 儲存。</p>
+<p>12. 回到第一頁，點右上角 Next Step 進入第二頁。</p>
+<p>4. <strong>參數頁面設定（第二頁，Acquirer）</strong></p>
+<ul>
+<ul>
+<li>上半部：13. 選取現在要設定的 ACQ → 14. 貼入 TID → 15. 貼入 MID → 16. 選收單名稱 → 17. 選擇連線方式（COMM Mode：M 電話／L 網路／G 手機）→ 設定撥接、TCP/IP、GPRS、NII（依各份的檢核表）→ 20. Save → 21. 進入第三頁。</li>
+<li>下半部：18. 選取需設定的 Issuer 至右邊；19. 其他開關（各份不同，見下）。</li>
+</ul></ul>
+<p>5. <strong>參數頁面設定（第三頁，Issuer）</strong>：選取 ACQ → 選取 Issuer → 勾選功能 → 儲存單一 Issuer 設定（Save；另有 Save Acq、Save All）。欄位含 Local Approval Floor Limit（小額免簽）、Adjustment Percentage（調帳／小費比例）、Referral Phone、PAN Mask（遮碼）。</p>
+<p>6. <strong>Linear 設定</strong>：在 Parameter List 點該 D.TID 的 linear → 選取對應的 linear 拉至右方 → 點兩下進入該 linear 調整參數（依各份規則）。</p>
+<p><strong>Linear 共通參數說明</strong>（出自 77.11，三份 linear 截圖中都有同名參數）：</p>
+<ul>
+<li>VFLLMT／MFLLMT／JFLLMT 等最長的參數，例：VFLLMT 【Token Key 已遮罩】，分四段：</li>
+<ul>
+<li>第一段：原文寫「不清楚是甚麼」。</li>
+<li>第二段：感應交易限額，嗶一下最多可刷 8 個 9（比一億少 1 元）的金額。</li>
+<li>第三段：3001 以上需簽名，3000 以下是小額免簽。</li>
+<li>第四段：3001 以上是 online 交易，3000 以下是 offline 交易（需待有需 online 的交易出現時才一併上送）。</li>
+</ul>
+<li>Bank Password（銀行維護密碼，刷卡機功能 76 設定時所需 key in 的密碼）：UAT＝【密碼：請洽 TMS 窗口】，其餘＝【密碼：請洽 TMS 窗口】（77.11 文字；77.3、91.19 截圖亦為 【密碼：請洽 TMS 窗口】）。</li>
+</ul>
+<h3 id="s21">77.11 TMS設定指導書（台新 TSB）</h3>
+<p class="src">來源：Confluence 原頁（內部）</p>
+<p>適用 77.11 TMS，附件標題為「77.11操作手冊／台新77.11設定步驟」，即台新銀行（TSB）收單的 EDC 設定；涵蓋 MGRTSB、MGRNEW、MGRRTM、MGRSYK、MGRHHT、MGRPDS、UNIQLO、D220、CTZ 等版本，以及 R50、SP20、S200、S300P/S300T 等外接設備。發行日期：2026/05/25。</p>
+<div class="note">註：此頁另掛一個附件「77.1 TMS設定指導書(NEW).docx」，內容除標題寫「77.1」外與 77.11 版逐字相同。</div>
+<h4 id="s22">1～2. 進入 TMS、Copy 模板</h4>
+<p>同共通流程。（原頁含截圖，請至原頁查看）</p>
+<h4 id="s23">3. 參數頁面設定（第一頁）</h4>
+<p>步驟 1～12 同共通流程。附加說明：</p>
+<ul>
+<li><strong>3-1. 設定簽單列印頁數</strong>：畫面上框起的數字控制簽單列印頁數，預設兩頁，有需求再另外調整。（原頁含截圖，請至原頁查看）</li>
+<li><strong>3-2. 密碼功能開關及預設密碼</strong>（Password Control 勾選要啟用密碼的功能）：</li>
+<ul>
+<li>Manul entry：手輸卡號</li>
+<li>Adjust：調整金額</li>
+<li>Settle：結帳</li>
+<li>Refund：退貨</li>
+<li>Void：取消交易</li>
+<li>Offine：補登</li>
+<li>Bank Password：刷卡機功能 76 設定時所需 key in 的密碼。UAT：【密碼：請洽 TMS 窗口】；其餘：【密碼：請洽 TMS 窗口】</li>
+<li>預設畫面：Terminal／(unused)Void／Refund／Adjustment-Offline／Void／Settlement Password 都是 【密碼：請洽 TMS 窗口】。</li>
+<li>範例：大潤發要求取消、退貨密碼設 【密碼：請洽 TMS 窗口】 → 勾選 Void Password、Refund Password，並把 Refund Password、Void Password 填 【密碼：請洽 TMS 窗口】（Bank Password 維持 【密碼：請洽 TMS 窗口】，其他 【密碼：請洽 TMS 窗口】）。</li>
+</ul>
+<li><strong>設定版本內頁（Edit Application Schedule）補充</strong></li>
+<ul>
+<li>補充1. Parameter File：外接設備 BIN 檔及悠遊卡程式欄位（有需要再設）</li>
+<li>外接設備 BIN 檔：</li>
+<li>A. 目前最新 R50 BIN 為 3.0，MGRTSB 1.063（含）以下升版要放</li>
+<li>B. 目前最新 S200 BIN 為 1.09，MGRTSB 1.061（含）以下升版要放</li>
+<li>C. 目前最新 S300P BIN 為 1.13，MGRTSB 1.066（含）以下升版要放</li>
+<li>悠遊卡程式：若有悠遊卡功能，要拉 ICERAPI00。</li>
+<li>補充2. 有外接 300 或 S300 時須拉 BANKLOGO。</li>
+<li>補充3. 特店的 LOGO 欄位（有需要再設）。</li>
+<li>補充4. 換版為 MGRNEW 或升版時，需拉 3 個 SO 檔（截圖 SO File 清單可見 CYBERAPI、libsxxapi、paxbase 等；實際要拉哪 3 個原文未以文字列出，請至原頁查看）。</li>
+</ul></ul>
+<h4 id="s24">4. 參數頁面設定（第二頁）</h4>
+<p>上半部步驟：13. 選取現在要設定的 ACQ → 14. 貼入 TID → 15. 貼入 MID → 16. 選收單名稱 → 17. 選擇連線方式 → 20. 點選 Save → 21. 點選進入第三頁。</p>
+<ul>
+<li>補充5. 撥接設定：除了 AE 比照下表檢核項目設定，其餘 ACQ 交易電話比照工單設定。</li>
+<li>補充6. TCP/IP 設定：比照下表。</li>
+<li>補充7. GPRS 設定：比照下表（備註：GPRS 僅中華電信）。</li>
+</ul>
+<p><strong>Acquirer（收單行）檢核項目</strong>（原為截圖，轉錄如下）：</p>
+<div class="tbl"><table><thead><tr><th><strong>ACQ</strong></th><th><strong>NII</strong></th><th><strong>COMM Mode</strong></th><th><strong>中華 【內部 IP】（Transaction Phone 1）</strong></th><th><strong>Transaction Phone 2</strong></th><th><strong>Settlement Phone 1</strong></th><th><strong>Settlement Phone 2</strong></th><th><strong>Transaction IP ADD 1</strong></th><th><strong>Transaction IP PORT 1</strong></th><th><strong>自動撥號</strong></th></tr></thead><tbody><tr><td>TSB（寄庫）</td><td>有CUP 509／無CUP 501</td><td>M電話／L網路／G手機</td><td>依單設定</td><td>依單設定</td><td>依單設定</td><td>依單設定</td><td>中華/台哥大TTN/宏遠 【內部 IP】；遠傳/SEEDNET 【內部 IP】；中嘉和網 【內部 IP】；雙中心 【內部 IP】</td><td>8012</td><td>【撥接電話】</td></tr><tr><td>DCC</td><td>900</td><td>同上</td><td>同上</td><td>同上</td><td>同上</td><td>同上</td><td>同上</td><td>8012</td><td>【撥接電話】</td></tr><tr><td>SmartPay</td><td>531</td><td>同上</td><td>同上</td><td>同上</td><td>同上</td><td>同上</td><td>同上</td><td>8012</td><td>【撥接電話】</td></tr><tr><td>AE</td><td>003</td><td>同上</td>【已遮罩】【已遮罩】【已遮罩】【已遮罩】<td>中華/台哥大TTN/宏遠 【內部 IP】；雙中心 【內部 IP】；遠傳/SEEDNET 【內部 IP】；中嘉和網 【內部 IP】</td><td>中華 8012／遠傳 2000；中嘉和網 8012；雙中心 8012</td><td>（空白）</td></tr><tr><td>DINERS</td><td>288</td><td>同上</td>【已遮罩】【已遮罩】【已遮罩】【已遮罩】<td>同 AE</td><td>中華 8012／遠傳 4000；中嘉和網 8012；雙中心 8012</td><td>【撥接電話】、【撥接電話】</td></tr><tr><td>TIS_TSB／TIS_DCC／TIS_SP</td><td>903</td><td>只有 L</td><td>—</td><td>—</td><td>—</td><td>—</td><td>遠傳/SEEDNET 【內部 IP】；中華/台哥大TTN/宏遠 【內部 IP】；中嘉和網/宏遠 【內部 IP】；雙中心 【內部 IP】</td><td>9002</td><td>—</td></tr></tbody></table></div>
+<div class="note">表中 AE 與 DINERS 的 IP 欄在截圖中是合併儲存格，「同 AE」是依版面判讀。TSB／DCC／SmartPay 三列的電話與 IP 欄位也是合併儲存格。</div>
+<ul>
+<li>補充8. 若連線方式為 <strong>TLS</strong>：設定 TNS_URL 及 TNS_Port 比照下表，且每個 ACQ 的 SSL 連線要開。</li>
+</ul>
+<div class="tbl"><table><thead><tr><th><strong>Service Name</strong></th><th><strong>Terminal setup port（ssl1.tnsi.com.tw）</strong></th><th><strong>NII</strong></th></tr></thead><tbody><tr><td>TSB（V/M/J/UP/Diner-Discover）</td><td>Port 47008</td><td>501</td></tr><tr><td>SmartPay</td><td>Port 47005</td><td>531</td></tr><tr><td>TSB DCC</td><td>Port 47005</td><td>900</td></tr><tr><td>TSB Auth（AMEX Magnetic）</td><td>Port 47005</td><td>003</td></tr><tr><td>TIS 所有 ACQ</td><td>Port 47005</td><td>903</td></tr></tbody></table></div>
+<div class="note">此表在原 Word 檔中儲存格錯位（NII 值落在下一列），上表依版面判讀對齊，請以原頁為準。</div>
+<ul>
+<li>補充9. NII 設定：比照上方檢核項目設定。</li>
+</ul>
+<p>下半部：18. 選取需設定的 Issuer 至右邊；19. 若連線方式為 TLS，必須開啟此開關。（原頁含截圖，請至原頁查看）</p>
+<h4 id="s25">5. 參數頁面設定（第三頁）</h4>
+<p>步驟：22. 選取 ACQ → 23. 選取 Issuer → 24. 儲存單一 Issuer 設定。</p>
+<ul>
+<li>補充10. Local Approval Floor Limit：設定小額免簽金額（<strong>台新目前無設定此功能</strong>；截圖範例值 0）。</li>
+<li>補充11. Adjustment Percentage：設定調帳＆小費比例（截圖範例值 20）。※若要調整小費比例為無上限，此項設 0。</li>
+<li>補充12. 設定遮碼（PAN Mask）：只有持卡人存根聯（第 2 聯）會吃此參數；若要商店聯（第 1 聯）也吃此參數，需將第一頁的「是否卡號全遮蔽(含明細)」打勾。</li>
+</ul>
+<h4 id="s26">6. Linear 設定</h4>
+<p>步驟：25. 點按鈕進入 linear 設定 → 26. 選取對應的 linear 拉至右方 → 27. 點兩下進入該 linear 設定各項參數（基本上參數不動，只有少數客製化會改）。</p>
+<ul>
+<li>補充13. PICKUP：設定感應後卡片是否需拿起。1 → 感應交易卡片要拿起來交易才會繼續；0 → 不用拿起來就會繼續交易完成。</li>
+<li>補充14. VERSION：設定客製化版本，對照如下（原為截圖）：</li>
+</ul>
+<div class="tbl"><table><thead><tr><th><strong>版本</strong></th><th><strong>對象</strong></th><th><strong>VERSION 設定</strong></th></tr></thead><tbody><tr><td>MGRTSB 飯店版本</td><td>君悅（飯店版）</td><td>0001</td></tr><tr><td>MGRTSB 飯店版本</td><td>漢來</td><td>0002</td></tr><tr><td>MGRTSB 飯店版本</td><td>葡眾</td><td>0003</td></tr><tr><td>MGRTSB 飯店版本</td><td>大樹藥局</td><td>0004</td></tr><tr><td>MGRTSG 台糖事業處</td><td>油品</td><td>0001</td></tr><tr><td>MGRTSG 台糖事業處</td><td>量販事業部</td><td>0002</td></tr><tr><td>MGRTSG 台糖事業處</td><td>休憩部</td><td>空值</td></tr><tr><td>MGRTSG 台糖事業處</td><td>商銷部</td><td>空值</td></tr><tr><td>MGRPDS 版本</td><td>頂好</td><td>0005</td></tr><tr><td>MGRNEW 微型商戶版本</td><td>微型商戶版本</td><td>0006</td></tr></tbody></table></div>
+<ul>
+<li>補充15. SETTIME：若第一頁「是否自動結帳（明曜、Kiosk、TSB 1.057 起）」開啟，就要設時間。</li>
+<li>補充16. MASK：設定 ECR 回覆卡號的遮罩方式（目前只有遠傳電信這間特店有用）。設 4 位數字（第三頁遮碼不用動，照原本設定）。例：0604 只顯示前 6 後 4；0900 只顯示前 9 碼，其他遮蔽；1900 或 1919 全顯。</li>
+<li>R50_TMSRPT linear 截圖預設值：JFLLMT／VFLLMT 【Token Key 已遮罩】、MFLLMT 【Token Key 已遮罩】、RDPGN R50、VDRL00 【Token Key 已遮罩】、VDRL01 【Token Key 已遮罩】、PICKUP 0、VLEN／MLEN 13,16,19、JLEN 16、ALEN 15、DLEN 14,16、RDPGNS S200；TMSRPT、TMSRTY、VERSION、SETTIME、MASK 空白。（長字串由截圖辨識，請以原頁為準）</li>
+</ul>
+<p><strong>各版本 Linear Parameter</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>版本</strong></th><th><strong>條件</strong></th><th><strong>Linear</strong></th></tr></thead><tbody><tr><td>MGRTSB &amp; MGRNEW</td><td>有 R50 或 S200</td><td>R50_TMSRPT(=0)</td></tr><tr><td>MGRTSB &amp; MGRNEW</td><td>無 R50 或 S200</td><td>R50_TMSRPT</td></tr><tr><td>MGRTSB &amp; MGRNEW</td><td>有 S300P</td><td>TIS_MGRTSB</td></tr><tr><td>MGRTSB &amp; MGRNEW（昇恒昌）</td><td>有 R50</td><td>EVERRICH(=0)</td></tr><tr><td>MGRTSB &amp; MGRNEW（昇恒昌）</td><td>無 R50</td><td>EVERRICH</td></tr><tr><td>MGRTSB &amp; MGRNEW（昇恒昌）</td><td>有 S300P</td><td>TIS_EVERRICH</td></tr><tr><td>MGRRTM</td><td>有 S200</td><td>S200_RTM</td></tr><tr><td>MGRRTM</td><td>有 S300P</td><td>TIS_MGRRTM</td></tr><tr><td>MGRSYK</td><td>—</td><td>無 Linear</td></tr><tr><td>MGRHHT</td><td>—</td><td>無 Linear</td></tr><tr><td>MGRPDS</td><td>—</td><td>MGRPDS</td></tr><tr><td>UNIQLO</td><td>不論有無 R50</td><td>R50_UQ(=0)</td></tr><tr><td>D220</td><td>只有一種</td><td>CyberEDC_D220</td></tr><tr><td>CTZ</td><td>有拉 TIS（世民酒店版）</td><td>CTZ</td></tr><tr><td>CTZ</td><td>沒有拉 TIS（一般 Kiosk 版）</td><td>CTZK</td></tr></tbody></table></div>
+<p><strong>CTZ、CBETSSK 支援功能</strong>（2019/8/29 Ricky 回覆）</p>
+<div class="tbl"><table><thead><tr><th><strong>Version</strong></th><th><strong>Acquirer</strong></th><th><strong>Issuer</strong></th><th><strong>Option</strong></th></tr></thead><tbody><tr><td>空值</td><td>一般、DCC</td><td>VMJ、CUP、DISCOVER</td><td>銷售、結帳</td></tr><tr><td>0002</td><td>一般</td><td>VMJ</td><td>銷售、取消、結帳</td></tr></tbody></table></div>
+<div class="tbl"><table><thead><tr><th><strong>機型</strong></th><th><strong>程式名</strong></th><th><strong>Version</strong></th><th><strong>過卡模式</strong></th><th><strong>電簽</strong></th><th><strong>支援交易</strong></th><th><strong>ECR</strong></th><th><strong>連線設定</strong></th><th><strong>通訊方式</strong></th></tr></thead><tbody><tr><td>S300</td><td>CBETSSK</td><td>n/a</td><td>插卡、刷卡、感應</td><td>有</td><td>VMJ、DCC、銀聯、DISCOVER</td><td>LAN</td><td>固定IP</td><td>VPN/TLS（註1）</td></tr><tr><td>S300</td><td>CBETSSK</td><td>0002</td><td>感應 3000 元以下</td><td>可支援</td><td>VMJ、悠遊卡</td><td>RS232</td><td>固定IP／DHCP</td><td>VPN/TLS（註1）</td></tr><tr><td>S300</td><td>CBETSSK</td><td>0002</td><td>同上</td><td>同上</td><td>同上</td><td>LAN</td><td>固定IP</td><td>VPN/TLS（註1）</td></tr><tr><td>D220</td><td>D220K（未上線）</td><td>n/a</td><td>感應 3000 元以下</td><td>無</td><td>VMJ</td><td>RS232（註2）</td><td>4G</td><td>MDVPN</td></tr></tbody></table></div>
+<ul>
+<li>註1：TLS 需要 DNS Server 解析網址成 IP 才能連接；連線設定為 DHCP 時 DNS Server 由 DHCP Server 配置，固定 IP 時需手動設置 DNS Server，與現場實際網路環境有關。</li>
+<li>註2：D220K 連線雖為 RS232，實際是 USB 轉換；PC Windows 環境須裝 PAX USB Driver 即可用中介程式連接；Android 透過 USB 連結需提供 PAX Android Library，請對方自行參照 ECR 規格開發。</li>
+<li>之前的說明（Version）：</li>
+</ul>
+<p>1. 空值：不支援悠遊卡，支援電簽和 TIS，Linear 用 CTZ。</p>
+<p>2. 0002：支援悠遊卡，不支援電簽，不拉 TIS、銀聯及 DISCOVER，要拉 BANKLOGO，Linear 用 CTZK，測試說不拉 ICERAPI00（測試說若 0002 走 TLS 必開 DHCP）。模板：00000007 CTZ 有悠遊卡 模板。</p>
+<h4 id="s27">7. 公用規則</h4>
+<ul>
+<li>開感應或 ECR → 要開「畫面選擇」。</li>
+<li>有開感應且一般交易有開退貨 → 要開感應退貨。</li>
+<li>工單註記「ECR 連線版本：票券信託」（此版本鎖鍵盤）→ 開啟第一頁「是否 ECR 關閉 BTN(票券信託)」，人工輸入與交易補登無法使用。</li>
+<li>測試機 → 開啟第一頁 Enable Standin（教育訓練模式）。</li>
+<li>有開自動撥號 → 第三頁 Issuer 的 Referral Phone 要設電話，且 Voice Referral Allowed（銀聯不勾）要開；否則不開。</li>
+<li>任何交易開啟預授權 → 第一頁「明細列印預授權」要開；若 DCC 小費模式為飯店版則不開。</li>
+<li>銀聯有開預授權 → 第一頁「是否銀聯授權手輸卡號」要開。</li>
+<li>單純撥接以外的連線方式 → 開啟第一頁「資訊回報」（純撥接以外必開）。</li>
+<li>任一交易有開櫃號 → 開啟第一頁 Enable OP NUM（櫃號列印）。</li>
+<li>DCC 若開小費 → 需開調帳，關閉則不可做小費；若沒開小費，DCC Issuer 的「不可做小費交易」必開。</li>
+<li>各版本注意事項 → 詳附件「各版本上線TMS設定.xlsx」；各類外接設備機型注意設定 → 詳附件「外接機型設定」。（兩個內嵌 Excel 物件無法讀取，請至原頁查看）</li>
+</ul>
+<p><strong>外接設備機型設定</strong>（原為截圖，轉錄如下）</p>
+<div class="tbl"><table><thead><tr><th><strong>機型</strong></th><th><strong>需開啟功能</strong></th><th><strong>設定注意事項</strong></th></tr></thead><tbody><tr><td>R50</td><td>1. 第一頁 Enable CLSS（感應交易）</td><td></td></tr><tr><td>R50</td><td>2. 第一頁畫面選擇 0:先刷卡 1:先輸入金額</td><td></td></tr><tr><td>R50</td><td>3. 第一頁是否開啟感應退貨</td><td>※若一般交易有開啟退貨且有開感應才要開</td></tr><tr><td>R50</td><td>4. Linear 拉 R50_TMSRPT(=0)</td><td>※若沒開感應要拉 R50_TMSRPT</td></tr><tr><td>SP20</td><td>1. 第一頁 Pinpad Extern（外接 PINPAD）</td><td></td></tr><tr><td>S200</td><td>1. 第一頁 Enable CLSS（感應交易）</td><td></td></tr><tr><td>S200</td><td>2. 第一頁畫面選擇 0:先刷卡 1:先輸入金額</td><td></td></tr><tr><td>S200</td><td>3. 第一頁 Pinpad Extern（外接 PINPAD）</td><td></td></tr><tr><td>S200</td><td>4. 第一頁是否開啟感應退貨</td><td>※若一般交易有開啟退貨且有開感應才要開</td></tr><tr><td>S200</td><td>5. Linear 拉 R50_TMSRPT(=0)</td><td></td></tr><tr><td>ECR</td><td>1. 第一頁 Enable ECR（收銀機連線）</td><td></td></tr><tr><td>ECR</td><td>2. 第一頁畫面選擇 0:先刷卡 1:先輸入金額</td><td></td></tr><tr><td>ECR</td><td>3. 第一頁是否 ECR 關閉 BTN（票券信託）</td><td>※若工單註記 ECR 連線版本：票券信託才要開</td></tr><tr><td>S300P/S300T（有開電簽）</td><td>1. 第一頁 Enable CLSS（感應交易）</td><td>※若工單週邊設備功能有 Dongle 要開</td></tr><tr><td>S300P/S300T</td><td>2. 第一頁畫面選擇 0:先刷卡 1:先輸入金額</td><td></td></tr><tr><td>S300P/S300T</td><td>3. 第一頁 Pinpad Extern（外接 PINPAD）</td><td>※若工單週邊設備功能有 Pinpad 要開</td></tr><tr><td>S300P/S300T</td><td>4. 第一頁是否開啟感應退貨</td><td>※若一般交易有開啟退貨且有開感應才要開</td></tr><tr><td>S300P/S300T</td><td>5. 第一頁使用電子簽單（呼叫簽名板）</td><td>※若工單週邊設備功能有電子簽單要開（5～8 項）</td></tr><tr><td>S300P/S300T</td><td>6. 第一頁 ECR 長度 400Bytes</td><td>同上</td></tr><tr><td>S300P/S300T</td><td>7. Parameter 要拉 BANKLOGO</td><td>同上</td></tr><tr><td>S300P/S300T</td><td>8. 第二頁 ACQ 需拉 TIS</td><td>同上</td></tr><tr><td>S300P/S300T</td><td>9. Linear 拉 TIS_MGRTSB</td><td>※其餘非 MGRTSB 或 MGRNEW 版的拉有 TIS_ 對應的版本</td></tr></tbody></table></div>
+<h4 id="s28">8. 悠遊卡設定</h4>
+<p>1. 於第一頁左下方「悠遊卡參數」點進去設定。</p>
+<p>2. 進入悠遊卡設定畫面後，點右上 Append（Append ECC Parameter）。</p>
+<ul>
+<ul>
+<li>補充17. TMLocationID 及 NewSPID：設定工單「其他說明」中提供的悠遊卡特店代號；若為測試機，設定下表值：</li>
+</ul></ul>
+<div class="tbl"><table><thead><tr><th><strong>欄位</strong></th><th><strong>測試機值</strong></th></tr></thead><tbody><tr><td>TMLocationID</td><td>05000006</td></tr><tr><td>NewSPID</td><td>05000006</td></tr></tbody></table></div>
+<ul>
+<ul>
+<li>補充18. TCPIP_SSL 預設 0；若該台連線方式為 TLS，需設為 1。</li>
+<li>補充19. POS_ID 設定為 DTID。</li>
+<li>截圖中其他欄位範例：CMAS_IP 【內部 IP】、CMAS_Port 6500、head 1（截圖範例的 TMLocationID／NewSPID 為 05000002，與文字的測試值 05000006 不同，以文字為準）。</li>
+</ul></ul>
+<p>3. 設定完按 Save 後，到設定版本內頁，在 Parameter File 欄將對應版本的 ICERAPI00 參數拉至右方並按 Save。</p>
+<h4 id="s29">9. 拆機設定</h4>
+<p>前提：ATOMS 案件紀錄寫「拆機完成、已備機0結、機內無帳」就可刪除。</p>
+<p>1. 進入 TMS。</p>
+<p>2. 點選 Terminal → 點選 Batch，進入設定批次畫面。</p>
+<p>3. 點選 Batch Job，在 Select Batch 下拉選單選 Remove TID，貼上要刪除的 DTID，按 Submit。</p>
+<p class="aside">（原頁含截圖，請至原頁查看）</p>
+<h4 id="s30">10. 撈取報表 QBE</h4>
+<p>1. 點選進入（報表頁）。</p>
+<p>2. 點選 QBE。</p>
+<p>3. 下拉選單選擇並填寫要查詢的條件。</p>
+<p>4. 按新增。</p>
+<p>5. 下拉選單選擇想撈取的資料項目。</p>
+<p>6. 按新增。</p>
+<p class="aside">（原頁含截圖，請至原頁查看）</p>
+<h3 id="s31">77.3 小間銀行 TMS設定指導書</h3>
+<p class="src">來源：Confluence 原頁（內部）</p>
+<p>適用 77.3 TMS 上的「小間銀行」收單設定：上海商銀（上銀，ACQ 代號 SCSB）、彰化銀行（CHB）、陽信銀行（SYB）、元大銀行（TCBANK，NCCC 主機）、歐付寶（AllPay，目前已無此版）／綠界（GREENWORLD）、捷達威（JDWFCB，目前已無此版），以及 iAtoms 自動化匯入。發行日期：2026/05/15。（附件本文沒有直接寫 GP，但第一頁的選項名稱有「(GP)」標記，例如「結帳不印第二聯(GP)」，可見同一台 TMS 也有 GP 版本。）</p>
+<h4 id="s32">77.3 設定步驟</h4>
+<p>同共通流程步驟 1～12（Copy 模板 → 第一頁選版本、點 V、貼表頭、貼地址、拉 ACQ、Save → 進設定版本內頁 → 9. 點此（edit application task）→ 10. 選版本 → 11. Save → 12. Next Step 進第二頁）。設定版本內頁補充1：外接設備 BIN 檔欄位（有需設定再設）；補充2：特店 LOGO 欄位（有需設定再設）。（原頁含截圖，請至原頁查看）</p>
+<h4 id="s33">上銀（SCSB）設定規則</h4>
+<p>1. <strong>第一頁</strong></p>
+<ul>
+<ul>
+<li>裝機件 → 開啟 Check Repeat Transaction（檢核重複交易）及畫面選擇 0:先刷卡 1:先輸入金額。</li>
+<li>外接設備 BIN 檔 → 目前最新 S200 BIN 為 1.09；SCSB 1.024（含）以下升版要放。</li>
+<li>退貨密碼 【密碼：請洽 TMS 窗口】：Password Control 勾選 Refund Password，下方 Refund Password 填 【密碼：請洽 TMS 窗口】（Bank Password 【密碼：請洽 TMS 窗口】，其餘 【密碼：請洽 TMS 窗口】）。</li>
+</ul></ul>
+<p>2. <strong>第二頁</strong></p>
+<ul>
+<ul>
+<li>補充1. NII 及撥接設定 → 比照下表：</li>
+</ul></ul>
+<div class="tbl"><table><thead><tr><th><strong>ACQ</strong></th><th><strong>類別</strong></th><th><strong>NII</strong></th><th><strong>COMM Mode</strong></th><th><strong>交易電話（自動撥號）</strong></th><th><strong>交易電話</strong></th><th><strong>VISA VEPS</strong></th><th><strong>Master VEPS</strong></th></tr></thead><tbody><tr><td>SCSB</td><td>信用卡交易（6.11 規格）</td><td>950</td><td>M電話／L網路／G手機</td>【已遮罩】<td></td><td>一般分期、分期交易都要支援，設 800</td><td>一般分期、分期交易都要支援，設 1500</td></tr><tr><td>SCSB</td><td>分期付款</td><td>435</td><td>同上</td>【已遮罩】<td></td><td>同上</td><td>同上</td></tr><tr><td>SCSB</td><td>SmartPay</td><td>620</td><td>同上</td>【已遮罩】<td></td><td>同上</td><td>同上</td></tr><tr><td>SCSB</td><td>AE</td><td>003</td><td>同上</td>【已遮罩】【已遮罩】<td></td><td></td></tr></tbody></table></div>
+<ul>
+<ul>
+<li>補充2. TCP/IP、GPRS 設定 → 比照下表（HOST IP and Port）：</li>
+</ul></ul>
+<div class="tbl"><table><thead><tr><th><strong>業者</strong></th><th><strong>交易類別</strong></th><th><strong>HOST IP</strong></th><th><strong>信用卡 Port</strong></th><th><strong>晶片金融卡 Port</strong></th><th><strong>分期 Port</strong></th></tr></thead><tbody><tr><td>中華電信 VPN</td><td>EDC 交易</td><td>【內部 IP】</td><td>9995</td><td>6670</td><td></td></tr><tr><td>中華電信 VPN</td><td>分期交易</td><td>【內部 IP】</td><td></td><td></td><td>8081</td></tr><tr><td>台灣固網 VPN</td><td>EDC 交易</td><td>【內部 IP】</td><td>9993</td><td>6672</td><td></td></tr><tr><td>台灣固網 VPN</td><td>分期交易</td><td>【內部 IP】</td><td></td><td></td><td>8083</td></tr><tr><td>遠傳 SeedNet VPN</td><td>EDC 交易</td><td>【內部 IP】</td><td>9997</td><td>6671</td><td></td></tr><tr><td>遠傳 SeedNet VPN</td><td>分期交易</td><td>【內部 IP】</td><td></td><td></td><td>8084</td></tr></tbody></table></div>
+<ul>
+<ul>
+<li>AE 的設定（NII: 004）：</li>
+</ul></ul>
+<div class="tbl"><table><thead><tr><th><strong>業者</strong></th><th><strong>Host IP</strong></th><th><strong>Port</strong></th></tr></thead><tbody><tr><td>中華</td><td>【內部 IP】</td><td>8018</td></tr><tr><td>台固</td><td>【內部 IP】</td><td>8018</td></tr><tr><td>遠傳</td><td>【內部 IP】</td><td>8018</td></tr><tr><td>遠傳 2017/11/6 以後</td><td>（需跟遠傳申請開通）</td><td>8018</td></tr></tbody></table></div>
+<div class="note">注意：上方 NII 表 AE 為 003，但 AE 設定圖寫 NII: 004，原文兩處不一致，請以原頁或實際主機為準。</div>
+<p>3. <strong>第三頁</strong>：功能依照工單設定。補充3. Local Approval Floor Limit（小額免簽）：VISA 800、MASTER 1500。</p>
+<p>4. <strong>Linear</strong>：分建設公司與非建設公司。特店為建設公司用 SCSB_建設公司；非建設公司用 SCSB_非建設公司。</p>
+<ul>
+<ul>
+<li>補充4. QPBOC（銀聯閃付）：設 0 代表不支援銀聯閃付；設空值即有銀聯閃付功能。</li>
+<li>SCSB_非建設公司 截圖值：MCC、BRANCH 空白；VERSION 0000；RDPGNS S200_SCSB；BKNAME 上海商業儲蓄銀行；QPBOC 0；VFLLMT 等限額字串見原頁。</li>
+</ul></ul>
+<h4 id="s34">彰銀（CHB）設定規則</h4>
+<p>1. <strong>第一頁</strong></p>
+<ul>
+<ul>
+<li>開啟電子發票載具功能 → 開啟「ECR 長度 400Bytes（彰銀電子載具）」。</li>
+<li>開啟電子化繳費平台 → 勾選「電子化繳費平台(彰銀)」，並到 Parameter File 拉最新版的 BANKID.dat（截圖清單中最新為 BANKID.dat [1.5][CHB]）。</li>
+<li>外接設備 BIN 檔 → 目前最新 S200 BIN 為 1.09；CHB 3.011（含）以下升版要放。</li>
+</ul></ul>
+<p>2. <strong>第二頁</strong>：NII、撥接、TCP/IP 及 GPRS 設定比照下表：</p>
+<div class="tbl"><table><thead><tr><th><strong>Acquirer 名稱</strong></th><th><strong>類別</strong></th><th><strong>NII</strong></th><th><strong>COMM Mode</strong></th><th><strong>交易電話1</strong></th><th><strong>交易電話2</strong></th><th><strong>網路電信</strong></th><th><strong>Transaction IP</strong></th><th><strong>PORT</strong></th><th><strong>自動撥號</strong></th></tr></thead><tbody><tr><td>CHB</td><td>一般</td><td>950</td><td>M電話／L網路／G手機</td>【已遮罩】【已遮罩】<td>中華</td><td>【內部 IP】</td><td>9995</td><td>【撥接電話】</td></tr><tr><td>CHB_INST</td><td>分期</td><td>435</td><td>同上</td><td>同上</td><td>同上</td><td>中華</td><td>【內部 IP】</td><td>8081</td><td>【撥接電話】</td></tr><tr><td>SmartPay</td><td>SmartPay</td><td>620</td><td>同上</td><td>同上</td><td>同上</td><td>中華</td><td>【內部 IP】</td><td>6670</td><td>【撥接電話】</td></tr><tr><td>AE</td><td>AE</td><td>004</td><td>同上</td>【已遮罩】【已遮罩】<td>中華 【內部 IP】／台固 【內部 IP】／遠傳 【內部 IP】（需跟遠傳申請開通）</td><td>（無線 IP）</td><td>8018</td><td>【撥接電話】</td></tr></tbody></table></div>
+<p>3. <strong>第三頁</strong>：小額免簽支援 VMJ 及銀聯 — VISA 800、MASTER 1500、JCB 700、CUP 800。</p>
+<p>4. <strong>Linear</strong>：CHB。</p>
+<ul>
+<ul>
+<li>補充1. MCC、BRANCH：若有設定 SmartPay，MCC 和 BRANCH 欄位要填入 4 位數的值（依照工單）。</li>
+<li>CHB 截圖值：RDPGNS S200qVSDC_CHB；BKNAME 顯示為亂碼；MCC、BRANCH 空白。</li>
+</ul></ul>
+<h4 id="s35">陽信（SYB）設定規則</h4>
+<p>1. <strong>第二頁</strong>：NII、撥接、TCP/IP 及 GPRS 設定比照下表：</p>
+<div class="tbl"><table><thead><tr><th><strong>類別</strong></th><th><strong>NII</strong></th><th><strong>COMM Mode</strong></th><th><strong>交易電話</strong></th><th><strong>Transaction IP ADD 1</strong></th><th><strong>Transaction IP PORT 1</strong></th><th><strong>自動撥號</strong></th></tr></thead><tbody><tr><td>信用卡交易（6.11 規格）</td><td>950</td><td>M電話／L網路／G手機</td>【已遮罩】<td>【內部 IP】（中華電信）；【內部 IP】（遠傳）</td><td>9995（中華電信）；9997（遠傳）</td><td>【撥接電話】</td></tr><tr><td>分期付款</td><td>435</td><td>同上</td><td>同上</td><td>【內部 IP】（中華電信）；【內部 IP】（遠傳）</td><td>8081（中華電信）；8084（遠傳）</td><td>【撥接電話】</td></tr><tr><td>SmartPay</td><td>620</td><td>同上</td><td>同上</td><td>【內部 IP】（中華電信）；（遠傳）空白</td><td>6670（中華電信）；（遠傳）空白</td><td>【撥接電話】</td></tr><tr><td>AE</td><td>003</td><td>同上</td>【已遮罩】<td>見下</td><td>見下</td><td>【撥接電話】</td></tr></tbody></table></div>
+<p>AE 連線：</p>
+<div class="tbl"><table><thead><tr><th><strong>業者</strong></th><th><strong>有線 IP</strong></th><th><strong>無線 IP</strong></th><th><strong>PORT</strong></th></tr></thead><tbody><tr><td>中華</td><td>【內部 IP】</td><td>【內部 IP】</td><td>8012</td></tr><tr><td>台固</td><td>【內部 IP】</td><td>【內部 IP】</td><td>8012</td></tr><tr><td>遠傳</td><td>同收單銀行</td><td>（遠傳因業者架構目前僅可併有線）</td><td>2000</td></tr></tbody></table></div>
+<p>2. <strong>第三頁</strong>：小額免簽支援 VM — VISA 800、MASTER 1500。</p>
+<p>3. <strong>Linear</strong>：SYB（截圖值：RDPGN R50、MCC／BRANCH 空白、QPBOC 0）。</p>
+<h4 id="s36">元大（TCBANK）設定規則</h4>
+<p>1. <strong>第一頁</strong></p>
+<ul>
+<ul>
+<li>裝機件 → 開啟 Check Repeat Transaction（檢核重複交易）、「結帳明細依卡別分（大眾、環匯 6/22 後裝機必開）」及「是否使用熱建交易（大眾沒開感應必開）」。</li>
+<li>※若有開啟畫面選擇 0:先刷卡 1:先輸入金額，則需關閉「是否使用熱建交易」。</li>
+<li>外接設備 BIN 檔 → 目前最新 S200 BIN 為 1.09；TCBANK 2.011（含）以下升版要放。</li>
+</ul></ul>
+<p>2. <strong>第二頁</strong></p>
+<ul>
+<ul>
+<li>NII、撥接設定比照下表：</li>
+</ul></ul>
+<div class="tbl"><table><thead><tr><th><strong>Acquirer 名稱</strong></th><th><strong>NII</strong></th><th><strong>COMM Mode</strong></th><th><strong>區域</strong></th><th><strong>撥接代表號（數位線路）</strong></th><th><strong>撥接代表號（類比線路）</strong></th><th><strong>自動撥號電話</strong></th><th><strong>檢核重覆交易</strong></th><th><strong>是否結帳明細依卡別分</strong></th><th><strong>是否使用熱建交易</strong></th></tr></thead><tbody><tr><td>NCCC</td><td>297</td><td>M電話／L網路／G手機</td><td>台北／台中／高雄</td><td>【撥接電話】</td><td>【撥接電話】</td>【已遮罩】<td>必勾</td><td>必勾</td><td>必勾</td></tr></tbody></table></div>
+<ul>
+<ul>
+<li>TCP/IP 及 GPRS 設定比照下表：</li>
+</ul></ul>
+<div class="tbl"><table><thead><tr><th><strong>#</strong></th><th><strong>ISP 業者</strong></th><th><strong>Host IP</strong></th><th><strong>Port No.</strong></th></tr></thead><tbody><tr><td>1</td><td>中華電信</td><td>【內部 IP】</td><td>18012</td></tr><tr><td>2</td><td>中華電信 VPN（六揚）</td><td>【內部 IP】</td><td>18012</td></tr><tr><td>3</td><td>台灣大電訊（原 TTN）</td><td>【內部 IP】</td><td>18012</td></tr><tr><td>4</td><td>SeedNet（遠傳）</td><td>【內部 IP】</td><td>18012</td></tr><tr><td>5</td><td>中嘉和網寬頻（和信）</td><td>【內部 IP】</td><td>18012</td></tr><tr><td>6</td><td>亞太固網</td><td>【內部 IP】</td><td>18012</td></tr><tr><td>7</td><td>網達國際（宏遠電信）</td><td>【內部 IP】</td><td>18012</td></tr><tr><td>8</td><td>數據專線（直連 NCCC）</td><td>【內部 IP】</td><td>18012</td></tr></tbody></table></div>
+<ul>
+<ul>
+<li>※元大 S90(G) 不用設定 APN。</li>
+<li>AE：交易電話第一組及第二組為 【撥接電話】、【撥接電話】；AE 設定（NII: 004）同上銀的 AE 表（中華 【內部 IP】／台固 【內部 IP】／遠傳 【內部 IP】，Port 8018；遠傳 2017/11/6 以後需跟遠傳申請開通）。</li>
+</ul></ul>
+<p>3. <strong>第三頁</strong>：小額免簽支援 VMJ — VISA 800、MASTER 1500、JCB 700。</p>
+<p>4. <strong>Linear</strong>：TCBANK。</p>
+<ul>
+<ul>
+<li>VERSION：0000 或空值為一般版；0001 為橡木桶。</li>
+<li>EDCTYPE：0002 為大眾轉元大後的所有新機；大眾時期即裝機的舊機為 0001。</li>
+<li>TCBANK 截圖其他值：RDPGNS S200_TCBANK、BKNAME 元 大 銀 行。</li>
+</ul></ul>
+<h4 id="s37">歐付寶（AllPay，目前已無此版）／綠界（GreenWorld）設定規則</h4>
+<p><strong>歐付寶 AllPay 【內部 IP】 版本</strong></p>
+<p>1. 第一頁</p>
+<ul>
+<ul>
+<li>裝機件 → 開啟 Check Repeat Transaction（檢核重複交易）；若機型為 S80 還需開啟 DHCP（ALLPAY）。</li>
+<li>ACQ 選擇 AllPay。</li>
+<li>表頭無法換行、不能放 LOGO。</li>
+</ul></ul>
+<p>2. 第二頁</p>
+<ul>
+<ul>
+<li>NII：000；Host IP：【內部 IP】；Port：8808</li>
+<li>TNS_URL 無須設定。</li>
+<li>不用拉 Linear。</li>
+</ul></ul>
+<p><strong>綠界</strong></p>
+<p>1. 第一頁</p>
+<ul>
+<ul>
+<li>裝機件 → 開啟 Check Repeat Transaction（檢核重複交易）；若機型為 S80 還需開啟 DHCP（ALLPAY）。</li>
+<li>ACQ 選擇 GREENWORLD。</li>
+<li>表頭最長 11 個中文字，可換行兩行、不能放 LOGO。</li>
+<li>需到 Parameter File 選翻譯檔 CHT.LNG → CHT.LNG[【內部 IP】][GreenWorld]（Application 選 GreenWorld [【內部 IP】]）。</li>
+</ul></ul>
+<p>2. 第二頁</p>
+<ul>
+<ul>
+<li>NII：501；Host IP：【內部 IP】；Port：8553</li>
+<li>TNS_URL 無須設定。</li>
+<li>不用拉 Linear。</li>
+<li>補充1. Terminal ID 欄位 → 填銀行終端機代號〈台新 TID（綠界用）〉；Merchant ID 欄位 → 填銀行特店代號〈台新 MID（綠界用）〉。</li>
+<li>補充2. Transaction User Name（GWTID）→ 填端末機代號〈TID〉；Transaction User PWD（GWMID）→ 填商店代號〈MID〉（TID/MID 來源見 iAtoms 案件／綠界工單截圖）。</li>
+<li>補充3. DCC Feature（綠界分期）→ 開啟即支援分期，無須拉分期 Issuer；DCC Auto Download Bin（綠界紅利）→ 開啟即支援紅利，無須拉紅利 Issuer。</li>
+<li>補充4. 銀聯 Issuer 為 UPI。</li>
+</ul></ul>
+<h4 id="s38">捷達威（JDWFCB，目前已無此版）設定規則</h4>
+<ul>
+<li>NII、撥接、TCP/IP 及 GPRS 設定比照下表：</li>
+</ul>
+<div class="tbl"><table><thead><tr><th><strong>類別</strong></th><th><strong>NII</strong></th><th><strong>COMM Mode</strong></th><th><strong>交易電話</strong></th><th><strong>Transaction IP ADD 1</strong></th><th><strong>Transaction IP PORT 1</strong></th><th><strong>自動撥號</strong></th></tr></thead><tbody><tr><td>信用卡交易</td><td>950</td><td>M電話／L網路／G手機</td>【已遮罩】<td>【內部 IP】（中華電信）；【內部 IP】（台灣固網）；【內部 IP】（遠傳）</td><td>9995（中華電信）；9993（台灣固網）；9997（遠傳）</td><td>【撥接電話】</td></tr><tr><td>分期付款</td><td>435</td><td>同上</td><td></td><td>【內部 IP】（中華電信）；【內部 IP】（台灣固網）；【內部 IP】（遠傳）</td><td>8081（中華電信）；8083（台灣固網）；8084（遠傳）</td><td></td></tr></tbody></table></div>
+<ul>
+<li>VMJ 交易。</li>
+<li>不會開感應、銀聯、SP 功能。</li>
+<li>不用拉 Linear。</li>
+</ul>
+<h4 id="s39">自動化匯入設定（iAtoms）</h4>
+<p>上銀、彰銀及陽信裝機可使用 iAtoms 自動匯入功能：</p>
+<p>1. 到 iAtoms 選取要自動匯入的案件：</p>
+<p>1. 選取案件</p>
+<p>2. 點選「派工」</p>
+<p>3. 點選「TMS參數匯入」</p>
+<p>4. 顯示「匯入成功／OK」即為設定完成</p>
+<p>2. 批次自動匯入時，可用參數比對檢查：</p>
+<p>5. 點 Report</p>
+<p>6. 下拉選單點選「參數比對」</p>
+<p>7. 在欄位貼入 D.TID 即可比對模板與其他台的參數；模板 D.TID 需在後面加英文 ST（例：18011234ST ← 模板，後接 18012345、18013456）</p>
+<p>8. 按 Query 即可產出報表做檢查</p>
+<p class="aside">（原頁含截圖，請至原頁查看）</p>
+<h3 id="s40">91.19 TMS設定指導書（新光三越 SKM）</h3>
+<p class="src">來源：Confluence 原頁（內部）</p>
+<p>適用 91.19 TMS，附件標題為「91.19操作手冊／SKM 91.19設定步驟」，即新光三越（SKM）專案的台新收單 EDC，機型為 S300（MAINAPP）、S80（MGRSKM），S90 比照 S80。發行日期：2026/05/25。</p>
+<h4 id="s41">1～2. 進入 TMS、Copy 模板</h4>
+<p>同共通流程。</p>
+<h4 id="s42">3. 參數頁面設定（第一頁）</h4>
+<p>步驟：1. 選版本 → 2. 點選 V 讓 DTID 顯示 → <strong>3. SKM 不貼表頭</strong> → 4. 貼地址 → 5. 選取 ACQ 拉至右方 → 6. 已拉的 ACQ → 7. Save → 8. 進入設定版本內頁 → 9. 點此（edit application task）→ 10. 選版本至右方 → 11. Save → 12. 進入第二頁。</p>
+<ul>
+<li><strong>補充1. S300 第一頁</strong>：除電簽、DHCP、教育訓練照單設定外，其他 7 項黃底檢核項目都需開啟（小費在 Acquirer 設定即可）。截圖範例（EDC KEY 【已遮罩】）：</li>
+</ul>
+<div class="tbl"><table><thead><tr><th><strong>檢核項目</strong></th><th><strong>數值</strong></th></tr></thead><tbody><tr><td>Application</td><td>MAINAPP [1.04Build05]</td></tr><tr><td>Parameter File</td><td>BANKLOGO [台新銀行_S300,MAINAPP]、LOGOFILE [SKM_S300,MAINAPP]、NETWORKCLASS [（館別）店,MAINAPP]</td></tr><tr><td>Bank Password</td><td>【密碼：請洽 TMS 窗口】</td></tr><tr><td>Tip Processing（小費交易）</td><td>Close</td></tr><tr><td>Enable CLSS（感應交易）</td><td>Open</td></tr><tr><td>TMS Update Enable（自動更新）</td><td>Open</td></tr><tr><td>Enable ECR（收銀機連線）</td><td>Open</td></tr><tr><td>是否開啟感應退貨</td><td>Close</td></tr><tr><td>使用電子簽單</td><td>Open</td></tr><tr><td>ECR 回傳有效期(S300)</td><td>Open</td></tr><tr><td>真。DHCP</td><td>Open</td></tr><tr><td>是否更新參數（一次性）</td><td>Close</td></tr><tr><td>Enable Standin（教育訓練模式）</td><td>Close</td></tr><tr><td>Enable OP NUM（櫃號列印）</td><td>Open</td></tr><tr><td>Referal Dialing（自動撥號）</td><td>Close</td></tr><tr><td>Pinpad Extern（外接 PINPAD）</td><td>Close</td></tr><tr><td>Enable Des Protocal（線路加密）</td><td>Open</td></tr><tr><td>Acquirer List（請檢核項目及順序）</td><td>TSB, TSB_DCC, DINERS, TIS_TSB, TIS_DCC, …</td></tr></tbody></table></div>
+<ul>
+<li><strong>補充2. S80 第一頁</strong>：檢核 7 項黃底項目，除「是否更新參數（一次性）」必開外，其他照單設定。截圖範例（EDC KEY 【已遮罩】）：Parameter File 為 LOGOFILE [2.0,MGRSKM]、NETWORKCLASS [（館別）店 (for S80),MGRSKM]；Bank Password 【密碼：請洽 TMS 窗口】；Enable CLSS Open、是否開啟感應退貨 Open、是否更新參數（一次性）Open，其餘 Close；Acquirer List：TSB, TSB_DCC, DINERS。</li>
+<li>※S90 都不開感應交易及感應退貨。</li>
+<li><strong>設定版本內頁補充</strong></li>
+<ul>
+<li>補充3. S300 及 S80 都需要設定 NETWORKCLASS（原文拼為 NERWORKCLASS），S90 比照 S80。</li>
+<li>補充4. S300 要拉 Banklogo（BANKLOGO [台新銀行_S300][MAINAPP]）。</li>
+<li>補充5. Application：S300 拉 [SKM_S300,MAINAPP]，S80 拉 [2.0,MGRSKM]（截圖範例：Application 選 MAINAPP [SKM 1.14Build01]、Merchant Logo 選 LOGOFILE [SKM_S300][MAINAPP]）。</li>
+<li>※教育訓練機不放網段（NETWORKCLASS）、不設回報時間。</li>
+</ul></ul>
+<h4 id="s43">4. 參數頁面設定（第二頁）</h4>
+<p>上半部：13. 選取 ACQ → 14. 貼入 TID → 15. 貼入 MID → 16. 選收單名稱 → 17. 選擇連線方式 → 補充6 NII、補充7 撥接、補充8 TCP/IP、補充9 GPRS → 20. Save → 21. 進入第三頁。</p>
+<p><strong>補充6. NII 及 Port 設定</strong>：S80 及 S300 依下表（雙中心架構，原為截圖）：</p>
+<div class="tbl"><table><thead><tr><th><strong>代號</strong></th><th><strong>TSB</strong></th><th><strong>DCC</strong></th><th><strong>SP</strong></th><th><strong>TIS</strong></th></tr></thead><tbody><tr><td>NII</td><td>520</td><td>545</td><td>531</td><td>903</td></tr><tr><td>Port</td><td>8012</td><td>8012</td><td>8012</td><td>9002</td></tr></tbody></table></div>
+<div class="tbl"><table><thead><tr><th><strong>館別</strong></th><th><strong>代號</strong></th><th><strong>TSB IP</strong></th><th><strong>DCC IP</strong></th><th><strong>SP IP</strong></th><th><strong>TIS IP</strong></th></tr></thead><tbody><tr><td>三越南西天地</td><td>tsbskmnc</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td></tr><tr><td>三越台北站前店</td><td>tsbskmtp</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td></tr><tr><td>三越信義天地 A4</td><td>tsbskmse</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td></tr><tr><td>三越信義天地 A8</td><td>tsbskmse</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td></tr><tr><td>三越信義天地 A9</td><td>tsbskmse</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td></tr><tr><td>三越信義天地 A11</td><td>tsbskmse</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td></tr><tr><td>三越天母店</td><td>tsbskmtm</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td></tr><tr><td>三越桃園大有店</td><td>tsbskmtu</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td></tr><tr><td>三越台中店</td><td>tsbskmtc</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td></tr><tr><td>三越台南中山店</td><td>tsbskmtn</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td></tr><tr><td>三越台南西門店</td><td>tsbskmsm</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td></tr><tr><td>三越高雄三多店</td><td>tsbskmks</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td></tr><tr><td>三越嘉義店</td><td>tsbskmcy</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td></tr><tr><td>三越桃園站前店</td><td>tsbskmty</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td></tr><tr><td>三越高雄左營店</td><td>tsbskmzy</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td></tr><tr><td>三越台北忠孝店</td><td>（空白）</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td></tr><tr><td>三越台南小北門店</td><td>（空白）</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td></tr></tbody></table></div>
+<ul>
+<li>※S300 要關閉 TSB 及 DCC ACQ 中的「H1 BCD 電文格式(S300)」與「H2 BCD 電文格式(S300)」兩個開關。</li>
+<li>撥接、TCP/IP、GPRS 設定：原文只有截圖標示位置，未列文字數值。（原頁含截圖，請至原頁查看）</li>
+</ul>
+<p>下半部：18. 選取需設定的 Issuer 至右邊；19. S300 的功能在此設定（黃底部分），S80 在第三頁設定。</p>
+<h4 id="s44">5. 參數頁面設定（第三頁）</h4>
+<p>步驟：20. 選取 ACQ → 21. 選取 Issuer → 22. 儲存單一 Issuer 設定。</p>
+<ul>
+<li>※S300 檢核項目只要設定黃底四項：</li>
+</ul>
+<p>1. Manual PAN Entry（允許輸入卡號）</p>
+<p>2. PAN Mod 10 Check</p>
+<p>3. Check Expiry on All Transactions</p>
+<p>4. 4DBC/CVV2 Swiped Entry</p>
+<ul>
+<li>※S80 Issuer 依單設定功能，但<strong>不檢核</strong>兩項（紫色框）：</li>
+</ul>
+<p>1. PAN Mod 10 Check</p>
+<p>2. Check Expiry on All Transactions</p>
+<h4 id="s45">6. 設定 Linear</h4>
+<p>步驟：23. 點選 linear → 24. 選取對應 linear 拉至右方 → 點兩下進入該 linear，參數依機型設定。</p>
+<ul>
+<li>S300 拉 S300_SKM；S80 拉 R50_DHCP。</li>
+</ul>
+<p><strong>S300_SKM</strong></p>
+<ul>
+<li>補充10. POSID：工單「其它說明」若有 POS 號碼字眼，就設在 linear 的 POSID 欄位；若沒附 POS 號碼，設 147852。STOREID：一律設 852369。</li>
+<li>補充11. TMSRPT：回報參數的時間，每一分鐘只能容納 100 台。檢核方式：到 TMS 跑報表（點此進入 → 點 Query → 點 Export 產出報表）。</li>
+<li>補充12. TMSSIGN：是否吃 TMS 電簽開關。設 1 表示吃 TMS 參數；不設或設 0 時卡機維持原機設定。若設 1，下載成功後值會自動從 1 變成 0。</li>
+<li>補充13. IPASS：預設 1。一卡通功能開關，設 1 表示開啟一卡通相關功能（含回報 SAM ID）。</li>
+<li>S300_SKM 截圖值：EDCID 2200、POSID 147852、STOREID 852369、PICKUP 1、TMSRPT FFFF、TMSRTY 2、PHASE 2、TMSSIGN 0、IPASS 1；JFLLMT／MFLLMT／VFLLMT／VDRL00／VDRL01／VEPSAMT 等長字串見原頁。</li>
+</ul>
+<p><strong>R50_DHCP（S80）</strong></p>
+<ul>
+<li>補充14. S80 分補登版、分離版、結合版：</li>
+<ul>
+<li>補登版：無 ECR，有手輸</li>
+<li>分離版：無 ECR，無手輸</li>
+<li>結合版：有 ECR，無手輸</li>
+</ul></ul>
+<div class="tbl"><table><thead><tr><th><strong>參數</strong></th><th><strong>補登版</strong></th><th><strong>結合版</strong></th><th><strong>分離版</strong></th></tr></thead><tbody><tr><td>BANKID</td><td>00</td><td>00</td><td>00</td></tr><tr><td>EMVDEF</td><td>1000000000</td><td>1000000000</td><td>1000000000</td></tr><tr><td>SKM</td><td>10000000</td><td>01000000</td><td>00000000</td></tr><tr><td>EDCID</td><td>2200</td><td>2200</td><td>2200</td></tr></tbody></table></div>
+<ul>
+<li>補充15. S80 的 Store ID、POS ID：工單「其它說明」若有 POS 號碼字眼，就設在 linear 的 POSID 欄位（信義的 POSID 和 Store ID 設相同，其他 Store ID 照下表）。若沒附 POS 號碼資料，依下表設定；沒有接 POS 機的分離版也一樣要設。</li>
+</ul>
+<div class="tbl"><table><thead><tr><th><strong>館別（for S80）</strong></th><th><strong>Store ID, POS ID</strong></th></tr></thead><tbody><tr><td>嘉義垂楊</td><td>統一預設值 000000</td></tr><tr><td>新光影城台南西門</td><td>統一預設值 000000</td></tr><tr><td>新竹中華</td><td>統一預設值 000000</td></tr><tr><td>信義四館</td><td>統一預設值 000000</td></tr><tr><td>台中中港</td><td>統一 111111</td></tr><tr><td>台北南西</td><td>統一預設值 000000</td></tr><tr><td>台南中山</td><td>統一預設值 000000</td></tr><tr><td>新光影城台中中港</td><td>統一預設值 000000</td></tr><tr><td>台北天母</td><td>統一預設值 000000</td></tr><tr><td>台北站前</td><td>統一預設值 000000</td></tr><tr><td>台南西門</td><td>統一預設值 000000</td></tr><tr><td>桃園大有</td><td>統一預設值 000000</td></tr><tr><td>高雄三多</td><td>統一預設值 000000</td></tr><tr><td>高雄左營</td><td>統一預設值 000000</td></tr><tr><td>桃園站前</td><td>統一預設值 000000</td></tr></tbody></table></div>
+<ul>
+<li>R50_DHCP 截圖值：BANKID 00、EMVDEF 1000000000、SKM 01000000、EDCID 2200、STOREID／POSID 空白、RDPGN R50qVSDC、PICKUP 1、TMSRPT FFFF、TMSRTY 1。</li>
+</ul>
+<h2 id="s46">第 3 章 台新 TSB、新光三越 SKM、AC PAY、IM10</h2>
+<h3 id="s47">TSB（台新）通用</h3>
+<h4 id="s48">連線方式（SKM 除外）</h4>
+<p class="src">來源：Confluence 原頁（內部）</p>
+<p>台新（TSB）相關收單行在 S 系列／A 系列共用的連線參數總表（NII、COMM Mode、各電信 IP、Port），以及悠遊卡、一卡通的 IP/Port 與連鎖店一卡通參數。新光三越（SKM）不適用本頁，請看 SKM 群組。</p>
+<p><strong>TSB Acquirer（收單行）檢核項目（S 系列／A 系列共用）</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>Acquirer</strong></th><th><strong>NII</strong></th><th><strong>COMM Mode</strong></th><th><strong>Transaction Phone 1</strong></th><th><strong>Transaction Phone 2</strong></th><th><strong>Settlement Phone 1</strong></th><th><strong>Settlement Phone 2</strong></th><th><strong>Transaction IP ADD 1</strong></th><th><strong>Transaction IP PORT 1</strong></th><th><strong>自動播號</strong></th></tr></thead><tbody><tr><td>TSB相關ACQ(含寄庫)</td><td>547(純撥接)
+544(TLS/WiFi/TNS)</td><td>(M撥接) (L網路) (G手機)</td><td>依單設定</td><td>依單設定</td><td>依單設定</td><td>依單設定</td><td>中華/台哥大TTN/宏遠 【內部 IP】
+遠傳/SEEDNET 【內部 IP】
+中嘉和網 【內部 IP】
+雙中心 【內部 IP】
+亞太 【內部 IP】
+第一網路 【內部 IP】</td><td>8012</td><td>【撥接電話】</td></tr><tr><td>501509(A系列不能設)</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>DCC</td><td>900</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>SmartPay</td><td>531</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>AE</td><td>004</td><td>（原表此格空白／欄位錯位，見下方說明）</td>【已遮罩】【已遮罩】【已遮罩】【已遮罩】<td>中華 【內部 IP】(開始)(舊:【內部 IP】)
+台哥大TTN/宏遠 【內部 IP】
+雙中心 【內部 IP】
+遠傳/SEEDNET 【內部 IP】
+中嘉和網 【內部 IP】 (舊:【內部 IP】)
+亞太 【內部 IP】
+第一網路 【內部 IP】</td><td>遠傳8018 其餘皆8012</td><td>（空白）</td></tr><tr><td>TIS_TSB</td><td>903</td><td>VPN/4G/TLS</td><td>TIS無撥接連線</td><td>TIS無撥接連線</td><td>TIS無撥接連線</td><td>TIS無撥接連線</td><td>中華/台哥大TTN/宏遠 【內部 IP】
+遠傳/SEEDNET 【內部 IP】
+中嘉和網 【內部 IP】
+雙中心 【內部 IP】
+亞太 【內部 IP】
+第一網路 【內部 IP】</td><td>9002</td><td>TIS無自動撥號</td></tr><tr><td>TIS_DCC</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>TIS_SP</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div>
+<div class="note">⚠️ 注意<br>・NII 依連線方式不同：純撥接用 <strong>547</strong>，TLS／WiFi／TNS 用 <strong>544</strong>。<br>・「501509」這列在原表中只有名稱，註明 <strong>A 系列不能設</strong>。<br>・AE 的 IP 依電信不同，且 <strong>Port 遠傳為 8018，其餘皆為 8012</strong>；中華與中嘉和網的 IP 有新舊之分，請用新值（舊值僅供比對）。<br>・AE 列在原表中電話號碼往前錯一格（COMM Mode 欄位顯示的是電話），本表已依欄位意義對齊：Transaction Phone 1/2 與 Settlement Phone 1/2 分別為 【撥接電話】 / 【撥接電話】。若有疑慮請至原頁確認。<br>・TIS（電簽）沒有撥接連線，也沒有自動撥號；TIS_DCC、TIS_SP 原表未列參數。</div>
+<p><strong>悠遊卡 IP/Port</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>項目</strong></th><th><strong>SVC ECC TLS</strong></th><th><strong>SVC ECC 非 TLS</strong></th></tr></thead><tbody><tr><td>IP</td><td>【內部 IP】</td><td>【內部 IP】</td></tr><tr><td>Port</td><td>S:7200/A:7100</td><td>6500</td></tr><tr><td>TLS開關</td><td>1</td><td>0</td></tr><tr><td>電文長度</td><td>0</td><td>1</td></tr></tbody></table></div>
+<p><strong>悠遊卡設定</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>參數</strong></th><th><strong>值</strong></th></tr></thead><tbody><tr><td>門市代號</td><td>DTID</td></tr><tr><td>特店代號</td><td>工單須提供</td></tr></tbody></table></div>
+<div class="note">⚠️ 注意<br>・<strong>正式機拉 r 的 APP，測試機拉 d 的 APP。</strong><br>・悠遊卡 TLS Port 依機型不同：S 系列 7200、A 系列 7100。</div>
+<p><strong>一卡通 IP/Port</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>環境</strong></th><th><strong>中華VPN（IP / Port）</strong></th><th><strong>TLS（URL / Port）</strong></th></tr></thead><tbody><tr><td>正式</td><td>【內部 IP】 / 8888</td><td>taps.i-pass.com.tw / 8899</td></tr><tr><td>測試</td><td>【內部 IP】 / 8888</td><td>taps-st.i-pass.com.tw / 8899</td></tr></tbody></table></div>
+<p>（原表格式錯位，Port 8888／8899 分別對應 VPN 與 TLS，已依此整理。）</p>
+<p><strong>測試機 &amp; 連鎖店一卡通設定</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>項目</strong></th><th><strong>TLS開關 (0：非TLS，1：TLS)</strong></th><th><strong>TLS URL (走TLS)</strong></th><th><strong>VPN IP (非TLS)</strong></th><th><strong>URL 或 VPN 的 Port (需依照連線方式設定)</strong></th><th><strong>業者代碼 (銀行需提供)</strong></th><th><strong>商店代碼 (銀行需提供)</strong></th><th><strong>併機銀行代碼 (銀行需提供)</strong></th><th><strong>商店統一編號 (銀行需提供)</strong></th></tr></thead><tbody><tr><td>測試機</td><td>1</td><td>taps.i-pass.com.tw</td><td>【內部 IP】</td><td>8899</td><td>ACFFFFFF</td>【已遮罩】<td>11223344</td>【已遮罩】</tr><tr><td>ＭＯＳ</td><td>0</td><td>taps.i-pass.com.tw</td><td>【內部 IP】</td><td>8888</td><td>AD017104</td><td>工單需提供</td><td>00000812</td>【已遮罩】</tr><tr><td>昇恒昌台中機場</td><td>0</td><td>taps.i-pass.com.tw</td><td>【內部 IP】</td><td>8888</td><td>AD01AF04</td><td>工單需提供</td><td>00000812</td>【已遮罩】</tr><tr><td>昇恒昌松山免稅店</td><td>0</td><td>taps.i-pass.com.tw</td><td>【內部 IP】</td><td>8888</td><td>AD01B004</td><td>工單需提供</td><td>00000812</td>【已遮罩】</tr><tr><td>昇恒昌旗艦店</td><td>0</td><td>taps.i-pass.com.tw</td><td>【內部 IP】</td><td>8888</td><td>AD01AE04</td><td>工單需提供</td><td>00000812</td>【已遮罩】</tr></tbody></table></div>
+<div class="note">⚠️ 注意<br>・Port 要跟著連線方式走：走 TLS 用 8899，走 VPN（非 TLS）用 8888。<br>・業者代碼、商店代碼、併機銀行代碼、商店統一編號由銀行提供；連鎖店的「商店代碼」需看工單。<br>・原頁「測試機」列的 VPN IP 為 【內部 IP】，與上方「一卡通 IP/Port」表的測試 VPN IP（【內部 IP】）不同，設定前請向主管或原頁確認。</div>
+<h4 id="s49">A 系列設定</h4>
+<p class="src">來源：Confluence 原頁（內部）</p>
+<p>台新 A 系列（Android 機型，如 A920）的 TLS URL／NII、ATOMS 連線方式與 aTMS 通訊模式對照，以及測試錢包參數。</p>
+<p><strong>A 系列 TLS 設定資訊 URL/NII</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>授權類型</strong></th><th><strong>URL/NII</strong></th></tr></thead><tbody><tr><td>TSB授權</td><td>【內部 IP】；NII:544</td></tr><tr><td>SP授權</td><td>【內部 IP】；NII:531</td></tr><tr><td>DCC授權</td><td>【內部 IP】；NII:900</td></tr><tr><td>AE授權 (無電簽)</td><td>【內部 IP】；NII:004</td></tr><tr><td>電簽 (TSB、SP、DCC)</td><td>【內部 IP】；NII:903</td></tr></tbody></table></div>
+<p><strong>ATOMS 連線方式 / aTMS 設定</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>ATOMS 連線方式</strong></th><th><strong>Additional 通訊方式</strong></th><th><strong>ACQ 通訊模式</strong></th></tr></thead><tbody><tr><td>Dial-Up</td><td>M</td><td>M</td></tr><tr><td>4G</td><td>T</td><td>G</td></tr><tr><td>Wifi</td><td>T</td><td>W</td></tr><tr><td>TNS</td><td>T</td><td>TNS</td></tr><tr><td>TCP/IP+Internet TLS+有交易電話</td><td>TM</td><td>MLG</td></tr><tr><td>TCP/IP+Internet TLS+無交易電話</td><td>T</td><td>LG</td></tr><tr><td>TCP/IP+無Internet TLS+有交易電話</td><td>TM</td><td>ML</td></tr><tr><td>TCP/IP+無Internet TLS+無交易電話</td><td>T</td><td>L</td></tr></tbody></table></div>
+<p><strong>測試錢包設定資訊（正式機依工單資訊設定）</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>Type</strong></th><th><strong>Wallet</strong></th><th><strong>MID *</strong></th><th><strong>TID *</strong></th><th><strong>Store ID</strong></th><th><strong>Token Key</strong></th><th><strong>應⽤識別碼</strong></th></tr></thead><tbody><tr><td>I</td><td>LETSPAY</td><td>A920</td>【已遮罩】<td>sid004</td>【已遮罩】<td></td></tr><tr><td>I</td><td>LINEPAY</td><td>A920</td>【已遮罩】<td>sid001</td>【已遮罩】<td></td></tr><tr><td>I</td><td>Pi行動錢包</td><td>A920</td>【已遮罩】<td>S1</td>【已遮罩】<td></td></tr><tr><td>I</td><td>街口支付</td><td>A920</td>【已遮罩】<td>sid003</td>【已遮罩】<td></td></tr><tr><td>I</td><td>歐付寶</td><td>A920</td>【已遮罩】<td>sid002</td>【已遮罩】<td></td></tr><tr><td>O</td><td>HANA</td>【已遮罩】<td>TID01</td><td>sid001</td>【已遮罩】<td></td></tr><tr><td>O</td><td>支付寶</td>【已遮罩】<td>T01</td><td>SID01B</td>【已遮罩】<td></td></tr><tr><td>O</td><td>微信支付</td>【已遮罩】<td>TID001</td><td>SID001</td>【已遮罩】<td></td></tr><tr><td>O</td><td>PayPay</td>【已遮罩】<td>T01</td><td>TEST</td>【已遮罩】<td>D2760000850101</td></tr></tbody></table></div>
+<div class="note">⚠️ 注意<br>・上表錢包參數<strong>僅限測試機</strong>，正式機一律依工單資訊設定。<br>・AE 授權<strong>沒有電簽</strong>；電簽（TSB、SP、DCC）走 Port 9002、NII 903。<br>・<strong>NFC 感應掃碼優先：工單有備註才開。</strong><br>・原頁頂端有一個空白區塊／巨集（匯出時內容遺失），若需確認請至原頁查看。</div>
+<h4 id="s50">S 系列設定</h4>
+<p class="src">來源：Confluence 原頁（內部）</p>
+<p>台新 S 系列（如 S80、S300）的 TLS 連線資訊、S80 DCC 小費設定，以及 TSBEPAY 版（電子化繳費）各情境的設定步驟。</p>
+<p><strong>TLS 連線資訊（傳統新 TLS）</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>傳統新TLS</strong></th><th><strong>TSB ACQ</strong></th><th><strong>DCC ACQ</strong></th><th><strong>SP ACQ</strong></th><th><strong>AE ACQ</strong></th><th><strong>TIS (TSB/ DCC/ SP)</strong></th></tr></thead><tbody><tr><td>URL</td><td>mpos.taishinbank.com.tw</td><td></td><td></td><td></td><td></td></tr><tr><td>PORT</td><td>8016</td><td>8016</td><td>8016</td><td>8016</td><td>9002</td></tr><tr><td>NII</td><td>544</td><td>900</td><td>531</td><td>004</td><td>903</td></tr></tbody></table></div>
+<p>（原表 URL 僅出現在 TSB ACQ 欄，其他欄空白，可能是原頁合併儲存格；請至原頁確認是否全欄共用此 URL。）</p>
+<p><strong>S80 DCC 交易小費設定</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>項目</strong></th><th><strong>小費 (有)</strong></th><th><strong>小費 (無)</strong></th></tr></thead><tbody><tr><td>DCC交易</td><td>有</td><td>無</td></tr><tr><td><strong>DCC ISS 檢核項目：</strong> 不可做小費</td><td>關閉，且加勾調整交易</td><td>關閉/開啟皆可</td></tr><tr><td><strong>DCC ACQ 檢核項目：</strong> DCC F&amp;B 流程</td><td>新增時必開，異動則不動原設定</td><td>關閉</td></tr></tbody></table></div>
+<p><strong>TSBEPAY 版設定</strong></p>
+<div class="note">⚠️ 注意<br>・linear 都拉跟 MGRTSB/MGRNEW 一樣；<strong>有接 S300P 就拉 TIS_TSB</strong>，沒接就拉一般 R50_TMSRPT 或 R50_TMSRPT(=0)。<br>・<strong>TSBEPAY 版 TSB ACQ 的 NII 都是設 611</strong>（與一般台新 544/547 不同）。</div>
+<div class="tbl"><table><thead><tr><th><strong>VPN</strong></th><th><strong>IP</strong></th><th><strong>PORT</strong></th></tr></thead><tbody><tr><td>雙中心 VPN</td><td>【內部 IP】</td><td>8015</td></tr><tr><td>中華 VPN</td><td>【內部 IP】</td><td>8015</td></tr></tbody></table></div>
+<p><strong>情境一：櫃台（信用卡 &amp; SMARTPAY）（插卡、刷卡、感應）</strong></p>
+<p>1. 開啟【電子化繳費平台】開關</p>
+<p>2. 線性參數 VERSION=&quot;0000&quot;</p>
+<p>3. 線性參數 PICKUP=&quot;1&quot;</p>
+<p>4. 要拉 BANKID.DAT</p>
+<p>5. 基本上不開 PINPAD（AP 說開了也沒關係）</p>
+<p><strong>情境二：KIOSK（現金 &amp; SMARTPAY）（插卡、感應）</strong></p>
+<p>1. 關閉【電子化繳費平台】開關</p>
+<p>2. 開啟【ECR交易不列印簽單】開關</p>
+<p>3. 線性參數 VERSION=&quot;KIOSK&quot;</p>
+<p>4. 關閉 PINPAD 開關</p>
+<p>5. 線性參數 PICKUP=&quot;0&quot;</p>
+<p>6. 要拉 BANKID.DAT（Ivor 說就算沒開【電子化繳費平台】開關，有拉這個也沒關係）</p>
+<p><strong>情境三：KIOSK（信用卡 &amp; SMARTPAY）（感應 ONLY）</strong></p>
+<p>1. 開啟【電子化繳費平台】開關</p>
+<p>2. 開啟【ECR交易不列印簽單】開關</p>
+<p>3. 線性參數 VERSION=&quot;KIOSK&quot;</p>
+<p>4. PINPAD 依單</p>
+<p>5. 開啟【是否只能感應(TSBEPAY)】</p>
+<p>6. 線性參數 PICKUP=&quot;0&quot;</p>
+<p>7. 要拉 BANKID.DAT</p>
+<div class="note">⚠️ 三種情境的差異重點：櫃台 VERSION=&quot;0000&quot;、PICKUP=&quot;1&quot;；KIOSK 一律 VERSION=&quot;KIOSK&quot;、PICKUP=&quot;0&quot; 且開【ECR交易不列印簽單】；只有「現金 &amp; SMARTPAY」KIOSK 要<strong>關閉</strong>【電子化繳費平台】。三種都要拉 BANKID.DAT。</div>
+<p><strong>新增 TLS 設定（TSBEPAY）</strong></p>
+<ul>
+<li>新增線性參數 TSB_CA:TSB.CER</li>
+<li>開啟線路加密</li>
+<li>開啟 SSL 連線</li>
+<li>新增 Parameter File: TSB.CER</li>
+</ul>
+<p>URL/PORT/NII 改為如下：</p>
+<div class="tbl"><table><thead><tr><th><strong>項目</strong></th><th><strong>TSB ACQ</strong></th><th><strong>SP ACQ</strong></th><th><strong>TIS (TSB/ SP)</strong></th></tr></thead><tbody><tr><td>COMM Mode</td><td>MLG/LG</td><td>MLG/LG</td><td>LG</td></tr><tr><td>URL</td><td>webpos.fisc.com.tw</td><td>mpos.taishinbank.com.tw</td><td>mpos.taishinbank.com.tw</td></tr><tr><td>PORT</td><td>6677</td><td>8016</td><td>9002</td></tr><tr><td>NII</td><td>611</td><td>531</td><td>903</td></tr></tbody></table></div>
+<div class="note">⚠️ TSBEPAY TLS 的 <strong>TSB ACQ 走財金 webpos.fisc.com.tw:6677</strong>，不是台新 mpos 網址，容易設錯。</div>
+<h3 id="s51">SKM（新光三越）</h3>
+<h4 id="s52">SKM 連線方式</h4>
+<p class="src">來源：Confluence 原頁（內部）</p>
+<p>新光三越各館的 ACQ 代碼與各收單（TSB／DCC／SP／TIS）IP，全機型共用，採雙中心架構。</p>
+<p><strong>各館 IP（全機型共用，雙中心架構）</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>項目</strong></th><th><strong>TSB</strong></th><th><strong>DCC</strong></th><th><strong>SP</strong></th><th><strong>TIS</strong></th></tr></thead><tbody><tr><td>NII</td><td>520</td><td>545</td><td>531</td><td>903</td></tr><tr><td>Port</td><td>8012</td><td>8012</td><td>8012</td><td>9002</td></tr></tbody></table></div>
+<div class="tbl"><table><thead><tr><th><strong>館別</strong></th><th><strong>ACQ</strong></th><th><strong>TSB</strong></th><th><strong>DCC</strong></th><th><strong>SP</strong></th><th><strong>TIS</strong></th></tr></thead><tbody><tr><td>三越南西天地</td><td>tsbskmnc</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td></tr><tr><td>三越台北站前店</td><td>tsbskmtp</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td></tr><tr><td>三越信義天地A4</td><td>tsbskmse</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td></tr><tr><td>三越信義天地A8</td><td>tsbskmse</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td></tr><tr><td>三越信義天地A9</td><td>tsbskmse</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td></tr><tr><td>三越信義天地A11</td><td>tsbskmse</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td></tr><tr><td>三越天母店</td><td>tsbskmtm</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td></tr><tr><td>三越桃園大有店</td><td>tsbskmtu</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td></tr><tr><td>三越台中店</td><td>tsbskmtc</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td></tr><tr><td>三越台南中山店</td><td>tsbskmtn</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td></tr><tr><td>三越台南西門店</td><td>tsbskmsm</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td></tr><tr><td>三越高雄三多店</td><td>tsbskmks</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td></tr><tr><td>三越嘉義店</td><td>tsbskmcy</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td></tr><tr><td>三越桃園站前店</td><td>tsbskmty</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td></tr><tr><td>三越高雄左營店</td><td>tsbskmzy</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td></tr><tr><td>三越台北忠孝店</td><td>（原表空白）</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td></tr><tr><td>三越台南小北門店</td><td>（原表空白）</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td><td>【內部 IP】</td></tr></tbody></table></div>
+<div class="note">⚠️ 注意<br>・TSB／DCC／SP 共用 <strong>x.x.x.31</strong>（Port 8012），TIS 電簽用 <strong>x.x.x.32</strong>（Port 9002）。<br>・信義天地 A4、A8、A9、A11 共用同一組 ACQ 代碼（tsbskmse）與 IP。<br>・SKM 的 NII 與一般台新不同（TSB 520、DCC 545），不要套用「連線方式(SKM除外)」的值。<br>・原表 NII／Port 列有一格錯位（數值排在「ACQ」欄起），本表依 4 個數值對應 TSB、DCC、SP、TIS 整理；若有疑慮請至原頁確認。<br>・台北忠孝店、台南小北門店的 ACQ 代碼原表空白。</div>
+<h4 id="s53">SKM A920 設定</h4>
+<p class="src">來源：Confluence 原頁（內部）</p>
+<p>新光三越 A920 的 EDC 設定項目、悠遊卡（SVC）變動參數算法，以及各館特店代號／TMID 對照表。</p>
+<p><strong>EDC 設定項目</strong></p>
+<ul>
+<li>不用開結帳自動更新</li>
+<li>MEMO：放店名（EX：桃園大有店）</li>
+<li>交易電文加密、檢查重複交易、等候移開卡片：固定開啟</li>
+<li>教育訓練模式、支援電子簽單：依單設定</li>
+<li>固定開櫃號（工單可能不會勾）</li>
+<li>ISS 功能照單設定</li>
+</ul>
+<p><strong>SVC 變動參數說明</strong>（下列四個參數會彈性變動）</p>
+<div class="tbl"><table><thead><tr><th><strong>參數</strong></th><th><strong>說明</strong></th><th><strong>範例</strong></th></tr></thead><tbody><tr><td>ECC_PORT</td><td>EZHost 主機 Port</td><td>8602（8 + 各店特店代號）</td></tr><tr><td>ECC_TMLOCATION_ID</td><td>門市代碼</td><td>9998110100（DTID + 00）</td></tr><tr><td>ECC_TMID</td><td>機台代碼</td><td>特店代號 602，取後兩碼 02</td></tr><tr><td>ECC_MESSAGE_HEADER</td><td>訊息標頭</td><td>99906020（9990 + 各店特店代號 + 0）</td></tr></tbody></table></div>
+<p><strong>館別特店代號／TMID 對照表</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>店別</strong></th><th><strong>特店代號</strong></th><th><strong>TMID</strong></th></tr></thead><tbody><tr><td>桃園大有一館</td><td>626</td><td>26</td></tr><tr><td>桃園大有二館</td><td>783</td><td>83</td></tr><tr><td>桃園站前店</td><td>627</td><td>27</td></tr><tr><td>高雄三多店</td><td>629</td><td>29</td></tr><tr><td>台南中山店</td><td>630</td><td>30</td></tr><tr><td>台南西門一館</td><td>631</td><td>31</td></tr><tr><td>台南西門二館</td><td>780</td><td>80</td></tr><tr><td>嘉義垂楊店</td><td>632</td><td>32</td></tr><tr><td>高雄左營一館</td><td>633</td><td>33</td></tr><tr><td>高雄左營二館</td><td>634</td><td>34</td></tr></tbody></table></div>
+<div class="note">⚠️ 注意<br>・<strong>一定要比照目前佈機中設定 &amp; 做參數比對。</strong><br>・「固定開櫃號」即使工單沒勾也要開。<br>・SVC 四個參數都由「特店代號」推導，例如特店代號 626 → ECC_PORT 8626、ECC_TMID 26、ECC_MESSAGE_HEADER 99906260。</div>
+<h4 id="s54">SKM S300 設定</h4>
+<p class="src">來源：Confluence 原頁（內部）</p>
+<p>新光三越 S300 的 Acquirer／Issuer／Linear 檢核項目與遮碼參數。S300 皆為結合版。</p>
+<p><strong>Acquirer 檢核項目</strong></p>
+<p>除電簽、DHCP、教育訓練照單設定外，其他都開啟。</p>
+<ul>
+<li>小費設定：小費在 Acquirer 設定即可。通常有小費交易的話，全部交易都會開，只要把 ACQ=TSB.TSB_DCC 的 Option 中「小費交易(S300)」開啟即可，其餘不動。</li>
+<li>教育訓練機：不放網段、不設回報時間。</li>
+</ul>
+<p><strong>Issuer 檢核項目</strong>（共四項有功能，檢查下列四項即可）</p>
+<p>1. Manual PAN Entry（允許輸入卡號）</p>
+<p>2. PAN Mod 10 Check</p>
+<p>3. Check Expiry on All Transactions</p>
+<p>4. 4DBC/CVV2 Swiped Entry</p>
+<p><strong>Linear 檢核項目</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>Linear 參數</strong></th><th><strong>設定值</strong></th></tr></thead><tbody><tr><td>POSID</td><td>其它說明有「POS 號碼」字眼時設在此欄；若沒附 POS 號碼資料，設為 147852</td></tr><tr><td>STOREID</td><td>一律設 852369</td></tr><tr><td>TMSRPT</td><td>檢核方式請至 TMS 跑報表</td></tr><tr><td>PICKUP</td><td>1（新光三越一律設 1）</td></tr><tr><td>EDCID</td><td>2200</td></tr><tr><td>TMSSIGN</td><td>0</td></tr><tr><td>IPASS</td><td>1</td></tr></tbody></table></div>
+<p><strong>遮碼線性參數</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>Linear參數名稱</strong></th><th><strong>預設值</strong></th></tr></thead><tbody><tr><td>MERMASK</td><td>0604</td></tr><tr><td>CUSMASK</td><td>0604</td></tr><tr><td>MASK</td><td>0903</td></tr></tbody></table></div>
+<div class="note">⚠️ 注意<br>・<strong>S300 皆為結合版，但需留意是否勾 ECR、是否有小費。</strong><br>・小費只要開 ACQ=TSB.TSB_DCC 的「小費交易(S300)」，其餘不動。<br>・<strong>一定要比照目前佈機中設定 &amp; 做參數比對。</strong></div>
+<h4 id="s55">SKM S80 設定</h4>
+<p class="src">來源：Confluence 原頁（內部）</p>
+<p>新光三越 S80 自 MGRSKM1.034 起的設定注意事項、ECR 結合版差異、各館 Store ID／POS ID，以及補登版／結合版／分離版的參數差異。</p>
+<p><strong>MGRSKM1.034 設定注意事項</strong></p>
+<p>MGRSKM1.034 起，請留意小費、人工輸入、ECR 連線等設定：</p>
+<ul>
+<li>注意是否有小費交易，若有，請仿照台新設法處理。</li>
+<li>補登版與分離版的差別在於是否支援人工輸入。</li>
+<li>若有人工輸入功能，則為補登版，R50 需關閉以下兩欄：Enable CLSS（感應交易）（原頁只列出這一欄，第二欄未顯示）</li>
+<li>若無人工輸入，且工單未提及感應交易，則仍需開啟感應交易及感應退貨功能。</li>
+<li>S80 的 TCP/IP 設定，需確認是否為固定 IP。若是 DHCP，則需開啟「真。DHCP」功能。</li>
+</ul>
+<p><strong>S80 ECR 連線設定（結合版）</strong></p>
+<p>S80 若開啟 ECR（結合版），設定方式與分離版相同，但有四個主要差異：</p>
+<p>1. 預設 POSID 和 STOREID。</p>
+<p>2. SKM 設定為 0100000。</p>
+<p>3. 開啟 ECR 功能。</p>
+<p>4. 高雄三多店補登、結合、分離版皆有安裝。</p>
+<p><strong>S80 Store ID、POS ID 設定</strong></p>
+<ul>
+<li>若其他說明文件有提及 POS 號碼，則代表該號碼需設定在 linear 的 POSID 欄位。</li>
+<li>信義店的 POSID 和 Store ID 設定相同，其他店鋪的 Store ID 請參考下方表格。</li>
+<li>若其他說明文件未提供 POS 號碼資料，請依下方表格設定。</li>
+</ul>
+<div class="tbl"><table><thead><tr><th><strong>館別 (for S80)</strong></th><th><strong>Store ID, POS ID</strong></th></tr></thead><tbody><tr><td>嘉義垂楊</td><td>統一預設值 000000。</td></tr><tr><td>新光影城台南西門</td><td>統一預設值 000000。</td></tr><tr><td>新竹中華</td><td>統一預設值 000000。</td></tr><tr><td>信義四館</td><td>統一預設值 000000。</td></tr><tr><td>台中中港</td><td>統一 111111。</td></tr><tr><td>台北南西</td><td>統一預設值 000000。</td></tr><tr><td>台南中山</td><td>統一預設值 000000。</td></tr><tr><td>桃園大有</td><td>統一預設值 000000。</td></tr><tr><td>高雄三多</td><td>統一預設值 000000。</td></tr><tr><td>高雄左營</td><td>統一預設值 000000。</td></tr><tr><td>桃園站前</td><td>統一預設值 000000。</td></tr><tr><td>台北忠孝</td><td>統一預設值 000000。</td></tr><tr><td>台南小北門</td><td>統一預設值 000000。</td></tr><tr><td>新光影城台中中港</td><td>統一預設值 000000</td></tr><tr><td>台北天母</td><td>統一預設值 000000。</td></tr><tr><td>台北站前</td><td>統一預設值 000000。</td></tr><tr><td>台南西門</td><td>統一預設值 000000。</td></tr></tbody></table></div>
+<p><strong>補登版／結合版／分離版設定差異</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>參數</strong></th><th><strong>補登版（後臺用）</strong></th><th><strong>結合版</strong></th><th><strong>分離版（櫃台用，常態分期）</strong></th></tr></thead><tbody><tr><td>BANKID</td><td>00</td><td>00</td><td>00</td></tr><tr><td>EMVDEF</td><td>1000000000</td><td>1000000000</td><td>1000000000</td></tr><tr><td>SKM</td><td>10000000</td><td>01000000</td><td>00000000</td></tr><tr><td>EDCID</td><td>2200</td><td>2200</td><td>2200</td></tr><tr><td>ECR</td><td>（原表未註明）</td><td>TMS 的 ECR 要勾</td><td>沒 ECR</td></tr><tr><td>手輸卡號</td><td>可手輸卡號</td><td>不可手輸卡號</td><td>不可手輸卡號</td></tr></tbody></table></div>
+<p>（原表為「參數名／值」交錯排列且有錯位，本表依欄位意義重排；補登版第一列原文顯示為「補登版 | 00」，推定為 BANKID=00。ECR 那列原文位置錯位，「TMS 的 ECR 要勾」推定屬結合版、「沒 ECR」屬分離版。若有疑慮請至原頁確認。）</p>
+<div class="note">⚠️ 注意<br>・<strong>台中中港的 Store ID／POS ID 是 111111</strong>，其他館都是 000000，容易漏改。<br>・補登版＝可手輸卡號（R50 要關閉感應）；分離版＝不可手輸；結合版＝不可手輸且要勾 TMS 的 ECR。<br>・結合版 SKM 參數在「ECR 連線設定」段落寫為 <strong>0100000（7 碼）</strong>，但差異表中為 <strong>01000000（8 碼）</strong>，兩處不一致，請以佈機中實際設定為準並向主管確認。<br>・DHCP 環境要開「真。DHCP」。<br>・<strong>一定要比照目前佈機中設定 &amp; 做參數比對。</strong></div>
+<h3 id="s56">AC PAY（交流資服）</h3>
+<h4 id="s57">AC CTBC 參數設定 &amp; cardbin</h4>
+<p class="src">來源：Confluence 原頁（內部）</p>
+<p>交流資服（AC PAY）搭配中國信託（CTBC）收單時的連線方式、新裝機預設、EDC／SVC 參數與 cardbin 模式對照。</p>
+<p><strong>連線方式</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>項目</strong></th><th><strong>設定</strong></th></tr></thead><tbody><tr><td>CTBC 連線方式</td><td>只有 4G</td></tr><tr><td>CTBC IP/PORT</td><td>【內部 IP】/1503</td></tr><tr><td>悠遊卡 &amp; 一卡通</td><td>一律設定 TLS（同台新銀行）</td></tr></tbody></table></div>
+<p><strong>新裝機預設</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>開關</strong></th><th><strong>預設</strong></th></tr></thead><tbody><tr><td>外接POS結帳不更新(AC)</td><td>新裝機預設開啟</td></tr><tr><td>不印簽單(EPAY/AC)</td><td>新裝機預設關閉</td></tr><tr><td>結帳不印結帳報表(AC)</td><td>新裝機工單通常都會寫要開啟，但沒寫不開</td></tr></tbody></table></div>
+<p><strong>EDC/SVC 參數 &amp; APP 設定</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>需求</strong></th><th><strong>設定方式</strong></th></tr></thead><tbody><tr><td>EDC 不列印結帳條，僅列印 ACpay 結帳條</td><td>開啟「結帳不印結帳報表(AC)」</td></tr><tr><td>關閉國際 Pay</td><td>拒絕手機感應交易:1</td></tr><tr><td>新增簽單列印 QR Code</td><td>簽單列印QRCode:1</td></tr><tr><td>SVP APP</td><td>無 ECR 連線時要勾隱藏，有 ECR 連線時不勾隱藏</td></tr><tr><td>一卡通關閉列印功能</td><td>SVC 參數開關 ECR 不列印簽單（TERM_ECR_NOT_PRINT:0 改 1）</td></tr></tbody></table></div>
+<p><strong>Cardbin 模式</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>模式</strong></th><th><strong>cardbin</strong></th></tr></thead><tbody><tr><td>全走中信 (中信線下)</td><td>cardbin_B</td></tr><tr><td>AIO中信</td><td>cardbin_AConly</td></tr><tr><td>聯邦、永豐、台新、國泰全走AIO + 其他收單行都走原本EDC</td><td>cardbin_SINO_UB_TSB_CUB</td></tr><tr><td>非實體卡走線下，其它走線上AIO</td><td>cardbin_VJMvirtualOffLine_othAIO</td></tr><tr><td>全走AIO (沒有國際PAY/銀聯/分期)</td><td>cardbin_AConly</td></tr></tbody></table></div>
+<div class="note">⚠️ 注意<br>・<strong>新版本上線時，客服未通知都先不要使用新版本。</strong><br>・<strong>cardbin 切換時，檔案日期要比異動前的新才能夠安裝成功。</strong><br>・「AIO中信」與「全走AIO」都使用 cardbin_AConly。<br>・CTBC 只有 4G 連線，沒有其他選項。</div>
+<h4 id="s58">AC TSB 參數設定 &amp; cardbin</h4>
+<p class="src">來源：Confluence 原頁（內部）</p>
+<p>交流資服（AC PAY）搭配台新（TSB）收單時的連線方式、新裝機預設、EDC 參數與 cardbin 模式對照。內容與 CTBC 版大致相同，差別在連線方式與 cardbin 模式名稱。</p>
+<p><strong>連線方式</strong></p>
+<ul>
+<li>TSB 連線方式不論為 4G／WIFI 一律設定 TSB TLS</li>
+<li>IP/Port/URL 同台新銀行（見「TSB（台新）通用」群組）</li>
+<li>悠遊卡 &amp; 一卡通連線方式一律設定 TLS（同台新銀行）</li>
+</ul>
+<p><strong>新裝機預設</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>開關</strong></th><th><strong>預設</strong></th></tr></thead><tbody><tr><td>外接POS結帳不更新(AC)</td><td>新裝機預設開啟</td></tr><tr><td>不印簽單(EPAY/AC)</td><td>新裝機預設關閉</td></tr><tr><td>結帳不印結帳報表(AC)</td><td>新裝機工單通常都會寫要開啟，但沒寫不開</td></tr></tbody></table></div>
+<p><strong>EDC 交易參數 &amp; APP 設定</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>需求</strong></th><th><strong>設定方式</strong></th></tr></thead><tbody><tr><td>EDC 不列印結帳條，僅列印 ACpay 結帳條</td><td>開啟「結帳不印結帳報表(AC)」</td></tr><tr><td>關閉國際 Pay</td><td>拒絕手機感應交易:1</td></tr><tr><td>新增簽單列印 QR Code</td><td>簽單列印QRCode:1</td></tr><tr><td>SVP APP</td><td>無 ECR 連線時要勾隱藏，有 ECR 連線時不勾隱藏</td></tr><tr><td>一卡通關閉列印功能</td><td>SVC 參數開關 ECR 不列印簽單（TERM_ECR_NOT_PRINT:0 改 1）</td></tr></tbody></table></div>
+<p><strong>Cardbin 模式對照表</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>模式</strong></th><th><strong>cardbin</strong></th></tr></thead><tbody><tr><td>全走台新 (台新線下)</td><td>cardbin_B</td></tr><tr><td>AIO台新</td><td>cardbin_AConly</td></tr><tr><td>聯邦、永豐、台新、國泰全走AIO + 其他收單行都走原本EDC</td><td>cardbin_SINO_UB_TSB_CUB</td></tr><tr><td>非實體卡走線下，其它走線上AIO</td><td>cardbin_VJMvirtualOffLine_othAIO</td></tr><tr><td>全走AIO (沒有國際PAY/銀聯/分期)</td><td>cardbin_AConly</td></tr></tbody></table></div>
+<div class="note">⚠️ 注意<br>・<strong>新版本上線時，客服未通知都先不要使用新版本。</strong><br>・<strong>cardbin 切換時，檔案日期要比異動前的新才能夠安裝成功。</strong><br>・TSB 不論 4G 或 WIFI 都設 TSB TLS。</div>
+<h3 id="s59">IM10 版本及收單</h3>
+<h4 id="s60">版本及收單資訊</h4>
+<p class="src">來源：Confluence 原頁（內部）</p>
+<p>IM10 機型的 Linear Version 版本號、收單行（SUBVER）設定，以及依 TMS 主機決定連線方式。（頁面本身未寫機型名稱，依資料夾位置推定屬 IM10。）</p>
+<p><strong>Linear Version 資訊</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>Version</strong></th><th><strong>版本號</strong></th></tr></thead><tbody><tr><td>華碩</td><td>0003</td></tr><tr><td>非華碩</td><td>0002</td></tr></tbody></table></div>
+<p><strong>收單設定</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>Linear SUBVER</strong></th><th><strong>說明</strong></th></tr></thead><tbody><tr><td>MEGA</td><td>兆豐收單</td></tr><tr><td>TCB</td><td>合庫收單</td></tr></tbody></table></div>
+<p><strong>TMS 設定</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>TMS 主機</strong></th><th><strong>連線方式</strong></th></tr></thead><tbody><tr><td>77.11 TMS</td><td>TSB TLS</td></tr><tr><td>77.3 TMS</td><td>FISC TLS</td></tr></tbody></table></div>
+<div class="note">⚠️ 注意<br>・連線方式要看終端設定在哪一台 TMS：77.11 → TSB TLS；77.3 → FISC TLS。<br>・其餘設定比照已裝機出去的設定。</div>
+<h2 id="s61">第 4 章 其他銀行設定</h2>
+<h3 id="s62">各銀行快速對照</h3>
+<div class="tbl"><table><thead><tr><th><strong>銀行</strong></th><th><strong>主要 Acquirer 與 NII</strong></th><th><strong>連線方式重點</strong></th><th><strong>特別注意</strong></th></tr></thead><tbody><tr><td>環匯 GP</td><td>GP &amp; SP（一般/郵購/分期）010、AE 003 / 004、DINERS 288、DCC 050、CUP 042、TIS 903</td><td>自有主機（中華 【內部 IP】 等）；TIS 走 TLS/TNS 時設 【內部 IP】，TLS URL 現在都設 【內部網址】 Roaming SIM 有專用 APN 與 IP</td><td>TIS 走 TCP/IP &amp; 4G SIM VPN（中華）時改設 【內部 IP】 / 15322 且不開 TIS 使用 TLS 連線</td></tr><tr><td>凱基 KGIB（A 系列）</td><td>NCCC 297、AE 004</td><td>走 NCCC（一般交易 IP Port 18012）；A910 無 AE 時 4G 卡走 TLS，有 AE 時走 VPN；A80 一般交易走 TLS、AE 走撥接</td><td>A910 有 AE 就不能用電簽；沒有 AE 就不能有撥接備援；EPAY 客製化版本預設 EPAY_KGI_OP</td></tr><tr><td>凱基 KGIB（傳統）</td><td>NCCC 297、AE 004</td><td>走 NCCC（一般交易 IP Port 18012）</td><td>設定比照元大；檢核重覆交易／結帳明細依卡別分／熱鍵都不勾；小費調帳比 30</td></tr><tr><td>台中銀行 TCB（頁名「台企TCB」）</td><td>NCCC 297、AE 004</td><td>走 NCCC（一般交易 IP Port 18012），NCCC 有台北／台中／高雄撥接代表號</td><td>一般交易 MAC 必勾、AE 不能勾；補登交易強制連線(NCCC)必開；顯示/列印名稱設「台中銀行」</td></tr><tr><td>台灣企銀 TBB</td><td>FISC 950、FISC_INST 435、Smart Pay 620、AE 004</td><td>走財金 FISC；TLS URL webpos.fisc.com.tw:6677（Smart Pay 為 :6678）</td><td>AE 不走 TLS；沒有小額免簽；RS232 400BYTE；SP 的 MCC 5912、分行 0040 固定</td></tr><tr><td>彰化銀行 CHB（傳統）</td><td>CHB 950、CHB_INST 435、Smart Pay 620、AE 004</td><td>走財金 FISC；TLS URL：CHB webpos.fisc.com.tw:6677、CHB_INST :8031、Smart Pay :6678；走 G 時 APN CHB.CYBERSOFT4U.COM</td><td>開 TLS 時線路加密必勾，且要放 CA_CRT=FISC.CER 與參數檔 FISC.CER</td></tr><tr><td>新光銀行 SKCB</td><td>SKB 042（純 M 設 030）、SKB TIS 042、AE 004</td><td>自有主機 【內部 IP】；TLS URL 【內部 IP】（TIS 為 【內部 IP】）；ADSL / Internet DHCP / WIFI 都設 TLS，VPN 設網路</td><td>以後都要拉 cert_SKCB &amp; client_SKCB；走 TLS 照理不能有 AE</td></tr><tr><td>上海商銀 SCSB</td><td>分期付款 435、SmartPay 620、信用卡交易(6.11規格) 950、AE 004</td><td>走財金 FISC 主機（中華 VPN 【內部 IP】 等），信用卡／晶片金融卡／分期各有 Port</td><td>檢核重複交易、Operation Select 必勾；線路加密 SCSB 1.016 起必開；退貨密碼 【密碼：請洽 TMS 窗口】</td></tr><tr><td>陽信 SYB（傳統）</td><td>SYB 950、SYB_INST 435、SmartPay 620、AE 004</td><td>走財金 FISC 主機（【內部 IP】 / 【內部 IP】）；APN SUNNYBANK.CYBERSOFT4U.COM</td><td>目前無 TSAM，SP 無退貨；1.002 版有銀聯要開加密；有預授權取消、無預授權完成取消</td></tr><tr><td>元大 TCBANK &amp; YTB（A 系列客製化）</td><td>（頁面未列 Acquirer/NII 表；HOSP 版 SP NII 預設 531）</td><td>HOSP 版一般交易 IP 依工單（MCAP 為 【內部 IP】）、Port 18012，SP Port 28910</td><td>依客製化版本（YTB / HOSP / YUANTA_K / FISC-YTB-EPAY / EDC-EPAY 系列）決定加密、ECR、檢查重複交易、不印簽單等規則</td></tr></tbody></table></div>
+<h3 id="s63">環匯 GP</h3>
+<h4 id="s64">GP連線方式設定</h4>
+<p class="src">來源：Confluence 原頁（內部）</p>
+<p>環匯 GP 各 Acquirer（收單行）的 NII、交易電話、自動撥號與各電信 IP/Port 檢核表，含 TIS 走 TLS 與 TNS Roaming SIM 的設定。</p>
+<p><strong>Acquirer（收單行）檢核項目</strong></p>
+<p>COMM Mode：GP &amp; SP ～ CUP 全部為 (M電話)(L網路)(G手機)；備註欄（GP &amp; SP ～ CUP 共用）：<strong>GPRS全部都相同 同中華</strong>。</p>
+<div class="tbl"><table><thead><tr><th><strong>類型</strong></th><th><strong>NII</strong></th><th><strong>Transaction Phone 1</strong></th><th><strong>Transaction Phone 2</strong></th><th><strong>自動撥號</strong></th><th><strong>Transaction IP ADD 1</strong></th><th><strong>Transaction IP PORT 1</strong></th></tr></thead><tbody><tr><td>GP &amp; SP（一般／郵購／分期）</td><td>010</td>【已遮罩】【已遮罩】<td>【撥接電話】</td><td>中華【內部 IP】</td><td>3003</td></tr><tr><td>〃</td><td>〃</td><td>〃</td><td>〃</td><td>〃</td><td>遠傳【內部 IP】</td><td>3003</td></tr><tr><td>〃</td><td>〃</td><td>〃</td><td>〃</td><td>〃</td><td>(GPRS)台哥(新)【內部 IP】</td><td>8012</td></tr><tr><td>〃</td><td>〃</td><td>〃</td><td>〃</td><td>〃</td><td>台哥【內部 IP】</td><td>8012</td></tr><tr><td>AE</td><td>003</td>【已遮罩】【已遮罩】<td>【撥接電話】</td><td>中華【內部 IP】</td><td>3003</td></tr><tr><td>〃</td><td>〃</td><td>〃</td><td>〃</td><td>〃</td><td>遠傳【內部 IP】</td><td>3003</td></tr><tr><td>〃</td><td>〃</td><td>〃</td><td>〃</td><td>〃</td><td>(GPRS)台哥(新)【內部 IP】</td><td>80+J3:L26（原文如此，疑似 Excel 殘留，請向主管確認）</td></tr><tr><td>〃</td><td>〃</td><td>〃</td><td>〃</td><td>〃</td><td>台哥【內部 IP】</td><td>8013</td></tr><tr><td>AE</td><td>004</td>【已遮罩】【已遮罩】<td>【撥接電話】</td><td>中華【內部 IP】</td><td>8018</td></tr><tr><td>〃</td><td>〃</td>【已遮罩】【已遮罩】<td>【撥接電話】</td><td>遠傳【內部 IP】</td><td>8018</td></tr><tr><td>〃</td><td>〃</td>【已遮罩】【已遮罩】<td>【撥接電話】</td><td>台哥【內部 IP】</td><td>8018</td></tr><tr><td>DINERS</td><td>288</td>【已遮罩】【已遮罩】<td>【撥接電話】</td><td>中華【內部 IP】</td><td>3003</td></tr><tr><td>〃</td><td>〃</td><td>〃</td><td>〃</td><td>〃</td><td>遠傳【內部 IP】</td><td>3003</td></tr><tr><td>〃</td><td>〃</td><td>〃</td><td>〃</td><td>〃</td><td>台哥【內部 IP】</td><td>8014</td></tr><tr><td>DCC</td><td>050</td>【已遮罩】【已遮罩】<td>【撥接電話】</td><td>中華【內部 IP】</td><td>3003</td></tr><tr><td>〃</td><td>〃</td><td>〃</td><td>〃</td><td>〃</td><td>遠傳【內部 IP】</td><td>3003</td></tr><tr><td>〃</td><td>〃</td><td>〃</td><td>〃</td><td>〃</td><td>(GPRS)台哥(新)【內部 IP】</td><td>8012</td></tr><tr><td>〃</td><td>〃</td><td>〃</td><td>〃</td><td>〃</td><td>台哥【內部 IP】</td><td>8012</td></tr><tr><td>CUP</td><td>042</td>【已遮罩】【已遮罩】<td>（空白）</td><td>中華【內部 IP】</td><td>3003</td></tr><tr><td>〃</td><td>〃</td><td>〃</td><td>〃</td><td>（空白）</td><td>遠傳【內部 IP】</td><td>3003</td></tr><tr><td>〃</td><td>〃</td><td>〃</td><td>〃</td><td>（空白）</td><td>(GPRS)台哥(新)【內部 IP】</td><td>8012</td></tr><tr><td>〃</td><td>〃</td><td>〃</td><td>〃</td><td>（空白）</td><td>台哥【內部 IP】</td><td>8012</td></tr></tbody></table></div>
+<p><strong>GPRS TNS Roaming SIM（列在 GP &amp; SP 010 之下）</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>項目</strong></th><th><strong>IP</strong></th><th><strong>Port</strong></th><th><strong>備註</strong></th></tr></thead><tbody><tr><td>(GPRS TNS Roaming SIM)↓</td><td>(GPRS TNS Roaming SIM)↓</td><td>—</td><td>版本那 File URL 要改URL</td></tr><tr><td>正式APN: m2m.tns.prod1</td><td>【內部 IP】</td><td>6027</td><td></td></tr><tr><td>測試APN: m2m.tns.prod1</td><td>【內部 IP】</td><td>6077</td><td></td></tr></tbody></table></div>
+<p><strong>TIS（NII 903）</strong>（交易電話／自動撥號欄位空白）</p>
+<div class="tbl"><table><thead><tr><th><strong>情境</strong></th><th><strong>IP / URL</strong></th><th><strong>Port</strong></th><th><strong>備註</strong></th></tr></thead><tbody><tr><td>走(TLS/TNS)時設定這組</td><td>【內部 IP】</td><td>15321</td><td>要開TIS使用TLS連線</td></tr><tr><td>TLS URL</td><td>(舊的) 【內部網址】) 【內部網址】</td><td></td><td></td></tr><tr><td>只有走TCP/IP &amp; 4G SIM的VPN(中華)時設定這組</td><td>(舊的)【內部 IP】；(現在都設新的) 【內部 IP】 / 15322</td><td>15322；(現在都設新的) 15322</td><td>不開TIS使用TLS連線</td></tr></tbody></table></div>
+<p>※ GP悠遊卡密碼：【密碼：請洽 TMS 窗口】</p>
+<div class="note">⚠️ <strong>注意事項／易錯點</strong><br>・TIS 依連線方式設兩組不同的值：走 TLS/TNS 用 【內部 IP】 並「要開 TIS 使用 TLS 連線」；只有走 TCP/IP &amp; 4G SIM 的 VPN（中華）才設 【內部 IP】 / 15322，且「不開 TIS 使用 TLS 連線」。<br>・TIS TLS URL 現在一律設新的 【內部網址】，舊的 【內部網址】 不要再用。<br>・使用 GPRS TNS Roaming SIM 時，版本的 File URL 要改 URL。<br>・原文 AE 003 台哥(新) 的 Port 寫「80+J3:L26」，以及 TNS 測試 APN 與正式 APN 同為 m2m.tns.prod1，皆疑似原文錯誤，設定前請先確認。</div>
+<h3 id="s65">凱基 KGIB</h3>
+<h4 id="s66">凱基KGIB(A系列)設定</h4>
+<p class="src">來源：Confluence 原頁（內部）</p>
+<p>凱基銀行 A 系列機型（A910 / A80 / A50）的 ACQ 交易電話、NCCC 一般交易 IP、AE IP，以及各機型在有無 AE 時的連線、電簽與 EPAY / iCHEF 設定。</p>
+<p><strong>ACQ 交易電話設定</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>Acquirer名稱</strong></th><th><strong>NII</strong></th><th><strong>COMM Mode</strong></th><th><strong>區域</strong></th><th><strong>撥接代表號(數位線路)</strong></th><th><strong>撥接代表號(類比線路)</strong></th><th><strong>自動撥號電話</strong></th></tr></thead><tbody><tr><td>NCCC</td><td>297</td><td>(M電話)(L網路)(G手機)</td><td>台北</td><td>【撥接電話】</td><td>【撥接電話】</td>【已遮罩】</tr><tr><td>AE</td><td>004</td><td>〃</td><td>（空白）</td><td>【撥接電話】</td><td>【撥接電話】</td>【已遮罩】</tr></tbody></table></div>
+<p><strong>一般交易 IP 連線資訊</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>#</strong></th><th><strong>IP業者</strong></th><th><strong>Host IP</strong></th><th><strong>Port No.</strong></th></tr></thead><tbody><tr><td>1</td><td>中華電信</td><td>【內部 IP】</td><td>18012</td></tr><tr><td>2</td><td>中華電信VPN(六揚)</td><td>【內部 IP】</td><td>18012</td></tr><tr><td>3</td><td>台灣大電訊(原TTN)</td><td>【內部 IP】</td><td>18012</td></tr><tr><td>4</td><td>SeedNet(遠傳)</td><td>【內部 IP】</td><td>18012</td></tr><tr><td>5</td><td>中嘉和網寬頻(和信)</td><td>【內部 IP】</td><td>18012</td></tr><tr><td>6</td><td>亞太固網</td><td>【內部 IP】</td><td>18012</td></tr><tr><td>7</td><td>網達國際(宏遠電信)</td><td>【內部 IP】</td><td>18012</td></tr><tr><td>8</td><td>數據專線(直連NCCC)</td><td>【內部 IP】</td><td>18012</td></tr></tbody></table></div>
+<p><strong>AE IP 連線設定（NII: 004）</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>業者</strong></th><th><strong>Host IP</strong></th><th><strong>Port</strong></th></tr></thead><tbody><tr><td>中華</td><td>【內部 IP】</td><td>8018</td></tr><tr><td>台固</td><td>【內部 IP】</td><td>8018</td></tr><tr><td>遠傳</td><td>【內部 IP】</td><td>8018</td></tr></tbody></table></div>
+<p><strong>A910 設定</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>情境</strong></th><th><strong>連線方式</strong></th><th><strong>電簽支援</strong></th><th><strong>T-SAM 需求</strong></th><th><strong>結帳自動更新</strong></th></tr></thead><tbody><tr><td>無 AE</td><td>4G 卡走 TLS 連線</td><td>支援</td><td>不需要</td><td>開</td></tr><tr><td>有 AE</td><td>4G 卡走 VPN 連線</td><td>不支援</td><td>需要</td><td>關</td></tr></tbody></table></div>
+<p><strong>A80 設定</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>情境</strong></th><th><strong>連線方式</strong></th><th><strong>電簽支援</strong></th><th><strong>T-SAM 需求</strong></th><th><strong>結帳自動更新</strong></th></tr></thead><tbody><tr><td>有 AE 設 TM</td><td>一般交易走 TLS 連線（電話設空值），AE 走撥接（IP 設空值）</td><td>不影響（若裝機照建案設定，若併機無須更改電簽開關）</td><td>不影響</td><td>開</td></tr></tbody></table></div>
+<p><strong>EPAY 設定</strong></p>
+<ul>
+<li>客製化版本目前都預設 EPAY_KGI_OP。</li>
+<li>沒有設定客製化版本代表直連財金主機（暫時沒有）。</li>
+<li>TLS 憑證 2 支 + 電簽憑證 2 支樣板預設都可以拉。</li>
+</ul>
+<p><strong>A50 KGI iCHEF ECR 設定</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>項目</strong></th><th><strong>說明</strong></th></tr></thead><tbody><tr><td>外接連線方式</td><td>凱基藍芽 (iChef)</td></tr><tr><td>EDC參數設定</td><td>自動結帳時間 (hhmm)，依照客戶需求設定，預設2300（有外接連線方式iChef必設）</td></tr><tr><td>自動結帳功能</td><td>開啟是否自動結帳</td></tr><tr><td>Launcher 版本</td><td>Launcher要搭配1.030以上</td></tr><tr><td>自動啟動</td><td>若有設定外接連線方式iChef時必要開啟</td></tr></tbody></table></div>
+<div class="note">⚠️ <strong>注意事項／易錯點</strong><br>・A910 併 AE 就不可用電簽（因為是走 VPN）。<br>・A80 主要走 TLS，AE 改走撥接不影響電簽；所以 A80 + 開 AE 若有開電簽無須關閉，但設定部分不能設定到 VPN。<br>・有 T-SAM 卡／走 TLS 連線要開加密，走撥接不開加密。<br>・走 TLS 連線都要開「結帳自動更新」。<br>・沒有 AE 就不能有撥接備援。<br>・A50 設定外接連線方式 iChef 時，自動結帳時間必設、自動啟動必開，Launcher 需 1.030 以上。</div>
+<h4 id="s67">凱基KGIB(傳統)設定</h4>
+<p class="src">來源：Confluence 原頁（內部）</p>
+<p>凱基銀行傳統機型的 ACQ 交易電話與檢核勾選、NCCC 一般交易 IP、AE IP，以及凱基／乙禾傳統裝機的設定注意事項。</p>
+<p><strong>ACQ 交易電話設定</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>Acquirer名稱</strong></th><th><strong>NII</strong></th><th><strong>COMM Mode</strong></th><th><strong>區域</strong></th><th><strong>撥接代表號(數位線路)</strong></th><th><strong>撥接代表號(類比線路)</strong></th><th><strong>自動撥號電話</strong></th><th><strong>檢核重覆交易</strong></th><th><strong>是否結帳明細依卡別分</strong></th><th><strong>是否使用熱建交易</strong></th></tr></thead><tbody><tr><td>NCCC</td><td>297</td><td>(M電話)(L網路)(G手機)</td><td>台北</td><td>【撥接電話】</td><td>【撥接電話】</td>【已遮罩】<td>不勾</td><td>不勾</td><td>不勾</td></tr><tr><td>AE</td><td>004</td><td>〃</td><td>（空白）</td><td>【撥接電話】</td><td>【撥接電話】</td>【已遮罩】<td>（空白）</td><td>（空白）</td><td>（空白）</td></tr></tbody></table></div>
+<p><strong>一般交易 IP 連線資訊</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>#</strong></th><th><strong>IP業者</strong></th><th><strong>Host IP</strong></th><th><strong>Port No.</strong></th></tr></thead><tbody><tr><td>1</td><td>中華電信</td><td>【內部 IP】</td><td>18012</td></tr><tr><td>2</td><td>中華電信VPN(六揚)</td><td>【內部 IP】</td><td>18012</td></tr><tr><td>3</td><td>台灣大電訊(原TTN)</td><td>【內部 IP】</td><td>18012</td></tr><tr><td>4</td><td>SeedNet(遠傳)</td><td>【內部 IP】</td><td>18012</td></tr><tr><td>5</td><td>中嘉和網寬頻(和信)</td><td>【內部 IP】</td><td>18012</td></tr><tr><td>6</td><td>亞太固網</td><td>【內部 IP】</td><td>18012</td></tr><tr><td>7</td><td>網達國際(宏遠電信)</td><td>【內部 IP】</td><td>18012</td></tr><tr><td>8</td><td>數據專線(直連NCCC)</td><td>【內部 IP】</td><td>18012</td></tr></tbody></table></div>
+<p><strong>AE IP 連線設定（NII: 004）</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>業者</strong></th><th><strong>Host IP</strong></th><th><strong>Port</strong></th></tr></thead><tbody><tr><td>中華</td><td>【內部 IP】</td><td>8018</td></tr><tr><td>台固</td><td>【內部 IP】</td><td>8018</td></tr><tr><td>遠傳</td><td>【內部 IP】</td><td>8018</td></tr></tbody></table></div>
+<p><strong>凱基&amp;乙禾傳統裝機必拉這幾項</strong>：（原頁含圖片，請至原頁查看）</p>
+<div class="note">⚠️ <strong>注意事項／易錯點</strong><br>・開發說設定比照元大（IP &amp; Port &amp; NII &amp; 交易電話）。<br>・「畫面選擇」&amp;「結帳明細依卡別分」開發說寫死，設定 close。<br>・一般交易 ACQ 的 MAC &amp; Online 補登預設都 Open。<br>・熱鍵都不開。<br>・一般交易 &amp; AE 小費調帳比皆 30。<br>・乙禾網絡的裝機，表頭二都要設定「會員登入官網可查詢交易」。<br>・開發說一般交易的預授完成不用設定開啟，程式沒擋一律都有開。</div>
+<h3 id="s68">台中銀行 TCB</h3>
+<div class="note">註：頁面標題為「台企TCB設定」，但內文「顯示/列印名稱 設定 台中銀行」，且交易走 NCCC，故本頁實為<strong>台中銀行</strong>，與下方「台灣企銀 TBB」不同。</div>
+<h4 id="s69">台企TCB設定</h4>
+<p class="src">來源：Confluence 原頁（內部）</p>
+<p>台中銀行（TCB）的 NCCC / AE 交易電話與 MAC 勾選、NCCC 一般交易 IP、AE IP 與設定注意事項。</p>
+<p><strong>交易電話與網路設定</strong>（COMM Mode：NCCC 與 AE 皆為 (M電話)(L網路)(G手機)）</p>
+<div class="tbl"><table><thead><tr><th><strong>Acquirer名稱</strong></th><th><strong>NII</strong></th><th><strong>區域</strong></th><th><strong>撥接代表號(數位線路)</strong></th><th><strong>撥接代表號(類比線路)</strong></th><th><strong>自動撥號電話</strong></th><th><strong>交易電文是否需要MAC</strong></th></tr></thead><tbody><tr><td>NCCC</td><td>297</td><td>台北</td><td>【撥接電話】</td><td>【撥接電話】</td>【已遮罩】<td>必勾</td></tr><tr><td>〃</td><td>〃</td><td>台中</td><td>【撥接電話】</td><td>【撥接電話】</td><td>〃</td><td>〃</td></tr><tr><td>〃</td><td>〃</td><td>高雄</td><td>【撥接電話】</td><td>【撥接電話】</td><td>〃</td><td>〃</td></tr><tr><td>AE</td><td>004</td><td>（空白）</td><td>【撥接電話】</td><td>（空白）</td>【已遮罩】<td>不能勾</td></tr></tbody></table></div>
+<p><strong>一般交易 IP 連線資訊</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>序號</strong></th><th><strong>ISP業者</strong></th><th><strong>Host IP</strong></th><th><strong>Port No.</strong></th></tr></thead><tbody><tr><td>1</td><td>中華電信</td><td>【內部 IP】</td><td>18012</td></tr><tr><td>2</td><td>中華電信VPN(六揚)</td><td>【內部 IP】</td><td>18012</td></tr><tr><td>3</td><td>台灣大電訊(原TTN)</td><td>【內部 IP】</td><td>18012</td></tr><tr><td>4</td><td>SeedNet(遠傳)</td><td>【內部 IP】</td><td>18012</td></tr><tr><td>5</td><td>中嘉和網寬頻(和信)</td><td>【內部 IP】</td><td>18012</td></tr><tr><td>6</td><td>亞太固網</td><td>【內部 IP】</td><td>18012</td></tr><tr><td>7</td><td>網達國際(宏遠電信)</td><td>【內部 IP】</td><td>18012</td></tr><tr><td>8</td><td>數據專線(直連NCCC)</td><td>【內部 IP】</td><td>18012</td></tr></tbody></table></div>
+<p><strong>AE IP 連線設定（NII: 004）</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>業者</strong></th><th><strong>Host IP</strong></th><th><strong>Port</strong></th></tr></thead><tbody><tr><td>中華</td><td>【內部 IP】</td><td>8018</td></tr><tr><td>台固</td><td>【內部 IP】</td><td>8018</td></tr><tr><td>遠傳</td><td>【內部 IP】</td><td>8018</td></tr><tr><td>遠傳 2017-11-07 以後</td><td>(需跟遠傳申請開通)</td><td>8018</td></tr></tbody></table></div>
+<p><strong>設定注意事項</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>項目</strong></th><th><strong>說明</strong></th></tr></thead><tbody><tr><td>預授權與預授完成</td><td>開發說有開預授權跟預授完成時，不用開預授取消 &amp; 預授完成取消</td></tr><tr><td>一般交易電文MAC</td><td>開發說一般交易的「交易電文是否需要MAC」必開，其餘 ACQ 不開（AE 不能開）</td></tr><tr><td>補登交易</td><td>開發說「補登交易強制連線(NCCC)」必開</td></tr><tr><td>顯示/列印名稱設定</td><td>開發說顯示/列印名稱設定「台中銀行」</td></tr><tr><td>撥接設定</td><td>走撥接不開加密，開啟「關閉檔案自動下載」</td></tr><tr><td>異動、併機</td><td>異動、併機走撥接不能軟派</td></tr></tbody></table></div>
+<div class="note">⚠️ <strong>注意事項／易錯點</strong><br>・MAC 只有 NCCC 一般交易必勾，AE 絕對不能勾。<br>・「補登交易強制連線(NCCC)」必開。<br>・與台灣企銀 TBB 不同：TCB 開預授權／預授完成時<strong>不用</strong>開預授取消與預授完成取消。<br>・走撥接：不開加密、要開「關閉檔案自動下載」，且異動／併機不能軟派。<br>・原文 NCCC 台北類比線路填 【撥接電話】、台中類比線路填 【撥接電話】，與 AE 電話相同，請以原頁與工單確認。</div>
+<h3 id="s70">台灣企銀 TBB</h3>
+<h4 id="s71">台企TBB設定</h4>
+<p class="src">來源：Confluence 原頁（內部）</p>
+<p>台灣企銀（TBB）走財金 FISC 的各 Acquirer NII、交易電話、各電信 IP/Port、TLS URL 與自動撥號，以及客服通知的 SP 固定代碼。</p>
+<p><strong>交易電話與網路設定</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>Acquirer</strong></th><th><strong>NII</strong></th><th><strong>交易電話</strong></th><th><strong>走T電信</strong></th><th><strong>Transaction IP ADD 1</strong></th><th><strong>Transaction IP PORT 1</strong></th><th><strong>走TLS URL</strong></th><th><strong>自動撥號電話</strong></th></tr></thead><tbody><tr><td>FISC</td><td>950</td>【已遮罩】<td>中華電信</td><td>【內部 IP】</td><td>9995</td><td>webpos.fisc.com.tw:6677</td>【已遮罩】</tr><tr><td>〃</td><td>〃</td><td>〃</td><td>遠傳</td><td>【內部 IP】</td><td>9997</td><td>〃</td><td>〃</td></tr><tr><td>〃</td><td>〃</td><td>〃</td><td>台固</td><td>【內部 IP】</td><td>9993</td><td>〃</td><td>〃</td></tr><tr><td>FISC_INST</td><td>435</td>【已遮罩】<td>中華電信</td><td>【內部 IP】</td><td>8081</td><td>webpos.fisc.com.tw:6677</td>【已遮罩】</tr><tr><td>〃</td><td>〃</td><td>〃</td><td>遠傳</td><td>沒提供</td><td>沒提供</td><td>〃</td><td>〃</td></tr><tr><td>〃</td><td>〃</td><td>〃</td><td>台固</td><td>【內部 IP】</td><td>8083</td><td>〃</td><td>〃</td></tr><tr><td>Smart Pay</td><td>620</td>【已遮罩】<td>中華電信</td><td>【內部 IP】</td><td>6670</td><td>webpos.fisc.com.tw:6678</td>【已遮罩】</tr><tr><td>〃</td><td>〃</td><td>〃</td><td>遠傳</td><td>【內部 IP】</td><td>6671</td><td>〃</td><td>〃</td></tr><tr><td>〃</td><td>〃</td><td>〃</td><td>台固</td><td>【內部 IP】</td><td>6672</td><td>〃</td><td>〃</td></tr><tr><td>AE</td><td>004</td>【已遮罩】<td>中華電信</td><td>【內部 IP】</td><td>8018</td><td>開發說AE不走TLS</td>【已遮罩】</tr><tr><td>〃</td><td>〃</td><td>〃</td><td>遠傳</td><td>【內部 IP】</td><td>8018</td><td>〃</td><td>〃</td></tr><tr><td>〃</td><td>〃</td><td>〃</td><td>台固</td><td>【內部 IP】</td><td>8018</td><td>〃</td><td>〃</td></tr></tbody></table></div>
+<p><strong>客服通知</strong>（2021-09-27）：客服通知 SP 的 MCC 跟分行代碼都固定。</p>
+<div class="tbl"><table><thead><tr><th><strong>項目</strong></th><th><strong>代碼</strong></th></tr></thead><tbody><tr><td>MCC</td><td>5912</td></tr><tr><td>分行</td><td>0040</td></tr></tbody></table></div>
+<div class="note">⚠️ <strong>注意事項／易錯點</strong><br>1. 開發說沒有小額免簽功能。<br>2. 工單有勾預先授權跟預授權完成，設定預授取消跟預授完成取消都打開。<br>3. 開發說只要有開「交易電文加密」且有銀聯，就是開加密的意思。<br>4. 若沒銀聯，但是走 TLS 的話，要設定開啟加密。<br>5. RS232 400BYTE。<br>・AE 不走 TLS；AE 交易電話與自動撥號原文註明「沒提供不確定」。<br>・原文 AE 遠傳 IP 填 【內部 IP】（其他銀行頁 AE 遠傳多為 【內部 IP】），請確認。</div>
+<h3 id="s72">彰化銀行 CHB</h3>
+<h4 id="s73">彰銀CHB(傳統)設定</h4>
+<p class="src">來源：Confluence 原頁（內部）</p>
+<p>彰化銀行傳統機型走財金 FISC 的交易電話、IP/Port、TLS URL 與自動撥號，以及彰銀工單開啟 TLS 時必須確認的項目。</p>
+<p><strong>交易與自動撥號電話資訊</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>Acquirer</strong></th><th><strong>NII</strong></th><th><strong>交易電話</strong></th><th><strong>走T電信</strong></th><th><strong>Transaction IP ADD 1</strong></th><th><strong>Transaction IP PORT 1</strong></th><th><strong>走TLS URL</strong></th><th><strong>自動撥號電話</strong></th></tr></thead><tbody><tr><td>CHB</td><td>950</td>【已遮罩】<td>中華電信</td><td>【內部 IP】</td><td>9995</td><td>webpos.fisc.com.tw:6677</td>【已遮罩】</tr><tr><td>〃</td><td>〃</td><td>〃</td><td>遠傳</td><td>（空白）</td><td>（空白）</td><td>〃</td><td>〃</td></tr><tr><td>〃</td><td>〃</td><td>〃</td><td>台固</td><td>（空白）</td><td>（空白）</td><td>〃</td><td>〃</td></tr><tr><td>CHB_INST</td><td>435</td>【已遮罩】<td>中華電信</td><td>【內部 IP】</td><td>8081</td><td>webpos.fisc.com.tw:8031</td>【已遮罩】</tr><tr><td>〃</td><td>〃</td><td>〃</td><td>遠傳</td><td>（空白）</td><td>（空白）</td><td>〃</td><td>〃</td></tr><tr><td>〃</td><td>〃</td><td>〃</td><td>台固</td><td>（空白）</td><td>（空白）</td><td>〃</td><td>〃</td></tr><tr><td>Smart Pay</td><td>620</td>【已遮罩】<td>中華電信</td><td>【內部 IP】</td><td>6670</td><td>webpos.fisc.com.tw:6678</td>【已遮罩】</tr><tr><td>〃</td><td>〃</td><td>〃</td><td>遠傳</td><td>（空白）</td><td>（空白）</td><td>〃</td><td>〃</td></tr><tr><td>〃</td><td>〃</td><td>〃</td><td>台固</td><td>（空白）</td><td>（空白）</td><td>〃</td><td>〃</td></tr><tr><td>AE</td><td>004</td>【已遮罩】<td>中華電信</td><td>【內部 IP】</td><td>8018</td><td>開發說AE不走TLS</td>【已遮罩】</tr><tr><td>〃</td><td>〃</td><td>〃</td><td>遠傳</td><td>【內部 IP】(需跟遠傳申請開通)</td><td>8018</td><td>〃</td><td>〃</td></tr><tr><td>〃</td><td>〃</td><td>〃</td><td>台固</td><td>【內部 IP】</td><td>8018</td><td>〃</td><td>〃</td></tr></tbody></table></div>
+<p>連線方式走 G 時，APN：CHB.CYBERSOFT4U.COM</p>
+<p><strong>彰銀工單 TLS 設定確認</strong>（當彰銀工單需要開啟 TLS 時）</p>
+<div class="tbl"><table><thead><tr><th><strong>#</strong></th><th><strong>項目</strong></th><th><strong>設定說明</strong></th></tr></thead><tbody><tr><td>1</td><td>線路加密</td><td>必須打勾</td></tr><tr><td>2</td><td>SSL連線</td><td>開關打勾，及 URL、PORT 皆照上述正式環境的值設定</td></tr><tr><td>3</td><td>線性參數</td><td>需要放【CA_CRT】=【FISC.CER】</td></tr><tr><td>4</td><td>參數檔</td><td>必須放參數檔 FISC.CER</td></tr></tbody></table></div>
+<div class="note">⚠️ <strong>注意事項／易錯點</strong><br>・CHB_INST（分期）的 TLS URL Port 是 <strong>8031</strong>，與 CHB 的 6677、Smart Pay 的 6678 不同，容易抄錯。<br>・開 TLS 時四項缺一不可：線路加密打勾、SSL 連線開關與 URL/PORT、線性參數 CA_CRT=FISC.CER、放參數檔 FISC.CER。<br>・AE 不走 TLS；AE 遠傳 IP 需跟遠傳申請開通。<br>・原文 CHB / CHB_INST / Smart Pay 的遠傳、台固 IP 與 Port 皆為空白。</div>
+<h3 id="s74">新光銀行 SKCB</h3>
+<h4 id="s75">新光銀行SKCB設定</h4>
+<p class="src">來源：Confluence 原頁（內部）</p>
+<p>新光銀行的 SKB / SKB TIS / AE 交易電話、IP、TLS URL 與自動撥號，各連線類型對應的設定方式，以及新光特有的功能開關與裝機單名詞對照。</p>
+<p><strong>交易與自動撥號電話資訊</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>Acquirer</strong></th><th><strong>NII</strong></th><th><strong>交易電話</strong></th><th><strong>Transaction IP ADD 1</strong></th><th><strong>Transaction IP PORT 1</strong></th><th><strong>走TLS URL</strong></th><th><strong>自動撥號電話</strong></th><th><strong>備註</strong></th></tr></thead><tbody><tr><td>SKB</td><td>042 /純M設 030</td>【已遮罩】<td>【內部 IP】</td><td>7002</td><td>【內部 IP】</td>【已遮罩】<td></td></tr><tr><td>SKB TIS</td><td>042</td><td>（空白）</td><td>【內部 IP】</td><td>6001</td><td>【內部 IP】</td><td>（空白）</td><td></td></tr><tr><td>AE</td><td>004</td>【已遮罩】<td>【內部 IP】</td><td>8018</td><td>開發說AE不走TLS</td>【已遮罩】<td>※開發說如果走TLS照道理不能有AE，若有AE又走TLS，且並未撥接備援，工單有問題</td></tr></tbody></table></div>
+<p><strong>連線設定注意事項</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>連線類型</strong></th><th><strong>設定說明</strong></th></tr></thead><tbody><tr><td>ADSL</td><td>→TLS（通常有備援）</td></tr><tr><td>Internet DHCP</td><td>→TLS（通常沒備援）</td></tr><tr><td>ADSL、Internet DHCP、WIFI、TLS</td><td>→都是設定TLS</td></tr><tr><td>VPN</td><td>→設定網路（可純網路，也可撥接備援）</td></tr></tbody></table></div>
+<ul>
+<li>新光銀行以後都要拉 <strong>cert_SKCB</strong> &amp; <strong>client_SKCB</strong>。</li>
+<li>若走 TLS，要設定 TLS 的 URL 及開啟 TLS 開關。</li>
+</ul>
+<p><strong>新光銀行設定注意事項</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>項目</strong></th><th><strong>說明</strong></th></tr></thead><tbody><tr><td>檔案自動下載開關</td><td>只有 TLS、走 G（我們家的 SIM 卡）及宅配通需要關閉（做異動併機可軟派）。其餘走 G（SIM 卡新光提供）、VPN、M 都需要開啟（做異動併機不行軟派）。</td></tr><tr><td>離線購貨</td><td>即為補登。</td></tr><tr><td>ACQ設定</td><td>一般及 AE 的 ACQ 都要開啟（僅上傳交易淨額）。</td></tr><tr><td>等候移開卡片</td><td>「等候移開卡片（全開）」都需要關閉。</td></tr><tr><td>TLS結帳自動更新</td><td>若走 TLS，結帳自動更新（全開）需要開啟。</td></tr><tr><td>新光銀行A910/A80支援</td><td>目前不支援 Discover/Diners 收單功能。</td></tr><tr><td>預授權設定</td><td>新光銀行開啟預授權及預授權完成功能時，也要開啟預先授權取消及預先授權完成取消功能。</td></tr><tr><td>叭叭房A80 ECR設定</td><td>設定 RS232 ECR 400。</td></tr><tr><td>大魯閣KIOSK版設定</td><td>感應交易限額改為 3000。</td></tr></tbody></table></div>
+<p><strong>新光銀行裝機單與 iATOMS 功能對照</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>#</strong></th><th><strong>新光銀行裝機單</strong></th><th><strong>iATOMS</strong></th><th><strong>說明</strong></th></tr></thead><tbody><tr><td>1</td><td>手動輸入卡號Online取授權</td><td>人工輸入</td><td></td></tr><tr><td>2</td><td>離線購貨 – 手動輸入卡號與授權碼</td><td>補登交易 + 人工輸入</td><td>手輸的意思</td></tr><tr><td>3</td><td>離線購貨取消</td><td>取消交易</td><td>補登的意思</td></tr><tr><td>4</td><td>超額交易(Referral)</td><td>Call Bank</td><td>自動撥號的意思</td></tr></tbody></table></div>
+<div class="note">⚠️ <strong>注意事項／易錯點</strong><br>・SKB 的 NII 一般為 042，<strong>純 M（撥接）要設 030</strong>。<br>・走 TLS 照理不能有 AE；工單若同時有 AE、走 TLS 又沒有撥接備援，代表工單有問題，要回報。<br>・以後都要拉 cert_SKCB &amp; client_SKCB；走 TLS 要填 TLS URL 並開 TLS 開關、開結帳自動更新（全開）。<br>・「檔案自動下載」開關依連線方式而定：TLS／走 G（我們家 SIM）／宅配通要關閉，其餘要開啟（且不能軟派）。<br>・「等候移開卡片（全開）」一律關閉。<br>・A910/A80 目前不支援 Discover/Diners 收單。</div>
+<h3 id="s76">上海商銀 SCSB</h3>
+<h4 id="s77">上銀SCSB設定交易電話&amp;連線方式資訊</h4>
+<p class="src">來源：Confluence 原頁（內部）</p>
+<p>上海商銀（SCSB）各 Acquirer 的 NII 與檢核勾選規則、各電信 VPN 的 Host IP 與信用卡／晶片金融卡／分期 Port，以及 AE 設定資訊。</p>
+<p><strong>Acquirer（收單行）檢核項目</strong>（以下欄位 SCSB 三種交易共用）</p>
+<div class="tbl"><table><thead><tr><th><strong>項目</strong></th><th><strong>NII</strong></th><th><strong>COMM Mode</strong></th><th><strong>交易電話自動撥號</strong></th><th><strong>VISA VEPS</strong></th><th><strong>Master VEPS</strong></th><th><strong>Operation Select 畫面選擇</strong></th><th><strong>檢核重複交易</strong></th><th><strong>線路加密</strong></th><th><strong>退貨密碼</strong></th></tr></thead><tbody><tr><td>SCSB 分期付款</td><td>435</td><td>(M電話)(L網路)(G手機)</td>【已遮罩】<td>一般分期、分期交易都要支援，設800</td><td>一般分期、分期交易都要支援，設1500</td><td>必勾</td><td>必勾</td><td>（SCSB 1.016起必開）</td><td>【密碼：請洽 TMS 窗口】</td></tr><tr><td>SCSB SmartPay</td><td>620</td><td>〃</td><td>〃</td><td>〃</td><td>〃</td><td>〃</td><td>〃</td><td>〃</td><td>〃</td></tr><tr><td>SCSB 信用卡交易(6.11規格)</td><td>950</td><td>〃</td><td>〃</td><td>〃</td><td>〃</td><td>〃</td><td>〃</td><td>〃</td><td>〃</td></tr></tbody></table></div>
+<p><strong>HOST IP 與 Port 配置</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>電信</strong></th><th><strong>交易類別</strong></th><th><strong>HOST IP</strong></th><th><strong>信用卡 Port</strong></th><th><strong>晶片金融卡 Port</strong></th><th><strong>分期Port</strong></th></tr></thead><tbody><tr><td>中華電信VPN</td><td>EDC交易</td><td>【內部 IP】</td><td>9995</td><td>6670</td><td></td></tr><tr><td>中華電信VPN</td><td>分期交易</td><td>【內部 IP】</td><td></td><td></td><td>8081</td></tr><tr><td>台灣固網VPN</td><td>EDC交易</td><td>【內部 IP】</td><td>9993</td><td>6672</td><td></td></tr><tr><td>台灣固網VPN</td><td>分期交易</td><td>【內部 IP】</td><td></td><td></td><td>8083</td></tr><tr><td>遠傳SeedNet VPN</td><td>EDC交易</td><td>【內部 IP】</td><td>9997</td><td>6671</td><td></td></tr><tr><td>遠傳SeedNet VPN</td><td>分期交易</td><td>【內部 IP】</td><td></td><td></td><td>8084</td></tr></tbody></table></div>
+<p><strong>AE IP 連線設定（NII: 004）</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>業者</strong></th><th><strong>Host IP</strong></th><th><strong>Port</strong></th></tr></thead><tbody><tr><td>中華</td><td>【內部 IP】</td><td>8018</td></tr><tr><td>台固</td><td>【內部 IP】</td><td>8018</td></tr><tr><td>遠傳</td><td>【內部 IP】</td><td>8018</td></tr><tr><td>遠傳 2017-11-07 以後</td><td>(需跟遠傳申請開通)</td><td>8018</td></tr></tbody></table></div>
+<p><strong>上銀 AE 交易設定資訊</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>項目</strong></th><th><strong>內容</strong></th></tr></thead><tbody><tr><td>AE交易電話</td><td>【撥接電話】、【撥接電話】</td></tr></tbody></table></div>
+<p>AE 交易開放自動撥號功能，電話為 【撥接電話】。</p>
+<div class="note">⚠️ <strong>注意事項／易錯點</strong><br>・VISA VEPS 設 800、Master VEPS 設 1500，一般分期與分期交易都要支援。<br>・Operation Select 畫面選擇、檢核重複交易都必勾；線路加密自 SCSB 1.016 版起必開。<br>・退貨密碼 【密碼：請洽 TMS 窗口】。<br>・晶片金融卡（SmartPay）與信用卡共用 EDC 交易 IP，但 Port 不同；分期交易 IP 與 Port 另設（遠傳分期 Port 為 8084）。<br>・頁首有一個空白表格（原文即空白）。</div>
+<h3 id="s78">陽信 SYB</h3>
+<h4 id="s79">陽信SYB(傳統)設定</h4>
+<p class="src">來源：Confluence 原頁（內部）</p>
+<p>陽信銀行傳統機型的 Acquirer 檢核項目（NII、交易電話、有線／無線 IP、Port、自動撥號）與陽信特有注意事項。</p>
+<p><strong>Acquirer（收單行）檢核項目</strong>（COMM Mode 全部為 (M電話)(L網路)(G手機)）</p>
+<div class="tbl"><table><thead><tr><th><strong>Acquirer名稱</strong></th><th><strong>類別</strong></th><th><strong>NII</strong></th><th><strong>交易電話 1</strong></th><th><strong>交易電話 2</strong></th><th><strong>連線IP 1</strong></th><th><strong>連線IP 2</strong></th><th><strong>PORT</strong></th><th><strong>自動播號</strong></th></tr></thead><tbody><tr><td>SYB</td><td>一般</td><td>950</td>【已遮罩】【已遮罩】<td>【內部 IP】</td><td>【內部 IP】</td><td>9995</td><td>【撥接電話】</td></tr><tr><td>SYB_INST</td><td>分期</td><td>435</td>【已遮罩】【已遮罩】<td>【內部 IP】</td><td>【內部 IP】</td><td>8081</td><td>【撥接電話】</td></tr><tr><td>SmartPay</td><td>SmartPay</td><td>620</td>【已遮罩】【已遮罩】<td>【內部 IP】</td><td>【內部 IP】</td><td>6670</td><td>【撥接電話】</td></tr><tr><td>AE</td><td>AE</td><td>004</td>【已遮罩】【已遮罩】<td>（見下表）</td><td>（見下表）</td><td>（見下表）</td><td>【撥接電話】</td></tr></tbody></table></div>
+<p><strong>AE IP（NII 004）</strong></p>
+<div class="tbl"><table><thead><tr><th><strong>有線IP</strong></th><th><strong>無線IP</strong></th><th><strong>PORT</strong></th></tr></thead><tbody><tr><td>【內部 IP】</td><td>【內部 IP】</td><td>8018</td></tr><tr><td>【內部 IP】</td><td>【內部 IP】</td><td>8018</td></tr><tr><td>【內部 IP】</td><td>【內部 IP】（需跟遠傳申請開通）</td><td>8018</td></tr></tbody></table></div>
+<p><strong>其他設定</strong></p>
+<ul>
+<li>APN：SUNNYBANK.CYBERSOFT4U.COM</li>
+<li>若有小費設：15（Adjustment Percentage）</li>
+<li>Linear: SYB</li>
+<li>表頭可換行（同 GP）</li>
+</ul>
+<p class="aside">（原頁含圖片，請至原頁查看）</p>
+<div class="note">⚠️ <strong>注意事項／易錯點</strong>（陽信需要注意的是）<br>1. VMJ 交易。<br>2. 有預授權、預授權取消，<strong>無</strong>預授權完成取消。<br>3. 目前無 TSAM，故 SP 無退貨功能。<br>4. SYB 1.001 沒有線路加密（但 1.002 版有銀聯要開加密，若取消銀聯也要關閉加密）。<br>・AE 自動撥號為 【撥接電話】，與其他銀行常見的 【撥接電話】 / 【撥接電話】 不同，請照本頁設定。</div>
+<h3 id="s80">元大 TCBANK &amp; YTB</h3>
+<h4 id="s81">元大 A系列各客製化版本</h4>
+<p class="src">來源：Confluence 原頁（內部）</p>
+<p>元大銀行 A 系列各客製化版本（YTB 一般版、醫療院所、Kiosk、財金繳費平台 EPAY 系列）的設定規則、程式別與 DTID 開頭對照。</p>
+<div class="tbl"><table><thead><tr><th><strong>客製化版本</strong></th><th><strong>客製化規則</strong></th><th><strong>備註</strong></th></tr></thead><tbody><tr><td><strong>YTB（一般版）</strong></td><td>1. 不開結帳自動更新
+2. A系列純撥接&amp;教育訓練機不開加密，其餘必開
+3. A系列 A80 的 ECR 設定 RS232 ECR 144
+4. A系列 A910 的 ECR 設定 USB_144／有底座則設為：底座 + ECR_144byte
+5. 不開檢查重複交易（全開）
+6. 預設不開「關閉檔案自動下載」（純撥接需開啟）</td><td>程式為 YTB；DTID 為 A 開頭</td></tr><tr><td><strong>YTB HOSP-醫療院所(元大)（全國繳費）</strong></td><td>1. 版本需為 YTB 1.004（含）以上。
+2. 若有 SP，客製化版本必為「HOSP-醫療院所(元大)」。
+3. 一般交易 IP 由 【內部 IP】 調整為工單提供之 HOST IP（若為 MCAP，工單提供的 IP 為 【內部 IP】），PORT 設定為 18012。
+4. SP IP 資訊依工單提供之 SP 設定（Port：28910）。
+5. SP 的 NII 不吃，但是一定要放值（設預設 531）。
+6. 銷帳編號預設為 89503（若工單有提供，依工單設定）。
+7. 委託單位代號預設為 10004011（若工單有提供，依工單設定）。
+8. 繳款類別[一般看診]預設為 00197（若工單有提供，依工單設定）。
+9. 繳款類別[住院醫療]預設為 00095（若工單有提供，依工單設定）。
+10. 費用代號（一般看診）：0001（程式寫死）。
+11. 費用代號（住院醫療）：0002（程式寫死）。
+12. SP 功能僅能銷售與結帳，不開取消與退貨（※因為全國繳費 SP 不允許負向交易）。
+13. 預設不開「關閉檔案自動下載」（純撥接需開啟）。
+14. 通用規則（比照 YTB 一般版之藍色項目）。</td><td>程式為 YTB；DTID 為 A 開頭</td></tr><tr><td><strong>YTB YUANTA_K-元大Kiosk(元大)</strong></td><td>1. 版本需為 YTB 1.005（含）以上。
+2. 客製化版本設定為「YUANTA_K」。
+3. ECR 僅能設定為 400 BYTES。
+4. 不得開啟檢核重複交易。
+5. 必開不印簽單（EPAY &amp; YTB KIOSK 必開）。
+6. 感應交易限額預設為 3000（需由客服確認是否維持 3000）。
+7. K 機不開檢查重複交易（全開）。
+8. 預設不開「關閉檔案自動下載」（純撥接需開啟）。
+9. 通用規則（比照 YTB 一般版之藍色項目，ECR 規格除外）。</td><td>程式為 YTB；DTID 為 A 開頭</td></tr><tr><td><strong>FISC-YTB-EPAY</strong>（等同於 EDC-EPAY 的「EPAY_YUANTA-財金繳費平台(元大)」版）
+新裝機設定：com.cybersoft.aseries.fisc.ytb.epay</td><td>1. 全部不開加密。
+2. 結帳自動更新都開。
+3. A 系列 A80 之 ECR 設定為 RS232 ECR 144。
+4. A 系列 A910 之 ECR 設定為 USB_144／有底座則設為：底座 + ECR_144byte。
+5. 客製化版本為空或設定為「EPAY_YUANTA-財金繳費平台(元大)」。
+6. 不開不印簽單（EPAY &amp; YTB KIOSK 必開）。
+7. 必須開啟檢查重複交易（全開）。
+8. 預設不開「關閉檔案自動下載」（純撥接需開啟）。</td><td>FISC-YTB-EPAY 與 EDC-EPAY 之 EPAY_YUANTA-財金繳費平台(元大) 版本為同一型態；程式為 EPAY；DTID 為 1 開頭</td></tr><tr><td><strong>EDC-EPAY EPAY_YUANTA-財金繳費平台(元大)</strong>
+已裝出去舊機(待換版)：com.cybersoft.aseries.epay
+新裝機應改為：com.cybersoft.aseries.fisc.ytb.epay</td><td>1. 全部不開加密。
+2. 結帳自動更新都開。
+3. A 系列 A80 之 ECR 設定為 RS232 ECR 144。
+4. A 系列 A910 之 ECR 設定為 USB_144／有底座則設為：底座 + ECR_144byte。
+5. 客製化版本設定為「EPAY_YUANTA-財金繳費平台(元大)」。
+6. 不開不印簽單（EPAY &amp; YTB KIOSK 必開）。
+7. 必須開啟檢查重複交易（全開）。
+8. 預設不開「關閉檔案自動下載」（純撥接需開啟）。</td><td>與 FISC-YTB-EPAY 為同一型態；程式為 EPAY；DTID 為 1 開頭</td></tr><tr><td><strong>EDC-EPAY EPAY_YUANTA_C-財金繳費平台(元大中醫大)</strong>
+已裝出去舊機(待換版)：com.cybersoft.aseries.epay
+新裝機應改為：com.cybersoft.aseries.fisc.ytb.epay</td><td>1. 版本需為 EDC-EPAY 1.004（含）以上。
+2. 全部不開加密。
+3. 結帳自動更新都開。
+4. A 系列 A80 之 ECR 設定為 RS232 ECR 144。
+5. A 系列 A910 之 ECR 設定為 USB_144／有底座則設為：底座 + ECR_144byte。
+6. 客製化版本設定為「EPAY_YUANTA_C-財金繳費平台(元大中醫大)」。
+7. 必須開啟檢查重複交易（全開）。
+8. 預設不開「關閉檔案自動下載」（純撥接需開啟）。</td><td>程式為 EPAY；DTID 為 1 開頭</td></tr><tr><td><strong>EDC-EPAY EPAY_YUANTA_K-財金繳費平台(元大Kiosk)</strong>
+已裝出去舊機(待換版)：com.cybersoft.aseries.epay
+新裝機應改為：com.cybersoft.aseries.fisc.ytb.epay</td><td>1. 版本需為 EDC-EPAY 1.003（含）以上。
+2. 全部不開加密。
+3. 結帳自動更新都開。
+4. 客製化版本設定為「EPAY_YUANTA_K-財金繳費平台(元大Kiosk)」。
+5. ECR 僅能設定為 400 BYTES。
+6. 必須開啟不印簽單（EPAY &amp; YTB KIOSK 必開）。
+7. K 機不開檢查重複交易（全開）。
+8. 預設不開「關閉檔案自動下載」（純撥接需開啟）。
+9. KIOSK 版交易金額預設限制為 3000（若關閉 3000 元以上，感應交易限額須設為 3000；若開啟 3000 元以上交易，感應交易限額須設為 99999999）。</td><td>程式為 EPAY；DTID 為 1 開頭</td></tr></tbody></table></div>
+<div class="note">⚠️ <strong>注意事項／易錯點</strong><br>・先看 DTID 判斷程式：<strong>A 開頭 = YTB 程式</strong>，<strong>1 開頭 = EPAY 程式</strong>。<br>・加密：YTB 一般版除純撥接與教育訓練機外<strong>必開</strong>；EPAY 系列<strong>全部不開</strong>。<br>・結帳自動更新：YTB 一般版<strong>不開</strong>；EPAY 系列<strong>都開</strong>。<br>・檢查重複交易：YTB 一般版與所有 Kiosk（K 機）<strong>不開</strong>；FISC-YTB-EPAY、EPAY_YUANTA、EPAY_YUANTA_C <strong>必須開</strong>。<br>・不印簽單：只有 EPAY 與 YTB KIOSK 必開；FISC-YTB-EPAY / EPAY_YUANTA 不開。<br>・Kiosk 版 ECR 只能設 400 BYTES；其他 A80 設 RS232 ECR 144、A910 設 USB_144（有底座設「底座 + ECR_144byte」）。<br>・「關閉檔案自動下載」預設不開，<strong>純撥接才需開啟</strong>。<br>・EPAY 新裝機一律用 com.cybersoft.aseries.fisc.ytb.epay，舊的 com.cybersoft.aseries.epay 為待換版。<br>・HOSP 版：SP 的 NII 雖然不吃，但一定要放值（預設 531）；SP 不開取消與退貨（全國繳費不允許負向交易）。<br>・原文提到「比照 YTB 一般版之藍色項目」，但匯出內容無法辨識哪些是藍色項目，請至原頁查看顏色標示。</div>
+<h2 id="s82">附錄 整理過程中發現的待確認事項</h2>
+<p>以下是原頁內容前後不一致、資料缺漏或格式錯亂的地方。手冊中都照原文抄錄，建議請資深同仁確認後，直接更正 Confluence 原頁。</p>
+<p><strong>環境與網址</strong></p>
+<ul>
+<li>Cyber TMS 的外部 IP：〈TMS Website外部IP〉寫 【內部 IP】，〈傳統正式環境〉寫 【內部 IP】。</li>
+<li>SIT 的外部 IP：一處寫 .68，〈測試環境〉寫 .67。</li>
+<li>〈測試環境〉中，SKM SIT 的 Port 一處寫 8099、一處寫 8092。</li>
+<li>〈Android正式環境〉中，SKM API 的顯示文字是 :9009，但實際連結沒有帶 Port。</li>
+<li>〈aTMS設定說明文件〉頁面只有附件（docx），沒有內文。</li>
+<li>SKM TMS 的代稱：指導書全文寫 91.19，環境表寫的 IP 是 【內部 IP】。</li>
+</ul>
+<p><strong>TMS 設定指導書</strong></p>
+<ul>
+<li>77.11 的 TLS Port/NII 表在原 Word 檔裡錯位，手冊中是依版面推定對齊的。</li>
+<li>77.3 上銀的 AE NII：表格寫 003，設定圖寫 004。</li>
+<li>77.11 悠遊卡的測試值：文字寫 05000006，截圖寫 05000002。</li>
+<li>77.11 內嵌的兩個 Excel 檔、補充 4 提到的「3 個 SO 檔」，都需要到原頁查看。</li>
+<li>Linear 長字串大多沒有抄錄；少數已抄錄的值是從截圖辨讀的，請以原頁核對。</li>
+</ul>
+<p><strong>台新 TSB／SKM</strong></p>
+<ul>
+<li>〈連線方式(SKM除外)〉：AE 那一列欄位錯位；一卡通測試 VPN IP 有 【內部 IP】 和 【內部 IP】 兩種寫法。</li>
+<li>〈SKM連線方式〉：DCC 的 NII 是 545，跟一般台新的 900 不同；台北忠孝店、台南小北門店的 ACQ 代碼是空白。</li>
+<li>〈SKM S80設定〉：原文寫「R50 需關閉以下兩欄」，但只列出一欄；SKM 參數有 0100000（7 碼）和 01000000（8 碼）兩種寫法。</li>
+<li>〈S系列設定〉：TLS URL 可能是合併儲存格，無法確認是否所有 ACQ 都共用。</li>
+</ul>
+<p><strong>其他銀行</strong></p>
+<ul>
+<li>〈台企TCB設定〉的內容其實是<strong>台中銀行</strong>，不是台企銀；台灣企銀是 TBB。建議修正頁面標題。</li>
+<li>GP：AE 台哥(新)的 Port 原文寫「80+J3:L26」（Excel 殘留）；TNS 的測試 APN 和正式 APN 相同。</li>
+<li>TCB：NCCC 的類比線路電話與 AE 電話相同，疑似填錯。</li>
+<li>TBB：AE 遠傳 IP 寫 【內部 IP】，其他頁大多是 【內部 IP】；原文也自註 AE 電話「沒提供不確定」。</li>
+<li>CHB：遠傳和台固的 IP/Port 是空白。</li>
+<li>凱基傳統版「必拉項目」和陽信頁尾的內容只有圖片；元大「藍色項目」從匯出內容看不出是哪幾項，都需要到原頁查看。</li>
+</ul>
+  </main>
+</div>
+<button id="top" title="回到頂端">↑</button>
+<script>
+(function(){
+  const content=document.getElementById('content'), q=document.getElementById('q'),
+        countEl=document.getElementById('count'), results=document.getElementById('results'),
+        toc=document.getElementById('toc');
+  const heads=[...content.querySelectorAll('h2,h3,h4')];
+  const tocLinks=new Map([...toc.querySelectorAll('a')].map(a=>[a.dataset.id,a]));
+  let marks=[], cur=-1, timer=null;
+
+  function clear(){
+    content.querySelectorAll('mark').forEach(m=>{const t=document.createTextNode(m.textContent);m.replaceWith(t)});
+    content.normalize(); marks=[]; cur=-1;
+    tocLinks.forEach(a=>a.classList.remove('hit'));
+  }
+  function sectionOf(node){
+    let best=null;
+    for(const h of heads){ if(h.compareDocumentPosition(node)&Node.DOCUMENT_POSITION_FOLLOWING || h.contains(node)) best=h; else break; }
+    return best;
+  }
+  function esc(s){return s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
+  function search(term){
+    clear(); results.innerHTML=''; results.classList.remove('show');
+    term=term.trim();
+    if(!term){countEl.textContent='';return}
+    const terms=term.split(/\s+/).filter(Boolean).map(t=>t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'));
+    const re=new RegExp(terms.join('|'),'gi');
+    const walker=document.createTreeWalker(content,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.nodeValue.trim()?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT});
+    const nodes=[]; while(walker.nextNode()) nodes.push(walker.currentNode);
+    for(const n of nodes){
+      const v=n.nodeValue; re.lastIndex=0; if(!re.test(v)) continue; re.lastIndex=0;
+      const frag=document.createDocumentFragment(); let last=0, m;
+      while((m=re.exec(v))){
+        if(m.index>last) frag.appendChild(document.createTextNode(v.slice(last,m.index)));
+        const mk=document.createElement('mark'); mk.textContent=m[0]; frag.appendChild(mk); marks.push(mk);
+        last=m.index+m[0].length;
+      }
+      if(last<v.length) frag.appendChild(document.createTextNode(v.slice(last)));
+      n.replaceWith(frag);
+    }
+    if(!marks.length){countEl.textContent='0 筆';results.innerHTML='<div class="more">找不到「'+esc(term)+'」</div>';results.classList.add('show');return}
+    // 結果清單：每個 mark 一筆，附章節與前後文
+    const LIMIT=200; const items=[];
+    marks.forEach((mk,i)=>{
+      const sec=sectionOf(mk); if(sec&&tocLinks.get(sec.id)) tocLinks.get(sec.id).classList.add('hit');
+      if(i>=LIMIT) return;
+      const block=mk.closest('td,th,li,p,h2,h3,h4,.note')||mk.parentElement;
+      const txt=block.textContent; const off=offsetIn(block,mk);
+      const s=Math.max(0,off-28), e=Math.min(txt.length,off+mk.textContent.length+40);
+      const snip=(s>0?'…':'')+esc(txt.slice(s,off))+'<mark>'+esc(mk.textContent)+'</mark>'+esc(txt.slice(off+mk.textContent.length,e))+(e<txt.length?'…':'');
+      items.push('<a href="#" data-i="'+i+'"><span class="sec">'+esc(sec?sec.textContent:'開頭')+'</span>'+snip+'</a>');
+    });
+    if(marks.length>LIMIT) items.push('<div class="more">僅列前 '+LIMIT+' 筆，用 ▲▼ 可逐一跳轉全部 '+marks.length+' 筆</div>');
+    results.innerHTML=items.join(''); results.classList.add('show');
+    go(0,false);
+  }
+  function offsetIn(block,mk){
+    const r=document.createRange(); r.setStart(block,0); r.setEnd(mk,0); return r.toString().length;
+  }
+  function go(i,scroll=true){
+    if(!marks.length) return;
+    if(cur>=0&&marks[cur]) marks[cur].classList.remove('cur');
+    cur=(i+marks.length)%marks.length;
+    const mk=marks[cur]; mk.classList.add('cur');
+    countEl.textContent=(cur+1)+' / '+marks.length;
+    results.querySelectorAll('a.active').forEach(a=>a.classList.remove('active'));
+    const ra=results.querySelector('a[data-i="'+cur+'"]'); if(ra){ra.classList.add('active'); ra.scrollIntoView({block:'nearest'})}
+    if(scroll) mk.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+  q.addEventListener('input',()=>{clearTimeout(timer);timer=setTimeout(()=>search(q.value),250)});
+  q.addEventListener('keydown',e=>{
+    if(e.key==='Enter'){e.preventDefault(); if(timer){clearTimeout(timer);timer=null; if(!marks.length) search(q.value);} go(cur+(e.shiftKey?-1:1)); results.classList.remove('show')}
+    else if(e.key==='Escape'){q.value='';search('');}
+    else if(e.key==='ArrowDown'&&results.classList.contains('show')){e.preventDefault();go(cur+1,false)}
+    else if(e.key==='ArrowUp'&&results.classList.contains('show')){e.preventDefault();go(cur-1,false)}
+  });
+  q.addEventListener('focus',()=>{if(results.innerHTML) results.classList.add('show')});
+  results.addEventListener('click',e=>{const a=e.target.closest('a[data-i]'); if(!a) return; e.preventDefault(); go(+a.dataset.i); results.classList.remove('show')});
+  document.getElementById('next').onclick=()=>{go(cur+1);results.classList.remove('show')};
+  document.getElementById('prev').onclick=()=>{go(cur-1);results.classList.remove('show')};
+  document.addEventListener('click',e=>{if(!e.target.closest('.search')) results.classList.remove('show')});
+  document.addEventListener('keydown',e=>{
+    if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();q.focus();q.select()}
+    else if(e.key==='/'&&document.activeElement!==q){e.preventDefault();q.focus()}
+  });
+  document.getElementById('top').onclick=()=>window.scrollTo({top:0,behavior:'smooth'});
+  document.getElementById('menu').onclick=()=>toc.classList.toggle('open');
+  toc.addEventListener('click',e=>{if(e.target.closest('a')) toc.classList.remove('open')});
+  // 目錄跟隨捲動
+  const io=new IntersectionObserver(es=>{
+    es.forEach(en=>{ if(en.isIntersecting){ tocLinks.forEach(a=>a.classList.remove('on')); const a=tocLinks.get(en.target.id); if(a){a.classList.add('on'); a.scrollIntoView({block:'nearest'})} } });
+  },{rootMargin:'-80px 0px -70% 0px'});
+  heads.forEach(h=>io.observe(h));
+  // 支援網址帶 ?q=關鍵字
+  const pq=new URLSearchParams(location.search).get('q'); if(pq){q.value=pq;search(pq);setTimeout(()=>go(0),100)}
+})();
+</script>
+</body>
+</html>

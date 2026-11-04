@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CSD 知識入口</title>
+<style>
+/* 入口頁：上方漸層橫幅＋下方卡片清單，配色與 TMS 手冊一致 */
+:root{
+  color-scheme: light;
+  --bg:#f4f9ff; --panel:#ffffff; --text:#1f2d3d; --muted:#5f7186; --line:#d6e6f7;
+  --brand:#1e7be0; --brand-soft:#e3f1ff; --accent:#16b3a6;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.7 "Microsoft JhengHei","PingFang TC","Noto Sans TC",system-ui,sans-serif}
+.hero{background:linear-gradient(90deg,#1e7be0,#29a3f0 60%,#3cc6d6);color:#fff}
+.inner{max-width:960px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.hero .inner{padding-block:40px 36px}
+.hero h1{margin:0 0 6px;font-size:28px;text-wrap:balance}
+.hero p{margin:0;opacity:.9}
+main .inner{padding-block:28px 60px}
+h2{font-size:14px;letter-spacing:.08em;color:var(--muted);margin:0 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.card{display:flex;flex-direction:column;gap:6px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px 20px;text-decoration:none;color:var(--text);transition:border-color .15s,box-shadow .15s,transform .15s}
+.card:hover,.card:focus-visible{border-color:var(--brand);box-shadow:0 6px 18px rgba(30,123,224,.15);transform:translateY(-2px);outline:none}
+.card .tag{align-self:flex-start;font-size:12px;color:var(--accent);background:#e3f8f6;border-radius:999px;padding:1px 10px;font-weight:700}
+.card h3{margin:0;font-size:18px;color:var(--brand)}
+.card p{margin:0;font-size:14px;color:var(--muted)}
+.card .go{margin-top:4px;font-size:13px;color:var(--brand);font-weight:700}
+footer{text-align:center;font-size:12px;color:var(--muted);padding-bottom:24px}
+@media (prefers-reduced-motion:reduce){.card{transition:none}.card:hover{transform:none}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="inner">
+    <h1>CSD 知識入口</h1>
+    <p>經采科技 商用技術部 · 新人手冊與作業文件</p>
+  </div>
+</header>
+<main>
+  <div class="inner">
+    <h2>新人手冊</h2>
+    <div class="grid">
+      <a class="card" href="tms-handbook.html">
+        <span class="tag">TMS</span>
+        <h3>TMS 參數知識庫：新人手冊</h3>
+        <p>TMS 環境與參數位置、77.11／77.3／91.19 設定指導書、各銀行設定規則與異常案例。可用關鍵字搜尋。</p>
+        <span class="go">開啟手冊 →</span>
+      </a>
+    </div>
+  </div>
+</main>
+<footer>公開版內容已遮罩密碼、內部 IP 與代號，實際數值請洽 TMS 窗口。</footer>
+</body>
+</html>
